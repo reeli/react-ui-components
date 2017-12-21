@@ -1,0 +1,36 @@
+{
+  "name": "react-ui-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelloRuiLi/react-ui-components.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HelloRuiLi/react-ui-components/issues"
+  },
+  "homepage": "https://github.com/HelloRuiLi/react-ui-components#readme",
+  "devDependencies": {
+    "@types/html-webpack-plugin": "2.30.1",
+    "@types/react": "16.0.31",
+    "@types/webpack": "3.8.1",
+    "html-webpack-plugin": "2.30.1",
+    "ts-loader": "3.2.0",
+    "tslint": "5.8.0",
+    "typescript": "2.6.2",
+    "webpack": "3.10.0",
+    "webpack-dev-server": "2.9.7"
+  },
+  "dependencies": {
+    "@types/react-dom": "16.0.3",
+    "react": "16.2.0",
+    "react-dom": "16.2.0"
+  }
+}
