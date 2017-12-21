@@ -1,11 +1,20 @@
 import * as React from 'react';
-import { Component } from 'react';
 import * as ReactDOM from 'react-dom';
+import {
+  Route,
+  Switch,
+} from 'react-router';
 
-class App extends Component<any, any> {
+const Home = () => (
+  <div>Home</div>
+);
+
+class App extends React.Component<any, any> {
   render() {
     return (
-      <div>app</div>
+      <Switch>
+        <Route path='/' component={Home}/>
+      </Switch>
     );
   }
 }

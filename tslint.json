@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-react"
+  ],
+  "rules": {
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "member-access": false,
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false
+  }
+}
