@@ -3,7 +3,8 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 
 const webpackConfig: webpack.Configuration = {
-  entry: path.resolve(__dirname, 'app-sg'),
+  context: path.resolve(__dirname, './app-sg'),
+  entry: './index.tsx',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: '[name]-[hash].js',
@@ -25,12 +26,16 @@ const webpackConfig: webpack.Configuration = {
           },
         ],
       },
+      {
+        test: /\.html$/,
+        use: ['raw-loader'],
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'React UI Components',
-      template: './app-sg/index.html',
+      template: './index.html',
     }),
   ],
   devServer: {

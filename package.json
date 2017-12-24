@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --history-api-fallback",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tslint --project tsconfig.json --format codeFrame"
   },
@@ -20,8 +20,11 @@
   "homepage": "https://github.com/HelloRuiLi/react-ui-components#readme",
   "devDependencies": {
     "@types/html-webpack-plugin": "2.30.1",
+    "@types/lodash": "4.14.91",
     "@types/react": "16.0.31",
+    "@types/react-router-dom": "4.2.3",
     "@types/webpack": "3.8.1",
+    "raw-loader": "0.5.1",
     "ts-loader": "3.2.0",
     "tslint": "5.8.0",
     "tslint-react": "3.2.0",
@@ -31,11 +34,13 @@
   "dependencies": {
     "@types/react-dom": "16.0.3",
     "@types/react-router": "4.0.20",
+    "glamor": "2.20.40",
+    "html-webpack-plugin": "2.30.1",
+    "lodash": "4.17.4",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
-    "webpack": "3.10.0",
-    "html-webpack-plugin": "2.30.1"
+    "webpack": "3.10.0"
   }
 }
