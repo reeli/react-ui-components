@@ -12,6 +12,7 @@
     "object-literal-sort-keys": false,
     "object-literal-key-quotes": false,
     "no-submodule-imports": false,
-    "no-implicit-dependencies": false
+    "no-implicit-dependencies": false,
+    "max-classes-per-file": []
   }
 }
