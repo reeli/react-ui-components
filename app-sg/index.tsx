@@ -1,7 +1,7 @@
 import { css } from 'glamor';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { map } from 'lodash';
-import * as React from 'react';
+import React, { Component } from 'react';
 import * as ReactDOM from 'react-dom';
 import {
   Route,
@@ -13,8 +13,8 @@ import { Link } from 'react-router-dom';
 
 const req = (require as any).context('../app-components', true, /\/__examples__\/.*.tsx$/);
 
-const renderComponent = (Examples: React.Component[]) => {
-  return class extends React.Component<any, any> {
+const renderComponent = (Examples: Component[]) => {
+  return class extends Component<any, any> {
     render() {
       return [
         <aside key='aside'>aside</aside>,
@@ -43,20 +43,28 @@ const getRouterRoutes = (routes: RouteProps[]) => {
 const navItemStyles = css({
   fontSize: '1rem',
   color: '#222',
+  display: 'block',
+  margin: '0.5rem 0',
 });
 
-class App extends React.Component<any, any> {
+const Nav = () => (
+  <aside>
+    {
+      map(routesConfig, (routeConfig: any, idx: number) => (
+        <Link to={routeConfig.path} key={idx} {...navItemStyles}>
+          {routeConfig.path.split('/')[1]}
+        </Link>
+      ))
+    }
+  </aside>
+);
+
+class App extends Component<any, any> {
   render() {
     return (
       <Router history={browserHistory}>
         <div>
-          <aside>
-            {
-              map(routesConfig, (routeConfig: any, idx: number) => (
-                <Link to={routeConfig.path} key={idx} {...navItemStyles}>{routeConfig.path.split('/')[1]}</Link>
-              ))
-            }
-          </aside>
+          <Nav/>
           <Switch>
             {getRouterRoutes(routesConfig)}
           </Switch>
