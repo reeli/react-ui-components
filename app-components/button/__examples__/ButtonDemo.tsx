@@ -3,12 +3,16 @@ import { Button } from '../Button';
 
 export class ButtonDemo extends React.Component<any, any> {
   render() {
-    return <Button/>;
+    return <Button />;
   }
 }
 
 export class ButtonDemo2 extends React.Component<any, any> {
   render() {
-    return <div><Button/>button2</div>;
+    return (
+      <div>
+        <Button />button2
+      </div>
+    );
   }
 }

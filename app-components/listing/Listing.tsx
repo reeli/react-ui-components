@@ -14,17 +14,19 @@ interface IListingProps {
 export class Listing extends React.Component<IListingProps, any> {
   handleClick = (value: string | boolean) => {
     this.props.onItemClick(value);
-  }
+  };
 
   render() {
     const { data } = this.props;
     return (
       <ul>
-        {
-          map(data, (item: any, idx: number) => {
-            return <li key={idx} onClick={() => this.handleClick(item.value)}>{item.display}</li>;
-          })
-        }
+        {map(data, (item: any, idx: number) => {
+          return (
+            <li key={idx} onClick={() => this.handleClick(item.value)}>
+              {item.display}
+            </li>
+          );
+        })}
       </ul>
     );
   }

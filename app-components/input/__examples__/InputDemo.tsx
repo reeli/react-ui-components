@@ -30,16 +30,13 @@ export class InputDemo extends React.Component<any, any> {
     this.setState({
       value,
     });
-  }
+  };
 
   render() {
     return (
       <div>
-        <Input
-          value={this.state.value}
-          placeholder='Type username here...'
-        />
-        <Listing data={data} onItemClick={this.handleItemClick}/>
+        <Input value={this.state.value} placeholder="Type username here..." />
+        <Listing data={data} onItemClick={this.handleItemClick} />
       </div>
     );
   }

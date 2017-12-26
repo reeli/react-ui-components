@@ -17,10 +17,7 @@ export class BasePortal extends React.Component<any, any> {
       document.body.appendChild(this.defaultNode);
     }
 
-    return createPortal(
-      this.props.children,
-      this.defaultNode,
-    );
+    return createPortal(this.props.children, this.defaultNode);
   }
 }
 
@@ -44,26 +41,22 @@ export class Portal extends React.Component<IPortalProps, any> {
 
   wrapContentWithPortal = () => {
     if (this.state.open) {
-      return (
-        <BasePortal>
-          {this.props.render()}
-        </BasePortal>
-      );
+      return <BasePortal>{this.props.render()}</BasePortal>;
     }
     return null;
-  }
+  };
 
   openPortal = () => {
     this.setState({
       open: true,
     });
-  }
+  };
 
   closePortal = () => {
     this.setState({
       open: false,
     });
-  }
+  };
 
   render() {
     if (typeof this.props.children !== 'function') {

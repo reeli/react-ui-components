@@ -3,12 +3,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { map } from 'lodash';
 import React, { Component } from 'react';
 import * as ReactDOM from 'react-dom';
-import {
-  Route,
-  RouteProps,
-  Router,
-  Switch,
-} from 'react-router';
+import { Route, RouteProps, Router, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const req = (require as any).context('../app-components', true, /\/__examples__\/.*.tsx$/);
@@ -16,11 +11,7 @@ const req = (require as any).context('../app-components', true, /\/__examples__\
 const renderComponent = (Examples: Component[]) => {
   return class extends Component<any, any> {
     render() {
-      return [
-        map(Examples, (Example: any, idx: number) => (
-          <Example key={idx}/>
-        )),
-      ];
+      return [map(Examples, (Example: any, idx: number) => <Example key={idx} />)];
     }
   };
 };
@@ -35,7 +26,7 @@ const routesConfig = req.keys().map((key: string) => {
 
 const getRouterRoutes = (routes: RouteProps[]) => {
   return routes.map((route: RouteProps, idx: number) => {
-    return <Route path={route.path} component={route.component} key={idx}/>;
+    return <Route path={route.path} component={route.component} key={idx} />;
   });
 };
 
@@ -48,13 +39,11 @@ const navItemStyles = css({
 
 const Nav = () => (
   <aside>
-    {
-      map(routesConfig, (routeConfig: any, idx: number) => (
-        <Link to={routeConfig.path} key={idx} {...navItemStyles}>
-          {routeConfig.path.split('/')[1]}
-        </Link>
-      ))
-    }
+    {map(routesConfig, (routeConfig: any, idx: number) => (
+      <Link to={routeConfig.path} key={idx} {...navItemStyles}>
+        {routeConfig.path.split('/')[1]}
+      </Link>
+    ))}
   </aside>
 );
 
@@ -63,14 +52,12 @@ class App extends Component<any, any> {
     return (
       <Router history={browserHistory}>
         <div>
-          <Nav/>
-          <Switch>
-            {getRouterRoutes(routesConfig)}
-          </Switch>
+          <Nav />
+          <Switch>{getRouterRoutes(routesConfig)}</Switch>
         </div>
       </Router>
     );
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
