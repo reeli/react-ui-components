@@ -17,7 +17,6 @@ const renderComponent = (Examples: Component[]) => {
   return class extends Component<any, any> {
     render() {
       return [
-        <aside key='aside'>aside</aside>,
         map(Examples, (Example: any, idx: number) => (
           <Example key={idx}/>
         )),

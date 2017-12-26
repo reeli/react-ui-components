@@ -13,6 +13,7 @@
     "object-literal-key-quotes": false,
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
-    "max-classes-per-file": []
+    "max-classes-per-file": [],
+    "no-unused-expression": false
   }
 }
