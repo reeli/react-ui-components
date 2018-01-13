@@ -2,7 +2,8 @@ import * as React from 'react';
 
 interface IInputProps {
   value: string;
-  onChange?: (value: string) => any;
+  onClick?: (value: any) => any;
+  onChange?: (value: any) => any;
   placeholder?: string;
 }
 
@@ -11,7 +12,7 @@ export class Input extends React.Component<IInputProps, any> {
     open: false,
   };
 
-  handleClick = (evt: React.ChangeEvent<any>) => {
+  handleChange = (evt: React.ChangeEvent<any>) => {
     const value = evt.target.value;
     this.setState(
       {
@@ -25,7 +26,16 @@ export class Input extends React.Component<IInputProps, any> {
   };
 
   render() {
-    const { value, placeholder = '' } = this.props;
-    return <input type="text" value={value} onClick={this.handleClick} placeholder={placeholder} readOnly={true} />;
+    const { value, onClick, placeholder = '' } = this.props;
+    return (
+      <input
+        type="text"
+        value={value}
+        onChange={this.handleChange}
+        onClick={onClick ? onClick : v => v}
+        placeholder={placeholder}
+        readOnly={true}
+      />
+    );
   }
 }

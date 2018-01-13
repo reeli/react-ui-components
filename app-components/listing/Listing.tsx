@@ -8,12 +8,12 @@ interface IListingData {
 
 interface IListingProps {
   data: IListingData[];
-  onItemClick: (value: string | boolean) => any;
+  onItemClick: (e: any, value: string | boolean) => any;
 }
 
 export class Listing extends React.Component<IListingProps, any> {
-  handleClick = (value: string | boolean) => {
-    this.props.onItemClick(value);
+  handleClick = (e: any, value: string | boolean) => {
+    this.props.onItemClick(e, value);
   };
 
   render() {
@@ -22,7 +22,7 @@ export class Listing extends React.Component<IListingProps, any> {
       <ul>
         {map(data, (item: any, idx: number) => {
           return (
-            <li key={idx} onClick={() => this.handleClick(item.value)}>
+            <li key={idx} onClick={(e: any) => this.handleClick(e, item.value)}>
               {item.display}
             </li>
           );

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Listing } from '../../listing/Listing';
+import { Portal } from '../../portal/Portal';
 import { Input } from '../Input';
 
 const data = [
@@ -26,18 +27,24 @@ export class InputDemo extends React.Component<any, any> {
     value: '',
   };
 
-  handleItemClick = (value: string | boolean) => {
+  handleItemClick = (e: any, value: string | boolean, close: () => void) => {
     this.setState({
       value,
+    }, () => {
+      close(e);
     });
   };
 
   render() {
     return (
-      <div>
-        <Input value={this.state.value} placeholder="Type username here..." />
-        <Listing data={data} onItemClick={this.handleItemClick} />
-      </div>
+      <Portal
+        triggerOn={({ toggle }) => {
+          return <Input value={this.state.value} placeholder="Type username here..." onClick={toggle}/>;
+        }}
+        onOutSideClick
+      >
+        {({ close }) => <Listing data={data} onItemClick={(e, value) => this.handleItemClick(e, value, close)}/>}
+      </Portal>
     );
   }
 }
