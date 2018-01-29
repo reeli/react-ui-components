@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import * as React from 'react';
 import {
   createPortal,
@@ -24,7 +25,7 @@ export class BasePortal extends React.Component<any, any> {
   }
 }
 
-type TChildren<T> = (innerProps: T) => JSX.Element | null;
+type TChildren<T> = (innerProps: T) => ReactNode | null;
 
 export interface IPortalInnerProps {
   open: (e: any) => void;
