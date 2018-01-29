@@ -7,7 +7,8 @@
     "start": "webpack-dev-server --history-api-fallback",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pretty": "prettier --write '{app-components,app-sg,__{tests,mocks}__}/**/*{.ts,tsx}'",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -21,12 +22,12 @@
   "homepage": "https://github.com/HelloRuiLi/react-ui-components#readme",
   "devDependencies": {
     "@types/html-webpack-plugin": "2.30.1",
-    "@types/lodash": "4.14.96",
+    "@types/lodash": "4.14.97",
     "@types/react": "16.0.35",
     "@types/react-dom": "16.0.3",
     "@types/react-router": "4.0.21",
     "@types/react-router-dom": "4.2.3",
-    "@types/webpack": "3.8.3",
+    "@types/webpack": "3.8.4",
     "prettier": "1.10.2",
     "raw-loader": "0.5.1",
     "ts-loader": "3.3.1",
