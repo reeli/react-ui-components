@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IListingItem, } from '../../listing/Listing';
+import { IListingItem } from '../../listing/Listing';
 import { Select } from '../Select';
 
 const data = [
@@ -38,7 +38,7 @@ export class SelectDemo extends React.Component<any, any> {
         value={this.state.value}
         data={data}
         onItemClick={this.handleItemClick}
-        placeholder='Type you name here...'
+        placeholder="Type you name here..."
       />
     );
   }

@@ -1,9 +1,6 @@
 import { ReactNode } from 'react';
 import * as React from 'react';
-import {
-  createPortal,
-  findDOMNode,
-} from 'react-dom';
+import { createPortal, findDOMNode } from 'react-dom';
 
 export class BasePortal extends React.Component<any, any> {
   defaultNode: any;

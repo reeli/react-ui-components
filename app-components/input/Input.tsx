@@ -3,7 +3,7 @@ import * as React from 'react';
 interface IInputProps {
   value: string;
   onChange?: (evt: React.ChangeEvent<HTMLInputElement>, value: any) => any;
-  type?: 'text' | 'number' | 'checkbox' | 'radio',
+  type?: 'text' | 'number' | 'checkbox' | 'radio';
   onClick?: (evt: React.MouseEvent<HTMLInputElement>, value: any) => any;
   placeholder?: string;
   readOnly?: boolean;

@@ -6,19 +6,13 @@ export class InputDemo extends React.Component<any, any> {
     value: '',
   };
 
-  handleChange = (value: string) => {
+  handleChange = (_: any, value: string) => {
     this.setState({
       value,
-    })
+    });
   };
 
   render() {
-    return (
-      <Input
-        value={this.state.value}
-        placeholder='placeholder...'
-        onChange={this.handleChange}
-      />
-    );
+    return <Input value={this.state.value} placeholder="placeholder..." onChange={this.handleChange} />;
   }
 }
