@@ -2,39 +2,37 @@ import * as React from 'react';
 
 interface IInputProps {
   value: string;
-  onClick?: (value: any) => any;
-  onChange?: (value: any) => any;
+  onChange?: (evt: React.ChangeEvent<HTMLInputElement>, value: any) => any;
+  type?: 'text' | 'number' | 'checkbox' | 'radio',
+  onClick?: (evt: React.MouseEvent<HTMLInputElement>, value: any) => any;
   placeholder?: string;
+  readOnly?: boolean;
 }
 
 export class Input extends React.Component<IInputProps, any> {
-  state = {
-    open: false,
+  handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (this.props.onChange) {
+      this.props.onChange(evt, evt.target.value);
+    }
   };
 
-  handleChange = (evt: React.ChangeEvent<any>) => {
-    const value = evt.target.value;
-    this.setState(
-      {
-        open: !this.state.open,
-      },
-      () => {
-        const { onChange } = this.props;
-        onChange && onChange(value);
-      },
-    );
+  handleClick = (evt: React.MouseEvent<HTMLInputElement>) => {
+    if (this.props.onClick) {
+      const value = (evt.target as HTMLInputElement).value;
+      this.props.onClick(evt, value);
+    }
   };
 
   render() {
-    const { value, onClick, placeholder = '' } = this.props;
+    const { type = 'text', value, placeholder = '', readOnly = false } = this.props;
     return (
       <input
-        type="text"
+        type={type}
         value={value}
         onChange={this.handleChange}
-        onClick={onClick ? onClick : v => v}
+        onClick={this.handleClick}
         placeholder={placeholder}
-        readOnly={true}
+        readOnly={readOnly}
       />
     );
   }

@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { createPortal, findDOMNode } from 'react-dom';
+import {
+  createPortal,
+  findDOMNode,
+} from 'react-dom';
 
 export class BasePortal extends React.Component<any, any> {
   defaultNode: any;
@@ -23,7 +26,7 @@ export class BasePortal extends React.Component<any, any> {
 
 type TChildren<T> = (innerProps: T) => JSX.Element | null;
 
-interface IPortalInnerProps {
+export interface IPortalInnerProps {
   open: (e: any) => void;
   close: (e: any) => void;
   toggle: (e: any) => void;
@@ -77,12 +80,9 @@ export class Portal extends React.Component<IPortalProps, any> {
 
   openPortal = (e: any) => {
     e.stopPropagation();
-    this.setState(
-      {
-        open: true,
-      },
-      () => {},
-    );
+    this.setState({
+      open: true,
+    });
   };
 
   closePortal = (e: any) => {

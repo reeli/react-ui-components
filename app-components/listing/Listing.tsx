@@ -1,19 +1,19 @@
 import { map } from 'lodash';
 import * as React from 'react';
 
-interface IListingData {
+export interface IListingItem {
   display: string;
-  value: string | boolean;
+  value: string;
 }
 
-interface IListingProps {
-  data: IListingData[];
-  onItemClick: (e: any, value: string | boolean) => any;
+export interface IListingProps {
+  data: IListingItem[];
+  onItemClick: (e: any, item: IListingItem) => any;
 }
 
 export class Listing extends React.Component<IListingProps, any> {
-  handleClick = (e: any, value: string | boolean) => {
-    this.props.onItemClick(e, value);
+  handleClick = (e: any, item: IListingItem) => {
+    this.props.onItemClick(e, item);
   };
 
   render() {
@@ -22,7 +22,7 @@ export class Listing extends React.Component<IListingProps, any> {
       <ul>
         {map(data, (item: any, idx: number) => {
           return (
-            <li key={idx} onClick={(e: any) => this.handleClick(e, item.value)}>
+            <li key={idx} onClick={(e: any) => this.handleClick(e, item)}>
               {item.display}
             </li>
           );
