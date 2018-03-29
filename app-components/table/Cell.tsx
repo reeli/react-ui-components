@@ -8,17 +8,17 @@ interface ICell {
 }
 
 const cellValueStyles = css({
-  borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-  padding: '2rem 0',
+  flexShrink: 0,
+  wordWrap: 'break-word',
 });
 
 export class Cell extends Component<ICell, any> {
   render() {
     const { value, label } = this.props;
     return (
-      <div>
+      <div {...cellValueStyles}>
         {label ? label : null}
-        {value ? <div {...cellValueStyles}>{value}</div> : null}
+        {value ? <div>{value}</div> : null}
       </div>
     );
   }

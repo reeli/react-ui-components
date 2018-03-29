@@ -1,5 +1,8 @@
 import { css } from 'glamor';
-import { get, map } from 'lodash';
+import {
+  get,
+  map,
+} from 'lodash';
 import * as React from 'react';
 import { Component } from 'react';
 import { Cell } from './Cell';
@@ -13,28 +16,39 @@ export interface IColumn {
   width?: string;
 }
 
-interface IColumnProps {
+interface IRowProps {
   column: IColumn;
   dataSource: any[];
 }
 
-const columnStyles = css({
+const rowStyles = css({
   display: 'flex',
-  flexDirection: 'column',
+  padding: '2rem 0',
 });
 
-export class Column extends Component<IColumnProps, any> {
+export class Row extends Component<IRowProps, any> {
   render() {
     const { column, dataSource } = this.props;
     return (
-      <div {...css(columnStyles, { width: column.width })}>
-        <Cell label={<LabelCell label={column.label} labelRender={column.labelRender} />} />
+      <div {...rowStyles}>
+        <Cell
+          label={<LabelCell
+            label={column.label}
+            labelRender={column.labelRender}
+          />}
+        />
         {map(dataSource, (item: any, idx: number) => {
           if (column.cellRender) {
-            return <Cell key={idx} value={column.cellRender(item, dataSource)} />;
+            return <Cell
+              key={idx}
+              value={column.cellRender(item, dataSource)}
+            />;
           }
           if (column.fieldKey) {
-            return <Cell key={idx} value={get(item, column.fieldKey)} />;
+            return <Cell
+              key={idx}
+              value={get(item, column.fieldKey)}
+            />;
           }
           return null;
         })}

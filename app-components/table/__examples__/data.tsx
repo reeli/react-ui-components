@@ -16,22 +16,18 @@ export const getColumns = () => {
     {
       label: 'test1',
       fieldKey: 'id',
-      width: '30%',
     },
     {
       label: 'test2',
       fieldKey: 'crm',
-      width: '50%',
     },
     {
       label: 'test3',
       fieldKey: 'rule',
-      width: '10%',
     },
     {
-      label: 'test4',
-      fieldKey: 'crm',
-      width: '10%',
+      label: 'test4test4test4',
+      fieldKey: 'state',
     },
   ];
 };
