@@ -3,7 +3,12 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { map } from 'lodash';
 import React, { Component } from 'react';
 import * as ReactDOM from 'react-dom';
-import { Route, RouteProps, Router, Switch } from 'react-router';
+import {
+  Route,
+  RouteProps,
+  Router,
+  Switch,
+} from 'react-router';
 import { Link } from 'react-router-dom';
 
 const req = (require as any).context('../app-components', true, /\/__examples__\/.*.tsx$/);
@@ -11,13 +16,19 @@ const req = (require as any).context('../app-components', true, /\/__examples__\
 const renderComponent = (Examples: Component[]) => {
   return class extends Component<any, any> {
     render() {
-      return [map(Examples, (Example: any, idx: number) => <Example key={idx} />)];
+      return [map(Examples, (Example: any, idx: number) => <Example key={idx}/>)];
     }
   };
 };
 
+const filterDemosByKeys = (keys: string[]) => {
+  return keys.filter((key: string) => {
+    return key.indexOf('Demo') > -1;
+  })
+};
+
 const browserHistory = createBrowserHistory();
-const routesConfig = req.keys().map((key: string) => {
+const routesConfig = filterDemosByKeys(req.keys()).map((key: string) => {
   return {
     path: `/${key.split('/').reverse()[2]}`,
     component: renderComponent(req(key)),
@@ -26,7 +37,7 @@ const routesConfig = req.keys().map((key: string) => {
 
 const getRouterRoutes = (routes: RouteProps[]) => {
   return routes.map((route: RouteProps, idx: number) => {
-    return <Route path={route.path} component={route.component} key={idx} />;
+    return <Route path={route.path} component={route.component} key={idx}/>;
   });
 };
 
@@ -52,7 +63,7 @@ class App extends Component<any, any> {
     return (
       <Router history={browserHistory}>
         <div>
-          <Nav />
+          <Nav/>
           <Switch>{getRouterRoutes(routesConfig)}</Switch>
         </div>
       </Router>
@@ -60,4 +71,4 @@ class App extends Component<any, any> {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App/>, document.getElementById('app'));
