@@ -9,16 +9,18 @@ const headerStyles = css({
 
 export class AccordionDemo extends React.Component<any, any> {
   render() {
-    return <Accordion>
-      <AccordionGroup header={<span {...headerStyles}>accordion 1</span>}>
-        <span>accordion content 1</span>
-      </AccordionGroup>
-      <AccordionGroup header={<span {...headerStyles}>accordion 1</span>}>
-        <span>accordion content 2</span>
-      </AccordionGroup>
-      <AccordionGroup header={<span {...headerStyles}>accordion 1</span>}>
-        <span>accordion content 3</span>
-      </AccordionGroup>
-    </Accordion>;
+    return (
+      <Accordion>
+        <AccordionGroup header={<span {...headerStyles}>accordion 1</span>}>
+          <span>accordion content 1</span>
+        </AccordionGroup>
+        <AccordionGroup header={<span {...headerStyles}>accordion 1</span>}>
+          <span>accordion content 2</span>
+        </AccordionGroup>
+        <AccordionGroup header={<span {...headerStyles}>accordion 1</span>}>
+          <span>accordion content 3</span>
+        </AccordionGroup>
+      </Accordion>
+    );
   }
 }

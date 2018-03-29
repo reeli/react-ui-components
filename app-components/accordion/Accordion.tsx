@@ -11,26 +11,36 @@ export class Accordion extends Component<any, any> {
     this.setState({
       currentIdx,
     });
-  }
+  };
 
   render() {
-    return <div>
-      {React.Children.map(this.props.children, (item: any, index: number) => {
-        const expanded = this.state.currentIdx === index;
-        return <div>
-          <div onClick={() => {
-            this.handleClick(index)
-          }}
-               {...css({ cursor: 'pointer' })}>{item.props.header}</div>
-          <div {...css({
-            display: expanded ? 'block' : 'none',
-            height: expanded ? 'auto' : 0,
-            transition: 'height .2s',
-          })}>
-            {item.props.children}
-          </div>
-        </div>;
-      })}
-    </div>;
+    return (
+      <div>
+        {React.Children.map(this.props.children, (item: any, index: number) => {
+          const expanded = this.state.currentIdx === index;
+          return (
+            <div>
+              <div
+                onClick={() => {
+                  this.handleClick(index);
+                }}
+                {...css({ cursor: 'pointer' })}
+              >
+                {item.props.header}
+              </div>
+              <div
+                {...css({
+                  display: expanded ? 'block' : 'none',
+                  height: expanded ? 'auto' : 0,
+                  transition: 'height .2s',
+                })}
+              >
+                {item.props.children}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 }
