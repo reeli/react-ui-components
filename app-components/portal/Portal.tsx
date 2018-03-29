@@ -1,116 +1,110 @@
-import { ReactNode } from 'react';
 import * as React from 'react';
-import { createPortal, findDOMNode } from 'react-dom';
+import { Component } from 'react';
+import * as ReactDOM from 'react-dom';
+import { isFunction } from 'util';
 
-export class BasePortal extends React.Component<any, any> {
-  defaultNode: any;
+class BasePortal extends React.Component<{ children: JSX.Element | null }, any> {
+  node: HTMLElement;
 
   componentWillUnmount() {
-    if (this.defaultNode) {
-      document.body.removeChild(this.defaultNode);
+    if (this.node) {
+      document.body.removeChild(this.node);
     }
-    this.defaultNode = null;
   }
 
   render() {
-    if (!this.defaultNode) {
-      this.defaultNode = document.createElement('div');
-      document.body.appendChild(this.defaultNode);
+    if (!this.node) {
+      this.node = document.createElement('div');
+      document.body.appendChild(this.node);
     }
 
-    return createPortal(this.props.children, this.defaultNode);
+    return ReactDOM.createPortal(this.props.children, this.node);
   }
 }
 
-type TChildren<T> = (innerProps: T) => ReactNode | null;
-
-export interface IPortalInnerProps {
-  open: (e: any) => void;
-  close: (e: any) => void;
-  toggle: (e: any) => void;
+interface IPortalPropsInnerProps {
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
 }
+
+type TChildrenRender<T> = (innerProps: T) => JSX.Element | null;
 
 interface IPortalProps {
-  children: TChildren<IPortalInnerProps>;
-  triggerOn: (props: any) => any;
-  onOutSideClick?: boolean;
+  triggerOn: TChildrenRender<IPortalPropsInnerProps>;
+  children: TChildrenRender<IPortalPropsInnerProps>;
+  isOpen?: boolean;
+  beforeClose?: (resetPortal: () => void) => void;
 }
 
-export class Portal extends React.Component<IPortalProps, any> {
-  private portal: React.Component | null;
+interface IPortalState {
+  isOpen: boolean;
+}
+
+export class Portal extends Component<IPortalProps, IPortalState> {
   state = {
-    open: false,
+    isOpen: this.props.isOpen || false,
   };
 
-  componentDidMount() {
-    if (this.props.onOutSideClick) {
-      document.body.addEventListener('click', this.handleBodyClick);
-    }
-  }
-
-  handleBodyClick = (e: any) => {
-    if (this.portal) {
-      const node = findDOMNode(this.portal);
-      if (!node.contains(e.target)) {
-        this.handleOutSideClick(e);
+  componentWillReceiveProps(nextProps: IPortalProps) {
+    if (typeof nextProps.isOpen !== 'undefined') {
+      if (nextProps.isOpen && !this.state.isOpen) {
+        this.open();
+      } else if (!nextProps.isOpen && this.state.isOpen) {
+        this.close();
       }
     }
-  };
-
-  handleOutSideClick(e: any) {
-    this.closePortal(e);
   }
 
-  wrapContentWithPortal = () => {
-    if (this.state.open) {
+  open = () => {
+    this.setState({
+      isOpen: true,
+    });
+  };
+
+  close = () => {
+    const resetPortal = () => {
+      this.setState({
+        isOpen: false,
+      });
+    };
+    if (this.props.beforeClose && isFunction(this.props.beforeClose)) {
+      this.props.beforeClose(resetPortal);
+    } else {
+      resetPortal();
+    }
+  };
+
+  toggle = () => {
+    this.state.isOpen ? this.close() : this.open();
+  };
+
+  renderPortal() {
+    if (this.state.isOpen) {
       return (
-        <BasePortal ref={portal => (this.portal = portal)}>
+        <BasePortal>
           {this.props.children({
-            open: this.openPortal,
-            close: this.closePortal,
-            toggle: this.togglePortal,
+            open: this.open,
+            close: this.close,
+            toggle: this.toggle,
           })}
         </BasePortal>
       );
     }
     return null;
-  };
-
-  openPortal = (e: any) => {
-    e.stopPropagation();
-    this.setState({
-      open: true,
-    });
-  };
-
-  closePortal = (e: any) => {
-    e.stopPropagation();
-    this.setState(
-      {
-        open: false,
-      },
-      () => {
-        this.portal = null;
-      },
-    );
-  };
-
-  togglePortal = (e: any) => {
-    this.state.open ? this.closePortal(e) : this.openPortal(e);
-  };
+  }
 
   render() {
-    if (typeof this.props.children !== 'function') {
-      return null;
-    }
     return (
       <div>
-        {this.props.triggerOn({
-          open: this.openPortal,
-          close: this.closePortal,
-          toggle: this.togglePortal,
-        })}
-        {this.wrapContentWithPortal()}
+        {this.props.triggerOn
+          ? this.props.triggerOn({
+              open: this.open,
+              close: this.close,
+              toggle: this.toggle,
+            })
+          : null}
+        {this.renderPortal()}
       </div>
     );
   }
