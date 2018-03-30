@@ -11,16 +11,17 @@ export class PortalDemo extends React.Component<any, any> {
       <div>
         <Portal
           isOpen={this.state.isOpen}
-          triggerOn={({ toggle }) => <button onClick={toggle}>test</button>}
-          beforeClose={() => {
-            console.log('before close');
-          }}
-        >
-          {({ close }) => (
+          content={({ close }) => (
             <span>
               gooooooooooooood!! <span onClick={close}>X</span>
             </span>
           )}
+          beforeClose={(resetPortal) => {
+            console.log('before close');
+            resetPortal();
+          }}
+        >
+          {({ toggle }) => <button onClick={toggle}>test</button>}
         </Portal>
         <div
           onClick={() => {

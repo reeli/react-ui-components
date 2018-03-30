@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { isFunction } from 'util';
 
 class BasePortal extends React.Component<{ children: JSX.Element | null }, any> {
-  node: HTMLElement;
+  node?: HTMLElement;
 
   componentWillUnmount() {
     if (this.node) {
@@ -30,8 +30,8 @@ interface IPortalPropsInnerProps {
 
 type TChildrenRender<T> = (innerProps: T) => JSX.Element | null;
 
-interface IPortalProps {
-  triggerOn: TChildrenRender<IPortalPropsInnerProps>;
+export interface IPortalProps {
+  content: TChildrenRender<IPortalPropsInnerProps>;
   children: TChildrenRender<IPortalPropsInnerProps>;
   isOpen?: boolean;
   beforeClose?: (resetPortal: () => void) => void;
@@ -83,7 +83,7 @@ export class Portal extends Component<IPortalProps, IPortalState> {
     if (this.state.isOpen) {
       return (
         <BasePortal>
-          {this.props.children({
+          {this.props.content({
             open: this.open,
             close: this.close,
             toggle: this.toggle,
@@ -96,16 +96,16 @@ export class Portal extends Component<IPortalProps, IPortalState> {
 
   render() {
     return (
-      <div>
-        {this.props.triggerOn
-          ? this.props.triggerOn({
-              open: this.open,
-              close: this.close,
-              toggle: this.toggle,
-            })
+      <>
+        {this.props.children
+          ? this.props.children({
+            open: this.open,
+            close: this.close,
+            toggle: this.toggle,
+          })
           : null}
         {this.renderPortal()}
-      </div>
+      </>
     );
   }
 }
