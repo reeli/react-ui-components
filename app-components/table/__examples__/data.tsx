@@ -27,7 +27,7 @@ export const getColumns = () => {
     },
     {
       label: 'test4test4test4',
-      fieldKey: 'state',
+      fieldKey: 'from',
     },
   ];
 };

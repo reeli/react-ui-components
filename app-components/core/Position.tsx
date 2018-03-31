@@ -6,7 +6,6 @@ interface IPositionProps {
   content?: () => JSX.Element | null;
 }
 
-// 拿到 trigger 和 content 的 position 进行计算
 export class Position extends Component<IPositionProps, any> {
   state = {
     position: null,
