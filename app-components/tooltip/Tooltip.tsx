@@ -1,13 +1,13 @@
 import { css } from 'glamor';
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import {
   OverlayTrigger,
   Placement,
 } from '../core/OverlayTrigger';
-import { IPortalProps } from '../portal/Portal';
 
 interface ITooltip {
-  children: IPortalProps['children']
+  children: JSX.Element | null | string;
   width?: string
   content?: string | JSX.Element | null
   placement?: Placement,
@@ -40,6 +40,34 @@ const arrowUp = css({
 
 
 export class Tooltip extends React.Component<ITooltip, any> {
+  state = {
+    isOpen: false,
+  };
+
+  componentDidMount() {
+    const tooltipTrigger = findDOMNode(this);
+    tooltipTrigger.addEventListener('mouseenter', this.show);
+    tooltipTrigger.addEventListener('mouseleave', this.hide);
+  }
+
+  componentWillUnmount() {
+    const tooltipTrigger = findDOMNode(this);
+    tooltipTrigger.removeEventListener('mouseenter', this.show);
+    tooltipTrigger.removeEventListener('mouseleave', this.hide);
+  }
+
+  show = () => {
+    this.setState({
+      isOpen: true,
+    });
+  };
+
+  hide = () => {
+    this.setState({
+      isOpen: false,
+    });
+  };
+
   render() {
     const { width, content, children, placement } = this.props;
     return (
@@ -51,8 +79,11 @@ export class Tooltip extends React.Component<ITooltip, any> {
           </div>
         )}
         placement={placement}
+        isOpen={this.state.isOpen}
       >
-        {(innerProps) => children(innerProps)}
+        {() => {
+          return <>{children}</>;
+        }}
       </OverlayTrigger>
     );
   }

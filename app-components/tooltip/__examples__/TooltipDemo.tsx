@@ -11,9 +11,9 @@ export class TooltipDemo extends React.Component<any, any> {
         content='Purchase or reload your card, get ¥10 extra!'
         placement={Placement.leftBottom}
       >
-        {({ toggle }) => {
-          return <span onClick={toggle} {...css({ marginLeft: '23rem' })}>Trigger Element here</span>
-        }}
+        <span {...css({ marginLeft: '23rem' })}>
+          Trigger Element here
+        </span>
       </Tooltip>
     );
   }
