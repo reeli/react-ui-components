@@ -1,6 +1,8 @@
+import { ReactInstance } from 'react';
 import * as React from 'react';
 import { Component } from 'react';
 import * as ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import { isFunction } from 'util';
 
 class BasePortal extends React.Component<{ children: JSX.Element | null }, any> {
@@ -35,6 +37,7 @@ export interface IPortalProps {
   children: TChildrenRender<IPortalPropsInnerProps>;
   isOpen?: boolean;
   beforeClose?: (resetPortal: () => void) => void;
+  closeOnOutSide?: boolean;
 }
 
 interface IPortalState {
@@ -42,9 +45,22 @@ interface IPortalState {
 }
 
 export class Portal extends Component<IPortalProps, IPortalState> {
+  portal: ReactInstance | null = null;
   state = {
     isOpen: this.props.isOpen || false,
   };
+
+  componentDidMount() {
+    if (this.props.closeOnOutSide) {
+      document.body.addEventListener('click', this.handleOutSideClick);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.closeOnOutSide) {
+      document.body.removeEventListener('click', this.handleOutSideClick);
+    }
+  }
 
   componentWillReceiveProps(nextProps: IPortalProps) {
     if (typeof nextProps.isOpen !== 'undefined') {
@@ -55,6 +71,15 @@ export class Portal extends Component<IPortalProps, IPortalState> {
       }
     }
   }
+
+  handleOutSideClick = (evt: any) => {
+    if (this.portal) {
+      const node = findDOMNode(this.portal);
+      if (!node.contains(evt.target)) {
+        this.close();
+      }
+    }
+  };
 
   open = () => {
     this.setState({
@@ -82,7 +107,9 @@ export class Portal extends Component<IPortalProps, IPortalState> {
   renderPortal() {
     if (this.state.isOpen) {
       return (
-        <BasePortal>
+        <BasePortal ref={(portal) => {
+          this.portal = portal;
+        }}>
           {this.props.content({
             open: this.open,
             close: this.close,

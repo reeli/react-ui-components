@@ -20,6 +20,7 @@ export class PortalDemo extends React.Component<any, any> {
             console.log('before close');
             resetPortal();
           }}
+          closeOnOutSide
         >
           {({ toggle }) => <button onClick={toggle}>test</button>}
         </Portal>
