@@ -1,6 +1,8 @@
-import { ReactInstance } from 'react';
 import * as React from 'react';
-import { Component } from 'react';
+import {
+  Component,
+  ReactInstance,
+} from 'react';
 import * as ReactDOM from 'react-dom';
 import { findDOMNode } from 'react-dom';
 import { isFunction } from 'util';
@@ -36,6 +38,7 @@ export interface IPortalProps {
   content: TChildrenRender<IPortalPropsInnerProps>;
   children: TChildrenRender<IPortalPropsInnerProps>;
   isOpen?: boolean;
+  onOpenChanged?: (isOpen: boolean) => void;
   beforeClose?: (resetPortal: () => void) => void;
   closeOnOutSide?: boolean;
 }
@@ -72,10 +75,16 @@ export class Portal extends Component<IPortalProps, IPortalState> {
     }
   }
 
+  componentWillUpdate(nextProps: IPortalProps, nextState: IPortalState) {
+    if (nextState.isOpen !== nextProps.isOpen && nextProps.onOpenChanged) {
+      nextProps.onOpenChanged(nextState.isOpen);
+    }
+  }
+
   handleOutSideClick = (evt: any) => {
     if (this.portal) {
       const node = findDOMNode(this.portal);
-      if (!node.contains(evt.target)) {
+      if (!node.contains(evt.target) && !findDOMNode(this).contains(evt.target)) {
         this.close();
       }
     }
