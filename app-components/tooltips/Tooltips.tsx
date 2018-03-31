@@ -6,20 +6,20 @@ import {
   Placement,
 } from '../core/OverlayTrigger';
 
-interface ITooltip {
+interface ITooltipsProps {
   children: JSX.Element | null | string;
   width?: string
   content?: string | JSX.Element | null
   placement?: Placement,
 }
 
-const tooltipStyles = css({
+const tooltipsStyles = css({
   position: 'absolute',
   zIndex: 1000,
   padding: '8px 0',
 });
 
-const tooltipInnerStyles = css({
+const tooltipsInnerStyles = css({
   backgroundColor: '#4a4a4a',
   color: '#fff',
   fontSize: '14px',
@@ -39,7 +39,7 @@ const arrowUp = css({
 });
 
 
-export class Tooltips extends React.Component<ITooltip, any> {
+export class Tooltips extends React.Component<ITooltipsProps, any> {
   state = {
     isOpen: false,
   };
@@ -73,9 +73,9 @@ export class Tooltips extends React.Component<ITooltip, any> {
     return (
       <OverlayTrigger
         content={() => (
-          <div {...css(tooltipStyles, { width })}>
+          <div {...css(tooltipsStyles, { width })}>
             <div {...arrowUp} />
-            <div {...tooltipInnerStyles}>{content}</div>
+            <div {...tooltipsInnerStyles}>{content}</div>
           </div>
         )}
         placement={placement}
