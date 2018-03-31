@@ -18,37 +18,47 @@ interface IOverlayTriggerProps extends IPortalProps {
 
 export class OverlayTrigger extends React.Component<IOverlayTriggerProps, any> {
   triggerPosition: ClientRect | null = null;
+  contentPosition: ClientRect | null = null;
+
+  getPositionByPlacement(placement: Placement) {
+    let position: any = {
+      left: 0,
+      top: 0,
+    };
+    if (this.contentPosition && this.triggerPosition) {
+      const left = (this.triggerPosition.width - this.contentPosition.width) / 2 + this.triggerPosition.left;
+      const top = (this.triggerPosition.height - this.contentPosition.height) / 2 + this.triggerPosition.top;
+      switch (placement) {
+        case Placement.bottom:
+          position.top = this.triggerPosition.top + this.triggerPosition.height;
+          position.left = left;
+          break;
+        case Placement.top:
+          position.top = this.triggerPosition.top - this.contentPosition.height;
+          position.left = left;
+          break;
+        case Placement.left:
+          position.left = this.triggerPosition.left - this.contentPosition.width;
+          position.top = top;
+          break;
+        case Placement.right:
+          position.left = this.triggerPosition.left + this.triggerPosition.width;
+          position.top = top;
+      }
+    }
+    return position;
+  }
 
   render() {
-    const { content, children, placement = 'bottom', ...others } = this.props;
+    const { content, children, placement = Placement.bottom, ...others } = this.props;
     return (
       <Portal
         content={(innerProps) => <Position>
           {(contentPosition) => {
-            let nextPosition: any = {};
-            if (contentPosition && this.triggerPosition) {
-              const left = (this.triggerPosition.width - contentPosition.width) / 2 + this.triggerPosition.left;
-              const top = (this.triggerPosition.height - contentPosition.height) / 2 + this.triggerPosition.top;
-              switch (placement) {
-                case Placement.bottom:
-                  nextPosition.top = this.triggerPosition.top + this.triggerPosition.height;
-                  nextPosition.left = left;
-                  break;
-                case Placement.top:
-                  nextPosition.top = this.triggerPosition.top - contentPosition.height;
-                  nextPosition.left = left;
-                  break;
-                case Placement.left:
-                  nextPosition.left = this.triggerPosition.left - contentPosition.width;
-                  nextPosition.top = top;
-                  break;
-                case Placement.right:
-                  nextPosition.left = this.triggerPosition.left + this.triggerPosition.width;
-                  nextPosition.top = top;
-              }
-            }
+            this.contentPosition = contentPosition;
+            const position = this.getPositionByPlacement(placement);
             return (
-              <span style={{ position: 'absolute', top: nextPosition.top, left: nextPosition.left }}>
+              <span style={{ position: 'absolute', top: position.top, left: position.left }}>
                 {content(innerProps)}
               </span>
             );
