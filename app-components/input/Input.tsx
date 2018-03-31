@@ -33,6 +33,7 @@ export class Input extends React.Component<IInputProps, any> {
         onClick={this.handleClick}
         placeholder={placeholder}
         readOnly={readOnly}
+        style={{ position: 'relative' }}
       />
     );
   }

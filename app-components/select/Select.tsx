@@ -1,7 +1,15 @@
 import * as React from 'react';
+import {
+  OverlayTrigger,
+  Placement,
+} from '../core/OverlayTrigger';
 import { Input } from '../input/Input';
-import { IListingItem, IListingProps, Listing } from '../listing/Listing';
-import { IPortalInnerProps, Portal } from '../portal/Portal';
+import {
+  IListingItem,
+  IListingProps,
+  Listing,
+} from '../listing/Listing';
+import { IPortalPropsInnerProps, } from '../portal/Portal';
 
 interface ISelectProps extends IListingProps {
   value: string;
@@ -13,22 +21,17 @@ interface ISelectState {
 }
 
 export class Select extends React.Component<ISelectProps, ISelectState> {
-  handleItemClick = (e: React.MouseEvent<any>, item: IListingItem, close: IPortalInnerProps['close']) => {
+  handleItemClick = (e: React.MouseEvent<any>, item: IListingItem, close: IPortalPropsInnerProps['close']) => {
     this.props.onItemClick(e, item);
-    close(e);
+    close();
   };
 
   render() {
     const { placeholder, data, value } = this.props;
 
     return (
-      <Portal
-        triggerOn={({ open }) => {
-          return <Input value={value} placeholder={placeholder} onClick={open} readOnly={true} />;
-        }}
-        onOutSideClick
-      >
-        {({ close }) => (
+      <OverlayTrigger
+        content={({ close }) => (
           <Listing
             data={data}
             onItemClick={(e, item) => {
@@ -36,7 +39,13 @@ export class Select extends React.Component<ISelectProps, ISelectState> {
             }}
           />
         )}
-      </Portal>
+        placement={Placement.leftBottom}
+        closeOnOutSide
+      >
+        {({ open }) => {
+          return <Input value={value} placeholder={placeholder} onClick={open} readOnly={true} />;
+        }}
+      </OverlayTrigger>
     );
   }
 }
