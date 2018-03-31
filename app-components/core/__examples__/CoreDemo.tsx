@@ -6,7 +6,7 @@ import {
 } from '../OverlayTrigger';
 import { Position } from '../Position';
 
-export class PositionDemo extends React.Component<any, any> {
+export class CoreDemo extends React.Component<any, any> {
   render() {
     return (
       <div {...css({ padding: '0 10rem' })}>
