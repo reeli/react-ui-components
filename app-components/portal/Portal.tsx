@@ -22,7 +22,7 @@ class BasePortal extends React.Component<{ children: JSX.Element | null }, any> 
   }
 }
 
-interface IPortalPropsInnerProps {
+export interface IPortalPropsInnerProps {
   open: () => void;
   close: () => void;
   toggle: () => void;

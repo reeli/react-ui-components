@@ -1,9 +1,16 @@
 import { css } from 'glamor';
 import * as React from 'react';
-import { Component } from 'react';
+import {
+  OverlayTrigger,
+  Placement,
+} from '../core/OverlayTrigger';
+import { IPortalProps } from '../portal/Portal';
 
 interface ITooltip {
-  width?: string;
+  children: IPortalProps['children']
+  width?: string
+  content?: string | JSX.Element | null
+  placement?: Placement,
 }
 
 const tooltipStyles = css({
@@ -31,14 +38,22 @@ const arrowUp = css({
   height: 0,
 });
 
-export class Tooltip extends Component<ITooltip, any> {
+
+export class Tooltip extends React.Component<ITooltip, any> {
   render() {
-    const { width } = this.props;
+    const { width, content, children, placement } = this.props;
     return (
-      <div {...css(tooltipStyles, { width })}>
-        <div {...arrowUp} />
-        <div {...tooltipInnerStyles}>{this.props.children}</div>
-      </div>
+      <OverlayTrigger
+        content={() => (
+          <div {...css(tooltipStyles, { width })}>
+            <div {...arrowUp} />
+            <div {...tooltipInnerStyles}>{content}</div>
+          </div>
+        )}
+        placement={placement}
+      >
+        {(innerProps) => children(innerProps)}
+      </OverlayTrigger>
     );
   }
 }

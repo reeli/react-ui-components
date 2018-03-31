@@ -9,7 +9,8 @@ export enum Placement {
   left,
   right,
   top,
-  bottom
+  bottom,
+  leftBottom,
 }
 
 interface IOverlayTriggerProps extends IPortalProps {
@@ -44,6 +45,11 @@ export class OverlayTrigger extends React.Component<IOverlayTriggerProps, any> {
         case Placement.right:
           position.left = this.triggerPosition.left + this.triggerPosition.width;
           position.top = top;
+          break;
+        case Placement.leftBottom:
+          position.left = this.triggerPosition.left;
+          position.top = this.triggerPosition.top + this.triggerPosition.height;
+          break;
       }
     }
     return position;
@@ -58,9 +64,9 @@ export class OverlayTrigger extends React.Component<IOverlayTriggerProps, any> {
             this.contentPosition = contentPosition;
             const position = this.getPositionByPlacement(placement);
             return (
-              <span style={{ position: 'absolute', top: position.top, left: position.left }}>
+              <div style={{ position: 'absolute', top: position.top, left: position.left }}>
                 {content(innerProps)}
-              </span>
+              </div>
             );
           }}
         </Position>}
