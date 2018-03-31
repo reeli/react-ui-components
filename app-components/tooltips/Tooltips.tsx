@@ -39,7 +39,7 @@ const arrowUp = css({
 });
 
 
-export class Tooltip extends React.Component<ITooltip, any> {
+export class Tooltips extends React.Component<ITooltip, any> {
   state = {
     isOpen: false,
   };
