@@ -40,20 +40,22 @@ const arrowUp = css({
 
 
 export class Tooltips extends React.Component<ITooltipsProps, any> {
+  private tooltipTrigger: Element | null = null;
   state = {
     isOpen: false,
   };
 
   componentDidMount() {
-    const tooltipTrigger = findDOMNode(this);
-    tooltipTrigger.addEventListener('mouseenter', this.show);
-    tooltipTrigger.addEventListener('mouseleave', this.hide);
+    this.tooltipTrigger = findDOMNode(this);
+    this.tooltipTrigger.addEventListener('mouseenter', this.show);
+    this.tooltipTrigger.addEventListener('mouseleave', this.hide);
   }
 
   componentWillUnmount() {
-    const tooltipTrigger = findDOMNode(this);
-    tooltipTrigger.removeEventListener('mouseenter', this.show);
-    tooltipTrigger.removeEventListener('mouseleave', this.hide);
+    if (this.tooltipTrigger) {
+      this.tooltipTrigger.removeEventListener('mouseenter', this.show);
+      this.tooltipTrigger.removeEventListener('mouseleave', this.hide);
+    }
   }
 
   show = () => {
@@ -80,6 +82,7 @@ export class Tooltips extends React.Component<ITooltipsProps, any> {
         )}
         placement={placement}
         isOpen={this.state.isOpen}
+        closeOnOutSide
       >
         {() => {
           return <>{children}</>;
