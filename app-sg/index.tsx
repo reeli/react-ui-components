@@ -22,13 +22,20 @@ const containerStyles = css({
   flex: '1 0 auto',
 });
 
+const mainStyles = css({
+  padding: '1rem',
+  width: '100%',
+});
+
 class App extends React.Component<any, any> {
   render() {
     return (
       <Router history={browserHistory}>
         <div {...containerStyles}>
           <Nav routesConfig={routesConfig} />
-          <Switch>{getRouterRoutes(routesConfig)}</Switch>
+          <main {...mainStyles}>
+            <Switch>{getRouterRoutes(routesConfig)}</Switch>
+          </main>
         </div>
       </Router>
     );
