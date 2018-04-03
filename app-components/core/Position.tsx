@@ -18,19 +18,28 @@ export class Position extends Component<IPositionProps, any> {
       position: this.ele.getBoundingClientRect(),
     }, () => {
       document.body.addEventListener('wheel', this.updatePosition);
-      document.body.addEventListener('resize', this.updatePosition);
+      window.addEventListener('resize', this.updatePosition);
     });
   }
 
   componentWillUnmount() {
     document.body.removeEventListener('wheel', this.updatePosition);
-    document.body.removeEventListener('resize', this.updatePosition);
+    window.removeEventListener('resize', this.updatePosition);
   }
 
   updatePosition = () => {
     if (this.ele) {
+      const eleClientRect = this.ele.getBoundingClientRect();
+      const bodyClientRect = document.body.getBoundingClientRect();
       this.setState({
-        position: this.ele.getBoundingClientRect(),
+        position: {
+          height: eleClientRect.height,
+          width: eleClientRect.width,
+          bottom: eleClientRect.bottom - bodyClientRect.bottom,
+          top: eleClientRect.top - bodyClientRect.top,
+          left: eleClientRect.left - bodyClientRect.left,
+          right: eleClientRect.right - bodyClientRect.right,
+        },
       });
     }
   }
