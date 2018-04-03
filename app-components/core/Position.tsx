@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 
@@ -27,19 +28,23 @@ export class Position extends Component<IPositionProps, any> {
     window.removeEventListener('resize', this.updatePosition);
   }
 
+  getPosition(ele: Element) {
+    const eleClientRect = ele.getBoundingClientRect();
+    const bodyClientRect = document.body.getBoundingClientRect();
+    return {
+      height: eleClientRect.height,
+      width: eleClientRect.width,
+      bottom: eleClientRect.bottom - bodyClientRect.bottom,
+      top: eleClientRect.top - bodyClientRect.top,
+      left: eleClientRect.left - bodyClientRect.left,
+      right: eleClientRect.right - bodyClientRect.right,
+    };
+  }
+
   updatePosition = () => {
-    if (this.ele) {
-      const eleClientRect = this.ele.getBoundingClientRect();
-      const bodyClientRect = document.body.getBoundingClientRect();
+    if (this.ele && !isEqual(this.getPosition(this.ele), this.state.position)) {
       this.setState({
-        position: {
-          height: eleClientRect.height,
-          width: eleClientRect.width,
-          bottom: eleClientRect.bottom - bodyClientRect.bottom,
-          top: eleClientRect.top - bodyClientRect.top,
-          left: eleClientRect.left - bodyClientRect.left,
-          right: eleClientRect.right - bodyClientRect.right,
-        },
+        position: this.getPosition(this.ele),
       });
     }
   }
