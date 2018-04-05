@@ -8,8 +8,15 @@ interface ICheckboxProps {
   label?: string | number;
 }
 
+const checkboxWrapperStyles = css({
+  display: 'flex',
+  alignItems: 'center',
+});
+
 const inputWrapper = css({
   position: 'relative',
+  width: '24px',
+  height: '24px',
 });
 
 const inputStyles = css({
@@ -40,8 +47,7 @@ export class Checkbox extends React.Component<ICheckboxProps, any> {
   }
 
   render() {
-    return <label>
-      {this.props.label && <span>{this.props.label}</span>}
+    return <label {...checkboxWrapperStyles}>
       <div {...inputWrapper}>
         {this.state.value
           ? <svg fill="#00a862" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +68,7 @@ export class Checkbox extends React.Component<ICheckboxProps, any> {
           {...inputStyles}
         />
       </div>
+      {this.props.label && <span>{this.props.label}</span>}
     </label>
   }
 }

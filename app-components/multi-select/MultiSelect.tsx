@@ -1,6 +1,7 @@
 import {
   Dictionary,
   forEach,
+  isEqual,
   keys,
   map,
   pickBy,
@@ -35,6 +36,14 @@ interface IMultiSelectState {
 export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelectState> {
   state = {
     selected: this.getSelectedFromProps(this.props),
+  }
+
+  componentWillReceiveProps(nextProps: IMultiSelectProps) {
+    if (!isEqual(nextProps.value, this.props.value)) {
+      this.setState({
+        selected: this.getSelectedFromProps(nextProps),
+      });
+    }
   }
 
   getSelectedFromProps({ value }: IMultiSelectProps) {
