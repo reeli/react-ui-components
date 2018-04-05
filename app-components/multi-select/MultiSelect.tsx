@@ -7,21 +7,24 @@ import {
 } from 'lodash';
 import * as React from 'react';
 
-interface ISelectOption {
+export interface ISelectOption {
   value: string | number;
   display: string | number;
 }
 
+export type ISelectedValues = string[] | number[];
+
 interface IMultiSelectInnerProps {
   onChange: () => void;
   checked: boolean;
-  selectedValues: any[];
+  selectedValues: ISelectedValues;
   option: ISelectOption;
 }
 
-interface IMultiSelectProps {
+export interface IMultiSelectProps {
   options: ISelectOption[];
   value?: string[] | number[];
+  onChange?: (option: ISelectOption, selectedValues: ISelectedValues) => void;
   children: (props: IMultiSelectInnerProps) => JSX.Element | null;
 }
 
@@ -42,12 +45,16 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
     return selected;
   }
 
-  handleChange = (optionValue: number | string) => {
+  handleChange = (option: ISelectOption) => {
     this.setState({
       selected: {
         ...this.state.selected,
-        [optionValue]: !this.state.selected[optionValue],
+        [option.value]: !this.state.selected[option.value],
       },
+    }, () => {
+      if (this.props.onChange) {
+        this.props.onChange(option, this.getSelectedValues());
+      }
     })
   };
 
@@ -61,7 +68,7 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
       return this.props.children({
         checked: this.state.selected[option.value] || false,
         selectedValues: this.getSelectedValues(),
-        onChange: () => this.handleChange(option.value),
+        onChange: () => this.handleChange(option),
         option,
       })
     })

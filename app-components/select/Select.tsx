@@ -11,7 +11,7 @@ import {
 } from '../listing/Listing';
 import { IPortalPropsInnerProps, } from '../portal/Portal';
 
-interface ISelectProps extends IListingProps {
+export interface ISelectProps extends IListingProps {
   value: string;
   placeholder?: string;
 }
