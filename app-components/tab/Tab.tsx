@@ -1,8 +1,11 @@
 import { css } from 'glamor';
+import { isFunction } from 'lodash';
 import * as React from 'react';
 
 interface ITabProps {
   activeIdx?: number;
+  getActiveIdx?: (activeIdx?: number) => void;
+  toggleable?: boolean;
 }
 
 interface ITabGroupProps {
@@ -36,9 +39,17 @@ export class Tab extends React.Component<ITabProps, any> {
     activeIdx: this.props.activeIdx,
   };
 
+  toggle(currentIdx?: number) {
+    return currentIdx !== this.state.activeIdx && currentIdx;
+  }
+
   handleClick = (currentIdx: number) => {
     this.setState({
-      activeIdx: currentIdx,
+      activeIdx: this.props.toggleable ? this.toggle(currentIdx) : currentIdx,
+    }, () => {
+      if (this.props.getActiveIdx && isFunction(this.props.getActiveIdx)) {
+        this.props.getActiveIdx(this.state.activeIdx);
+      }
     });
   }
 

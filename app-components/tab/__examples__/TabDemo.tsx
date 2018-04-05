@@ -8,7 +8,7 @@ export class TabDemo extends React.Component<any, any> {
   render() {
     return (
       <div>
-        <Tab activeIdx={0}>
+        <Tab activeIdx={0} toggleable>
           <TabGroup header='test1'>
             children1
           </TabGroup>
