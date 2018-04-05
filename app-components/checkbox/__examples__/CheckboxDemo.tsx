@@ -5,8 +5,8 @@ export class CheckboxDemo extends React.Component<any, any> {
   render() {
     return (
       <div>
-        <Checkbox value={true} onChange={(value) => {
-          console.log(value);
+        <Checkbox value={false} onChange={(value) => {
+          console.log(value, 'value')
         }} />
       </div>
     );
