@@ -16,6 +16,7 @@ const asideStyles = css({
   background: '#000',
   opacity: '0.7',
   padding: '1rem',
+  overflowY: 'scroll',
 });
 
 const linkStyles = css({
