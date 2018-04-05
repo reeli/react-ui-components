@@ -1,9 +1,9 @@
 import {
   Dictionary,
   forEach,
-  includes,
+  keys,
   map,
-  reduce,
+  pickBy,
 } from 'lodash';
 import * as React from 'react';
 
@@ -17,7 +17,6 @@ interface IMultiSelectInnerProps {
   checked: boolean;
   selectedValues: any[];
   option: ISelectOption;
-  idx: number;
 }
 
 interface IMultiSelectProps {
@@ -35,45 +34,35 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
     selected: this.getSelectedFromProps(this.props),
   }
 
-  getSelectedFromProps({ value, options }: IMultiSelectProps) {
+  getSelectedFromProps({ value }: IMultiSelectProps) {
     const selected = {} as Dictionary<boolean>;
-    forEach(options, (option: ISelectOption, idx: number) => {
-      if (includes(value, option.value)) {
-        selected[idx] = true;
-      }
+    forEach(value, (item: any) => {
+      selected[item] = true;
     });
     return selected;
   }
 
-  handleChange = (currentIdx: number) => {
+  handleChange = (optionValue: number | string) => {
     this.setState({
       selected: {
         ...this.state.selected,
-        [currentIdx]: !this.state.selected[currentIdx],
+        [optionValue]: !this.state.selected[optionValue],
       },
     })
   };
 
   getSelectedValues = () => {
-    return reduce(this.props.options, (result: any[], option: ISelectOption, idx: number) => {
-      if (this.state.selected[idx]) {
-        return [
-          ...result,
-          option.value,
-        ];
-      }
-      return result;
-    }, []);
+    const result = pickBy(this.state.selected, value => value);
+    return keys(result);
   }
 
   render() {
-    return map(this.props.options, (option: ISelectOption, idx) => {
+    return map(this.props.options, (option: ISelectOption) => {
       return this.props.children({
-        checked: this.state.selected[idx] || false,
+        checked: this.state.selected[option.value] || false,
         selectedValues: this.getSelectedValues(),
-        onChange: () => this.handleChange(idx),
+        onChange: () => this.handleChange(option.value),
         option,
-        idx,
       })
     })
   }

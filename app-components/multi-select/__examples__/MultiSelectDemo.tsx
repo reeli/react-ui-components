@@ -21,10 +21,10 @@ export class MultiSelectDemo extends React.Component<any, any> {
   render() {
     return (
       <MultiSelect options={options} value={['cat', 'dog']}>
-        {({ checked, onChange, option, idx, selectedValues }) => {
+        {({ checked, onChange, option, selectedValues }) => {
           console.log(selectedValues, 'selectedValues')
           return <Checkbox
-            key={idx}
+            key={option.value}
             value={checked}
             onChange={onChange}
             label={option.display}
