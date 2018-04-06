@@ -4,15 +4,15 @@ import { CascadingSelect } from '../CascadingSelect';
 
 const data = [
   {
-    display: 'tony',
+    display: '四川省',
     value: '1',
   },
   {
-    display: 'jessy',
+    display: '河北省',
     value: '2',
   },
   {
-    display: 'luca',
+    display: '海南省',
     value: '3',
   },
 ];

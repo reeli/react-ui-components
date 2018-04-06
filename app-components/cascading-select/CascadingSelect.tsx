@@ -9,6 +9,7 @@ import {
   OverlayTrigger,
   Placement,
 } from '../core/OverlayTrigger';
+import { Input } from '../input/Input';
 import { CheckboxListing, } from '../listing/CheckboxListing';
 import {
   IMultiSelectProps,
@@ -22,6 +23,16 @@ interface ICascadingSelectProps {
   placeholder?: string;
   options: ISelectOption[];
 }
+
+const triggerElementWrapperStyles = css({
+  position: 'relative',
+});
+
+const tagsWrapperStyles = css({
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+});
 
 export class CascadingSelect extends React.Component<ICascadingSelectProps, any> {
   state = {
@@ -39,7 +50,6 @@ export class CascadingSelect extends React.Component<ICascadingSelectProps, any>
   render() {
     const { placeholder, options, onChange } = this.props;
     const { value } = this.state;
-    console.log(value, 'value')
     return (
       <OverlayTrigger
         content={() => (
@@ -52,11 +62,11 @@ export class CascadingSelect extends React.Component<ICascadingSelectProps, any>
         placement={Placement.leftBottom}
         closeOnOutSide
       >
-        {({ open }) => {
+        {({ toggle }) => {
           const selectedOptions = filter(options, (opt: ISelectOption) => includes(value, opt.value));
-          return <div {...css({ position: 'relative' })}>
-            <div onClick={open}>{placeholder}</div>
-            <div {...css({ position: 'absolute', top: 0, right: 0 })}>
+          return <div {...triggerElementWrapperStyles}>
+            <Input placeholder={value.length > 0 ? '' : placeholder} onClick={toggle} readOnly />
+            <div {...tagsWrapperStyles}>
               <SelectWithTags
                 options={selectedOptions}
                 value={value}

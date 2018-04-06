@@ -25,6 +25,11 @@ const inputStyles = css({
   visibility: 'hidden',
 });
 
+const labelStyles = css({
+  marginLeft: '.2rem',
+  display: 'inline-block',
+});
+
 export class Checkbox extends React.Component<ICheckboxProps, any> {
   state = {
     value: this.props.value || false,
@@ -68,7 +73,7 @@ export class Checkbox extends React.Component<ICheckboxProps, any> {
           {...inputStyles}
         />
       </div>
-      {this.props.label && <span>{this.props.label}</span>}
+      {this.props.label && <span {...labelStyles}>{this.props.label}</span>}
     </label>
   }
 }
