@@ -15,7 +15,7 @@ import {
 import {
   ISelectedValues,
   ISelectOption,
-} from '../multi-select/MultiSelect';
+} from '../with-multi-select/WithMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
 interface IGroupedCheckListingSelectProps {

@@ -8,8 +8,8 @@ import {
   ISelectedValues,
   ISelectOption,
   isValueInSelectedValues,
-  MultiSelect,
-} from '../multi-select/MultiSelect';
+  WithMultiSelect,
+} from '../with-multi-select/WithMultiSelect';
 
 export interface ICheckboxListingProps {
   selectedValues?: ISelectedValues;
@@ -61,7 +61,7 @@ export class CheckboxListing extends React.Component<ICheckboxListingProps, any>
     const { options, onChange, selectedValues } = this.props;
     return (
       <div {...listStyles}>
-        <MultiSelect
+        <WithMultiSelect
           selectedValues={selectedValues}
           onSelectedValuesChange={(nextSelectedValues) => {
             onChange(nextSelectedValues);
@@ -77,7 +77,7 @@ export class CheckboxListing extends React.Component<ICheckboxListingProps, any>
               />
             )
           }}
-        </MultiSelect>
+        </WithMultiSelect>
       </div>
     );
   }

@@ -7,8 +7,8 @@ import { Checkbox } from '../../checkbox/Checkbox';
 import {
   addValue,
   dropValue,
-  MultiSelect,
-} from '../MultiSelect';
+  WithMultiSelect,
+} from '../WithMultiSelect';
 
 const options = [
   {
@@ -25,16 +25,20 @@ const options = [
   },
 ];
 
-export class MultiSelectDemo extends React.Component<any, any> {
+export class WithMultiSelectDemo extends React.Component<any, any> {
   state = {
     values: ['cat', 'dog'],
   }
 
   render() {
     return (
-      <MultiSelect selectedValues={this.state.values} options={options}>
-        {({ selectedValues }) => {
+      <WithMultiSelect
+        selectedValues={this.state.values} options={options}
+        onSelectedValuesChange={(selectedValues) => {
           console.log(selectedValues, 'selectedValues')
+        }}
+      >
+        {({ selectedValues }) => {
           return map(options, (option) => {
             const isChecked = includes(this.state.values, option.value);
             return <Checkbox
@@ -49,7 +53,7 @@ export class MultiSelectDemo extends React.Component<any, any> {
             />
           })
         }}
-      </MultiSelect>
+      </WithMultiSelect>
     )
   }
 }

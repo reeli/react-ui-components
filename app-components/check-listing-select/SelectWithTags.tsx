@@ -9,8 +9,8 @@ import {
   dropValue,
   ISelectedValues,
   ISelectOption,
-  MultiSelect,
-} from '../multi-select/MultiSelect';
+  WithMultiSelect,
+} from '../with-multi-select/WithMultiSelect';
 
 const tagStyles = css({
   display: 'inline-block',
@@ -49,7 +49,7 @@ export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelec
       <div {...triggerElementWrapperStyles}>
         <Input placeholder={!isEmpty(selectedValues) ? '' : placeholder} onClick={onClick} readOnly />
         <div {...tagsWrapperStyles}>
-          <MultiSelect
+          <WithMultiSelect
             selectedValues={selectedValues}
             onSelectedValuesChange={(nextSelectedValues) => {
               onChange(nextSelectedValues);
@@ -68,7 +68,7 @@ export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelec
                 )
               })
             }}
-          </MultiSelect>
+          </WithMultiSelect>
         </div>
       </div>
     )

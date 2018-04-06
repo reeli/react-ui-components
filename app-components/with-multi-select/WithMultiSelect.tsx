@@ -23,20 +23,14 @@ interface IMultiSelectInnerProps {
   selectedValues?: ISelectedValues;
 }
 
-// controlled MultiSelect and uncontrolled MultiSelect (由内向外还是由外向内，理解数据的流向)
-// controlled MultiSelect: selectedValue, updateSelectedValue 状态全部由外部去维护，可以通过改变 selectedValue 和直接调用 updateSelectedValue 两种方式去更新
-// uncontrolled MultiSelect: selectedValue, onSelectedValuesChange 状态由内部维护，但是当内部状态发生变化时，需要将内部状态通知给外部，然后再通过外部的 state 更新 value
-// options
-
-
-export interface IMultiSelectProps {
+export interface IWithMultiSelectProps {
   selectedValues?: ISelectedValues;
   onSelectedValuesChange?: (selectedValues?: ISelectedValues) => void;
   children: (props: IMultiSelectInnerProps) => ReactNode;
   options: ISelectOption[];
 }
 
-interface IMultiSelectState {
+interface IWithMultiSelectState {
   selected: Dictionary<boolean>
 }
 
@@ -55,9 +49,9 @@ export const isValueInSelectedValues = (value: string | number, selectedValues?:
   return includes(selectedValues, value);
 };
 
-export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelectState> {
+export class WithMultiSelect extends React.Component<IWithMultiSelectProps, IWithMultiSelectState> {
   state = {
-    selected: MultiSelect.getSelectedFromValue(this.props.selectedValues),
+    selected: WithMultiSelect.getSelectedFromValue(this.props.selectedValues),
   }
 
   static getSelectedFromValue = (value?: ISelectedValues) => {
@@ -69,15 +63,15 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
     return selected;
   }
 
-  componentWillReceiveProps(nextProps: IMultiSelectProps) {
+  componentWillReceiveProps(nextProps: IWithMultiSelectProps) {
     if (!isEqual(nextProps.selectedValues, this.props.selectedValues)) {
       this.setState({
-        selected: MultiSelect.getSelectedFromValue(nextProps.selectedValues),
+        selected: WithMultiSelect.getSelectedFromValue(nextProps.selectedValues),
       });
     }
   }
 
-  componentDidUpdate(prevProps: IMultiSelectProps, prevState: IMultiSelectState) {
+  componentDidUpdate(prevProps: IWithMultiSelectProps, prevState: IWithMultiSelectState) {
     if (!isEqual(prevState.selected, this.state.selected)) {
       if (this.props.onSelectedValuesChange) {
         this.props.onSelectedValuesChange(this.getSelectedValues())
@@ -93,7 +87,7 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
 
   updateSelectedValues = (value?: ISelectedValues) => {
     this.setState({
-      selected: MultiSelect.getSelectedFromValue(value),
+      selected: WithMultiSelect.getSelectedFromValue(value),
     })
   };
 

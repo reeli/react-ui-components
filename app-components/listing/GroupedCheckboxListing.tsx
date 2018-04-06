@@ -4,11 +4,12 @@ import {
   map,
 } from 'lodash';
 import * as React from 'react';
+
 import {
   ISelectedValues,
   ISelectOption,
-  MultiSelect,
-} from '../multi-select/MultiSelect';
+  WithMultiSelect,
+} from '../with-multi-select/WithMultiSelect';
 import {
   CheckList,
   ICheckboxListingProps,
@@ -25,7 +26,7 @@ export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxList
   render() {
     const { options, selectedValues, getGroupTitle, onChange } = this.props;
     return (
-      <MultiSelect
+      <WithMultiSelect
         selectedValues={selectedValues}
         onSelectedValuesChange={(nextSelectedValues) => {
           onChange(nextSelectedValues);
@@ -47,7 +48,7 @@ export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxList
             );
           })
         }}
-      </MultiSelect>
+      </WithMultiSelect>
     );
   }
 }
