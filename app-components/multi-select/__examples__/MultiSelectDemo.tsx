@@ -76,7 +76,7 @@ const getDisplayByValue = (value: string | number, options: ISelectOption[]) => 
   return result ? result.display : '';
 };
 
-export class CheckListingSelectDemo extends React.Component<any, any> {
+export class MultiSelectDemo extends React.Component<any, any> {
   state = {
     provincesValue: [],
     cityValue: [],
