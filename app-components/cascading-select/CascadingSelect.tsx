@@ -30,8 +30,9 @@ const triggerElementWrapperStyles = css({
 
 const tagsWrapperStyles = css({
   position: 'absolute',
-  bottom: 0,
   left: 0,
+  top: '50%',
+  transform: 'translateY(-50%)',
 });
 
 export class CascadingSelect extends React.Component<ICascadingSelectProps, any> {
@@ -64,22 +65,24 @@ export class CascadingSelect extends React.Component<ICascadingSelectProps, any>
       >
         {({ toggle }) => {
           const selectedOptions = filter(options, (opt: ISelectOption) => includes(value, opt.value));
-          return <div {...triggerElementWrapperStyles}>
-            <Input placeholder={value.length > 0 ? '' : placeholder} onClick={toggle} readOnly />
-            <div {...tagsWrapperStyles}>
-              <SelectWithTags
-                options={selectedOptions}
-                value={value}
-                removeSelectedValue={(option: ISelectOption) => {
-                  this.setState({
-                    value: filter(value, (item: string | number) => {
-                      return item !== option.value
-                    }),
-                  });
-                }}
-              />
+          return (
+            <div {...triggerElementWrapperStyles}>
+              <Input placeholder={value.length > 0 ? '' : placeholder} onClick={toggle} readOnly />
+              <div {...tagsWrapperStyles}>
+                <SelectWithTags
+                  options={selectedOptions}
+                  value={value}
+                  removeSelectedValue={(option: ISelectOption) => {
+                    this.setState({
+                      value: filter(value, (item: string | number) => {
+                        return item !== option.value
+                      }),
+                    });
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )
         }}
       </OverlayTrigger>
     )
