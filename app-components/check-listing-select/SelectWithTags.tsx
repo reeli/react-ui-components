@@ -1,7 +1,16 @@
 import { css } from 'glamor';
+import {
+  isEmpty,
+  map,
+} from 'lodash';
 import * as React from 'react';
 import { Input } from '../input/Input';
-import { MultiSelect, } from '../multi-select/MultiSelect';
+import {
+  dropValue,
+  ISelectedValues,
+  ISelectOption,
+  MultiSelect,
+} from '../multi-select/MultiSelect';
 
 const tagStyles = css({
   display: 'inline-block',
@@ -19,23 +28,41 @@ const tagsWrapperStyles = css({
   left: 0,
   top: '50%',
   transform: 'translateY(-50%)',
+  display: 'inline-block',
 });
 
-export class SelectWithTags extends React.Component<any, any> {
+interface ISelectWithTagsProps {
+  selectedValues?: ISelectedValues;
+  placeholder?: string;
+  onChange: (selectedValues?: ISelectedValues) => void;
+  onClick?: () => void;
+  options: ISelectOption[];
+}
+
+interface ISelectWithTagsState {
+}
+
+export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelectWithTagsState> {
   render() {
-    const { value, options, removeSelectedValue, placeholder, onClick } = this.props;
+    const { options, placeholder, selectedValues, onChange, onClick } = this.props;
     return (
       <div {...triggerElementWrapperStyles}>
-        <Input placeholder={value.length > 0 ? '' : placeholder} onClick={onClick} readOnly />
+        <Input placeholder={!isEmpty(selectedValues) ? '' : placeholder} onClick={onClick} readOnly />
         <div {...tagsWrapperStyles}>
-          <MultiSelect options={options} value={value}>
-            {({ option }) => {
-              return (
-                <div key={option.value} {...css({ display: 'inline-block' })} {...tagStyles}>
-                  <span>{option.display}</span>
-                  <span onClick={() => removeSelectedValue(option)}>X</span>
-                </div>
-              )
+          <MultiSelect selectedValues={selectedValues} onSelectedValuesChange={(nextSelectedValues) => {
+            onChange(nextSelectedValues);
+          }}>
+            {({ selectedValues, updateSelectedValues }) => {
+              return map(options, (option: ISelectOption) => {
+                return (
+                  <div key={option.value} {...tagStyles}>
+                    <span>{option.display}</span>
+                    <span onClick={() => {
+                      updateSelectedValues(dropValue(option.value, selectedValues));
+                    }}>X</span>
+                  </div>
+                )
+              })
             }}
           </MultiSelect>
         </div>

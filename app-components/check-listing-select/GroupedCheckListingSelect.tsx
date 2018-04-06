@@ -1,35 +1,34 @@
 import {
   Dictionary,
-  filter,
   forEach,
   includes,
-  isEqual,
 } from 'lodash';
 import * as React from 'react';
 import {
   OverlayTrigger,
   Placement,
 } from '../core/OverlayTrigger';
+import { ICheckboxListingProps } from '../listing/CheckboxListing';
 import {
   GroupedCheckboxListing,
   IGroupedCheckboxListing,
   IGroupedOption,
 } from '../listing/GroupedCheckboxListing';
 import {
-  IMultiSelectProps,
+  ISelectedValues,
   ISelectOption,
 } from '../multi-select/MultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
 interface IGroupedCheckListingSelectProps {
-  onChange: IMultiSelectProps['onChange']
-  value: string[] | number[];
+  selectedValues?: ISelectedValues;
   placeholder?: string;
   groupedOptions: Dictionary<IGroupedOption[]>;
-  getGroupTitle: IGroupedCheckboxListing['getGroupTitle']
+  getGroupTitle: IGroupedCheckboxListing['getGroupTitle'];
+  onChange: ICheckboxListingProps['onChange'];
 }
 
-const pickSelectedOptionsByValue = (groupedOptions: Dictionary<IGroupedOption[]>, value: string[] | number[]) => {
+const pickSelectedOptionsByValue = (groupedOptions: Dictionary<IGroupedOption[]>, value: ISelectedValues = []) => {
   const selectedOptions: ISelectOption[] = [];
   forEach(groupedOptions, (options: IGroupedOption[]) => {
     forEach(options, (option: IGroupedOption) => {
@@ -45,25 +44,14 @@ const pickSelectedOptionsByValue = (groupedOptions: Dictionary<IGroupedOption[]>
 };
 
 export class GroupedCheckListingSelect extends React.Component<IGroupedCheckListingSelectProps, any> {
-  state = {
-    value: this.props.value,
-  };
-
-  componentWillReceiveProps(nextProps: any) {
-    if (!isEqual(nextProps.value, this.state.value)) {
-      this.setState({
-        value: nextProps.value,
-      })
-    }
-  }
-
   render() {
-    const { placeholder, groupedOptions, onChange, getGroupTitle } = this.props;
+    const { placeholder, groupedOptions, getGroupTitle, onChange } = this.props;
+    const { selectedValues } = this.props;
     return (
       <OverlayTrigger
         content={() => (
           <GroupedCheckboxListing
-            value={this.state.value}
+            selectedValues={selectedValues}
             groupedOptions={groupedOptions}
             onChange={onChange}
             getGroupTitle={getGroupTitle}
@@ -75,17 +63,11 @@ export class GroupedCheckListingSelect extends React.Component<IGroupedCheckList
         {({ toggle }) => {
           return (
             <SelectWithTags
-              value={this.state.value}
-              options={pickSelectedOptionsByValue(groupedOptions, this.state.value)}
-              removeSelectedValue={(option: ISelectOption) => {
-                this.setState({
-                  value: filter(this.state.value, (item: string | number) => {
-                    return item !== option.value
-                  }),
-                });
-              }}
+              selectedValues={selectedValues}
+              options={pickSelectedOptionsByValue(groupedOptions, selectedValues)}
               placeholder={placeholder}
               onClick={toggle}
+              onChange={onChange}
             />
           )
         }}

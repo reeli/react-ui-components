@@ -4,20 +4,23 @@ import {
 } from 'lodash';
 import * as React from 'react';
 import {
-  IMultiSelectProps,
+  ISelectedValues,
   ISelectOption,
 } from '../multi-select/MultiSelect';
-import { CheckboxListing } from './CheckboxListing';
+import {
+  CheckboxListing,
+  ICheckboxListingProps,
+} from './CheckboxListing';
 
 export interface IGroupedOption extends ISelectOption {
   group: string | number;
 }
 
 export interface IGroupedCheckboxListing {
-  value?: string[] | number[];
+  selectedValues?: ISelectedValues;
   groupedOptions: Dictionary<IGroupedOption[]>;
-  onChange: IMultiSelectProps['onChange'];
   getGroupTitle: (key: string | number) => string | number;
+  onChange: ICheckboxListingProps['onChange'];
 }
 
 const pickOptionsFromGroupedOptions = (options: IGroupedOption[]) => {
@@ -31,24 +34,20 @@ const pickOptionsFromGroupedOptions = (options: IGroupedOption[]) => {
 
 export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxListing, any> {
   render() {
-    const { groupedOptions, value, onChange, getGroupTitle } = this.props;
+    const { groupedOptions, selectedValues, getGroupTitle, onChange } = this.props;
     return (
-      <div>
-        {
-          map(groupedOptions, (options: IGroupedOption[], key: string | number) => {
-            return (
-              <div key={key}>
-                <div>{getGroupTitle(key)}</div>
-                <CheckboxListing
-                  options={pickOptionsFromGroupedOptions(options)}
-                  onChange={onChange}
-                  value={value}
-                />
-              </div>
-            );
-          })
-        }
-      </div>
+      map(groupedOptions, (options: IGroupedOption[], key: string | number) => {
+        return (
+          <div key={key}>
+            <div>{getGroupTitle(key)}</div>
+            <CheckboxListing
+              options={pickOptionsFromGroupedOptions(options)}
+              selectedValues={selectedValues}
+              onChange={onChange}
+            />
+          </div>
+        );
+      })
     );
   }
 }

@@ -1,6 +1,14 @@
+import {
+  includes,
+  map,
+} from 'lodash';
 import * as React from 'react';
 import { Checkbox } from '../../checkbox/Checkbox';
-import { MultiSelect } from '../MultiSelect';
+import {
+  addValue,
+  dropValue,
+  MultiSelect,
+} from '../MultiSelect';
 
 const options = [
   {
@@ -18,17 +26,28 @@ const options = [
 ];
 
 export class MultiSelectDemo extends React.Component<any, any> {
+  state = {
+    values: ['cat', 'dog'],
+  }
+
   render() {
     return (
-      <MultiSelect options={options} value={['cat', 'dog']}>
-        {({ checked, onChange, option, selectedValues }) => {
+      <MultiSelect selectedValues={this.state.values}>
+        {({ selectedValues }) => {
           console.log(selectedValues, 'selectedValues')
-          return <Checkbox
-            key={option.value}
-            value={checked}
-            onChange={onChange}
-            label={option.display}
-          />
+          return map(options, (option) => {
+            const isChecked = includes(this.state.values, option.value);
+            return <Checkbox
+              key={option.value}
+              value={isChecked}
+              onChange={() => {
+                this.setState({
+                  values: isChecked ? dropValue(option.value, selectedValues) : addValue(option.value, selectedValues),
+                })
+              }}
+              label={option.display}
+            />
+          })
         }}
       </MultiSelect>
     )

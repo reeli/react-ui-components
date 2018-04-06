@@ -3,10 +3,14 @@ import {
   Dictionary,
   find,
   groupBy,
+  pick,
 } from 'lodash';
 import * as React from 'react';
 import { IGroupedOption } from '../../listing/GroupedCheckboxListing';
-import { ISelectOption } from '../../multi-select/MultiSelect';
+import {
+  ISelectedValues,
+  ISelectOption,
+} from '../../multi-select/MultiSelect';
 import { CheckListingSelect } from '../CheckListingSelect';
 import { GroupedCheckListingSelect } from '../GroupedCheckListingSelect';
 
@@ -63,7 +67,10 @@ const cities = [
   },
 ];
 
-const groupedCity = groupBy(cities, 'group') as Dictionary<IGroupedOption[]>;
+const getGroupedCitiesBySelectedProvinces = (data: any, provincesValue: any[]) => {
+  const groupedCity = groupBy(data, 'group') as Dictionary<IGroupedOption[]>;
+  return pick(groupedCity, provincesValue) as Dictionary<IGroupedOption[]>;
+};
 
 const getDisplayByValue = (value: string | number, options: ISelectOption[]) => {
   const result = find(options, (option: ISelectOption) => option.value === value);
@@ -74,19 +81,24 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
   state = {
     provincesValue: [],
     cityValue: [],
+    groupedCities: {},
   };
 
-  handleCityChange = (_: ISelectOption, selectedValues: string[] | number[]) => {
-    console.log(selectedValues, 'cityValue');
+  handleCityChange = (selectedValues?: ISelectedValues) => {
+    console.log(this.state.cityValue, 'cityValue');
     this.setState({
       cityValue: selectedValues,
     });
   };
 
-  handleProvinceChange = (_: ISelectOption, selectedValues: string[] | number[]) => {
-    console.log(selectedValues, 'provincesValue');
+  handleProvinceChange = (selectedValues?: ISelectedValues) => {
+    console.log(this.state.provincesValue, 'provincesValue');
     this.setState({
       provincesValue: selectedValues,
+    }, () => {
+      this.setState({
+        groupedCities: getGroupedCitiesBySelectedProvinces(cities, this.state.provincesValue),
+      })
     });
   };
 
@@ -95,7 +107,7 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
       <div {...css({ display: 'flex' })}>
         <div {...css({ flex: 1 })}>
           <CheckListingSelect
-            value={this.state.provincesValue}
+            selectedValues={this.state.provincesValue}
             options={provinces}
             onChange={this.handleProvinceChange}
             placeholder="选择省份..."
@@ -103,8 +115,8 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
         </div>
         <div {...css({ flex: 1 })}>
           <GroupedCheckListingSelect
-            value={this.state.cityValue}
-            groupedOptions={groupedCity}
+            selectedValues={this.state.cityValue}
+            groupedOptions={this.state.groupedCities}
             onChange={this.handleCityChange}
             getGroupTitle={(key) => {
               return getDisplayByValue(key, provinces);

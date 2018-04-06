@@ -1,16 +1,20 @@
 import { css } from 'glamor';
+import { map } from 'lodash';
 import * as React from 'react';
 import { Checkbox } from '../checkbox/Checkbox';
 import {
-  IMultiSelectProps,
+  addValue,
+  dropValue,
+  ISelectedValues,
   ISelectOption,
+  isValueInSelectedValues,
   MultiSelect,
 } from '../multi-select/MultiSelect';
 
 export interface ICheckboxListingProps {
-  value?: string[] | number[];
+  selectedValues?: ISelectedValues;
   options: ISelectOption[];
-  onChange: IMultiSelectProps['onChange'];
+  onChange: (value?: ISelectedValues) => void;
 }
 
 const listStyles = css({
@@ -28,18 +32,29 @@ const listItemStyles = css({
 
 export class CheckboxListing extends React.Component<ICheckboxListingProps, any> {
   render() {
-    const { options, value, onChange } = this.props;
+    const { options, onChange, selectedValues } = this.props;
     return (
       <ul {...listStyles}>
-        <MultiSelect options={options} value={value} onChange={onChange}>
-          {({ checked, onChange, option }) => {
-            return <li key={option.value} {...listItemStyles}>
-              <Checkbox
-                value={checked}
-                onChange={onChange}
-                label={option.display}
-              />
-            </li>
+        <MultiSelect selectedValues={selectedValues} onSelectedValuesChange={(nextSelectedValues) => {
+          onChange(nextSelectedValues);
+        }}>
+          {({ selectedValues, updateSelectedValues }) => {
+            return map(options, (option) => {
+              const isChecked = isValueInSelectedValues(option.value, selectedValues);
+              return (
+                <li key={option.value} {...listItemStyles}>
+                  <Checkbox
+                    value={isChecked}
+                    onChange={() => {
+                      isChecked
+                        ? updateSelectedValues(dropValue(option.value, selectedValues))
+                        : updateSelectedValues(addValue(option.value, selectedValues));
+                    }}
+                    label={option.display}
+                  />
+                </li>
+              );
+            })
           }}
         </MultiSelect>
       </ul>

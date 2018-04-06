@@ -1,12 +1,14 @@
 import {
   Dictionary,
+  filter,
   forEach,
+  includes,
   isEqual,
   keys,
-  map,
   pickBy,
 } from 'lodash';
 import * as React from 'react';
+import { ReactNode } from 'react';
 
 export interface ISelectOption {
   value: string | number;
@@ -16,54 +18,72 @@ export interface ISelectOption {
 export type ISelectedValues = string[] | number[];
 
 interface IMultiSelectInnerProps {
-  onChange: () => void;
-  checked: boolean;
-  selectedValues: ISelectedValues;
-  option: ISelectOption;
+  updateSelectedValues: (value: ISelectedValues) => void;
+  selectedValues?: ISelectedValues;
 }
 
+// controlled MultiSelect and uncontrolled MultiSelect
+// controlled MultiSelect: selectedValue, updateSelectedValue 状态全部由外部去维护，可以通过改变 selectedValue 和直接调用 updateSelectedValue 两种方式去更新
+// uncontrolled MultiSelect: selectedValue, onSelectedValuesChange 状态由内部维护，但是当内部状态发生变化时，需要将内部状态通知给外部，然后再通过外部的 state 更新 value
+
 export interface IMultiSelectProps {
-  options: ISelectOption[];
-  value?: string[] | number[];
-  onChange?: (option: ISelectOption, selectedValues: ISelectedValues) => void;
-  children: (props: IMultiSelectInnerProps) => JSX.Element | null;
+  selectedValues?: ISelectedValues;
+  onSelectedValuesChange?: (selectedValues?: ISelectedValues) => void;
+  children: (props: IMultiSelectInnerProps) => ReactNode;
 }
 
 interface IMultiSelectState {
   selected: Dictionary<boolean>
 }
 
+export const dropValue = (value: string | number, values: ISelectedValues = []) => {
+  return filter(values, (val: string | number) => val !== value) as ISelectedValues | any[];
+};
+
+export const addValue = (value: string | number, values: ISelectedValues = []) => {
+  return [
+    ...values,
+    value,
+  ] as ISelectedValues | any[];
+};
+
+export const isValueInSelectedValues = (value: string | number, selectedValues?: ISelectedValues) => {
+  return includes(selectedValues, value);
+};
+
 export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelectState> {
   state = {
-    selected: this.getSelectedFromProps(this.props),
+    selected: MultiSelect.getSelectedFromValue(this.props.selectedValues),
   }
 
-  componentWillReceiveProps(nextProps: IMultiSelectProps) {
-    if (!isEqual(nextProps.value, this.props.value)) {
-      this.setState({
-        selected: this.getSelectedFromProps(nextProps),
-      });
-    }
-  }
-
-  getSelectedFromProps({ value }: IMultiSelectProps) {
+  static getSelectedFromValue = (value?: ISelectedValues) => {
     const selected = {} as Dictionary<boolean>;
     forEach(value, (item: any) => {
       selected[item] = true;
     });
+
     return selected;
   }
 
-  handleChange = (option: ISelectOption) => {
-    this.setState({
-      selected: {
-        ...this.state.selected,
-        [option.value]: !this.state.selected[option.value],
-      },
-    }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(option, this.getSelectedValues());
+  componentWillReceiveProps(nextProps: IMultiSelectProps) {
+    if (!isEqual(nextProps.selectedValues, this.props.selectedValues)) {
+      this.setState({
+        selected: MultiSelect.getSelectedFromValue(nextProps.selectedValues),
+      });
+    }
+  }
+
+  componentDidUpdate(_: any, prevState: IMultiSelectState) {
+    if (!isEqual(prevState.selected, this.state.selected)) {
+      if (this.props.onSelectedValuesChange) {
+        this.props.onSelectedValuesChange(this.getSelectedValues())
       }
+    }
+  }
+
+  updateSelectedValues = (value?: ISelectedValues) => {
+    this.setState({
+      selected: MultiSelect.getSelectedFromValue(value),
     })
   };
 
@@ -73,13 +93,9 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
   }
 
   render() {
-    return map(this.props.options, (option: ISelectOption) => {
-      return this.props.children({
-        checked: this.state.selected[option.value] || false,
-        selectedValues: this.getSelectedValues(),
-        onChange: () => this.handleChange(option),
-        option,
-      })
+    return this.props.children({
+      updateSelectedValues: this.updateSelectedValues,
+      selectedValues: this.getSelectedValues(),
     })
   }
 }

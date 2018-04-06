@@ -1,48 +1,37 @@
 import {
   filter,
   includes,
-  isEqual,
 } from 'lodash';
 import * as React from 'react';
 import {
   OverlayTrigger,
   Placement,
 } from '../core/OverlayTrigger';
-import { CheckboxListing, } from '../listing/CheckboxListing';
 import {
-  IMultiSelectProps,
+  CheckboxListing,
+  ICheckboxListingProps,
+} from '../listing/CheckboxListing';
+import {
+  ISelectedValues,
   ISelectOption,
 } from '../multi-select/MultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
 interface ICheckListingSelectProps {
-  onChange: IMultiSelectProps['onChange']
-  value: string[] | number[];
+  selectedValues?: ISelectedValues;
   placeholder?: string;
   options: ISelectOption[];
+  onChange: ICheckboxListingProps['onChange'];
 }
 
 export class CheckListingSelect extends React.Component<ICheckListingSelectProps, any> {
-  state = {
-    value: this.props.value,
-  };
-
-  componentWillReceiveProps(nextProps: any) {
-    if (!isEqual(nextProps.value, this.state.value)) {
-      this.setState({
-        value: nextProps.value,
-      })
-    }
-  }
-
   render() {
-    const { placeholder, options, onChange } = this.props;
-    const { value } = this.state;
+    const { placeholder, options, onChange, selectedValues } = this.props;
     return (
       <OverlayTrigger
         content={() => (
           <CheckboxListing
-            value={value}
+            selectedValues={selectedValues}
             options={options}
             onChange={onChange}
           />
@@ -51,20 +40,14 @@ export class CheckListingSelect extends React.Component<ICheckListingSelectProps
         closeOnOutSide
       >
         {({ toggle }) => {
-          const selectedOptions = filter(options, (opt: ISelectOption) => includes(value, opt.value));
+          const selectedOptions = filter(options, (opt: ISelectOption) => includes(selectedValues, opt.value));
           return (
             <SelectWithTags
-              value={this.state.value}
+              selectedValues={selectedValues}
               options={selectedOptions}
-              removeSelectedValue={(option: ISelectOption) => {
-                this.setState({
-                  value: filter(this.state.value, (item: string | number) => {
-                    return item !== option.value
-                  }),
-                });
-              }}
               placeholder={placeholder}
               onClick={toggle}
+              onChange={onChange}
             />
           )
         }}
