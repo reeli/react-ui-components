@@ -12,6 +12,7 @@ import {
 } from '../core/OverlayTrigger';
 import {
   GroupedCheckboxListing,
+  IGroupedCheckboxListing,
   IGroupedOption,
 } from '../listing/GroupedCheckboxListing';
 import {
@@ -25,6 +26,7 @@ interface IGroupedCheckListingSelectProps {
   value: string[] | number[];
   placeholder?: string;
   groupedOptions: Dictionary<IGroupedOption[]>;
+  getGroupTitle: IGroupedCheckboxListing['getGroupTitle']
 }
 
 const pickSelectedOptionsByValue = (groupedOptions: Dictionary<IGroupedOption[]>, value: string[] | number[]) => {
@@ -56,7 +58,7 @@ export class GroupedCheckListingSelect extends React.Component<IGroupedCheckList
   }
 
   render() {
-    const { placeholder, groupedOptions, onChange } = this.props;
+    const { placeholder, groupedOptions, onChange, getGroupTitle } = this.props;
     return (
       <OverlayTrigger
         content={() => (
@@ -64,6 +66,7 @@ export class GroupedCheckListingSelect extends React.Component<IGroupedCheckList
             value={this.state.value}
             groupedOptions={groupedOptions}
             onChange={onChange}
+            getGroupTitle={getGroupTitle}
           />
         )}
         placement={Placement.leftBottom}

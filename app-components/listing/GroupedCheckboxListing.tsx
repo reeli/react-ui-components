@@ -17,6 +17,7 @@ export interface IGroupedCheckboxListing {
   value?: string[] | number[];
   groupedOptions: Dictionary<IGroupedOption[]>;
   onChange: IMultiSelectProps['onChange'];
+  getGroupTitle: (key: string | number) => string | number;
 }
 
 const pickOptionsFromGroupedOptions = (options: IGroupedOption[]) => {
@@ -30,15 +31,14 @@ const pickOptionsFromGroupedOptions = (options: IGroupedOption[]) => {
 
 export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxListing, any> {
   render() {
-    const { groupedOptions, value, onChange } = this.props;
-    console.log(groupedOptions, 'groupedOptions')
+    const { groupedOptions, value, onChange, getGroupTitle } = this.props;
     return (
       <div>
         {
-          map(groupedOptions, (options: IGroupedOption[], key: number) => {
+          map(groupedOptions, (options: IGroupedOption[], key: string | number) => {
             return (
               <div key={key}>
-                <div>{key}</div>
+                <div>{getGroupTitle(key)}</div>
                 <CheckboxListing
                   options={pickOptionsFromGroupedOptions(options)}
                   onChange={onChange}
