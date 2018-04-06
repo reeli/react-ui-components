@@ -1,4 +1,7 @@
-import { map, } from 'lodash';
+import {
+  Dictionary,
+  map,
+} from 'lodash';
 import * as React from 'react';
 import {
   IMultiSelectProps,
@@ -12,7 +15,7 @@ export interface IGroupedOption extends ISelectOption {
 
 export interface IGroupedCheckboxListing {
   value?: string[] | number[];
-  groupedOptions: IGroupedOption[][];
+  groupedOptions: Dictionary<IGroupedOption[]>;
   onChange: IMultiSelectProps['onChange'];
 }
 
@@ -28,6 +31,7 @@ const pickOptionsFromGroupedOptions = (options: IGroupedOption[]) => {
 export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxListing, any> {
   render() {
     const { groupedOptions, value, onChange } = this.props;
+    console.log(groupedOptions, 'groupedOptions')
     return (
       <div>
         {
