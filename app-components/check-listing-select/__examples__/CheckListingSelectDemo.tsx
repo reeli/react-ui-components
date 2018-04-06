@@ -1,12 +1,10 @@
 import { css } from 'glamor';
 import {
-  Dictionary,
+  filter,
   find,
-  groupBy,
-  pick,
+  includes,
 } from 'lodash';
 import * as React from 'react';
-import { IGroupedOption } from '../../listing/GroupedCheckboxListing';
 import {
   ISelectedValues,
   ISelectOption,
@@ -67,9 +65,10 @@ const cities = [
   },
 ];
 
-const getGroupedCitiesBySelectedProvinces = (data: any, provincesValue: any[]) => {
-  const groupedCity = groupBy(data, 'group') as Dictionary<IGroupedOption[]>;
-  return pick(groupedCity, provincesValue) as Dictionary<IGroupedOption[]>;
+const getCitiesBySelectedProvinces = (data: ISelectOption[], provincesValue: any[]) => {
+  return filter(data, (item: ISelectOption) => {
+    return includes(provincesValue, item.group);
+  })
 };
 
 const getDisplayByValue = (value: string | number, options: ISelectOption[]) => {
@@ -81,7 +80,7 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
   state = {
     provincesValue: [],
     cityValue: [],
-    groupedCities: {},
+    cities: {} as ISelectOption[],
   };
 
   handleCityChange = (selectedValues?: ISelectedValues) => {
@@ -97,7 +96,7 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
       provincesValue: selectedValues,
     }, () => {
       this.setState({
-        groupedCities: getGroupedCitiesBySelectedProvinces(cities, this.state.provincesValue),
+        cities: getCitiesBySelectedProvinces(cities, this.state.provincesValue),
       })
     });
   };
@@ -116,7 +115,7 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
         <div {...css({ flex: 1 })}>
           <GroupedCheckListingSelect
             selectedValues={this.state.cityValue}
-            groupedOptions={this.state.groupedCities}
+            options={this.state.cities}
             onChange={this.handleCityChange}
             getGroupTitle={(key) => {
               return getDisplayByValue(key, provinces);

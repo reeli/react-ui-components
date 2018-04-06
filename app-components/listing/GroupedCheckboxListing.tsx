@@ -1,53 +1,53 @@
 import {
   Dictionary,
+  groupBy,
   map,
 } from 'lodash';
 import * as React from 'react';
 import {
   ISelectedValues,
   ISelectOption,
+  MultiSelect,
 } from '../multi-select/MultiSelect';
 import {
-  CheckboxListing,
+  CheckList,
   ICheckboxListingProps,
 } from './CheckboxListing';
 
-export interface IGroupedOption extends ISelectOption {
-  group: string | number;
-}
-
 export interface IGroupedCheckboxListing {
   selectedValues?: ISelectedValues;
-  groupedOptions: Dictionary<IGroupedOption[]>;
+  options: ISelectOption[];
   getGroupTitle: (key: string | number) => string | number;
   onChange: ICheckboxListingProps['onChange'];
 }
 
-const pickOptionsFromGroupedOptions = (options: IGroupedOption[]) => {
-  return map(options, (option) => {
-    return {
-      display: option.display,
-      value: option.value,
-    }
-  });
-};
-
 export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxListing, any> {
   render() {
-    const { groupedOptions, selectedValues, getGroupTitle, onChange } = this.props;
+    const { options, selectedValues, getGroupTitle, onChange } = this.props;
     return (
-      map(groupedOptions, (options: IGroupedOption[], key: string | number) => {
-        return (
-          <div key={key}>
-            <div>{getGroupTitle(key)}</div>
-            <CheckboxListing
-              options={pickOptionsFromGroupedOptions(options)}
-              selectedValues={selectedValues}
-              onChange={onChange}
-            />
-          </div>
-        );
-      })
+      <MultiSelect
+        selectedValues={selectedValues}
+        onSelectedValuesChange={(nextSelectedValues) => {
+          onChange(nextSelectedValues);
+        }}
+        options={options}
+      >
+        {() => {
+          const groups = groupBy(options, 'group') as Dictionary<ISelectOption[]>;
+          return map(groups, (groupOptions: ISelectOption[], key: string | number) => {
+            return (
+              <div key={key}>
+                <div>{getGroupTitle(key)}</div>
+                <CheckList
+                  selectedValues={selectedValues}
+                  options={groupOptions}
+                  updateSelectedValues={onChange}
+                />
+              </div>
+            );
+          })
+        }}
+      </MultiSelect>
     );
   }
 }

@@ -13,6 +13,7 @@ import { ReactNode } from 'react';
 export interface ISelectOption {
   value: string | number;
   display: string | number;
+  group?: string | number;
 }
 
 export type ISelectedValues = string[] | number[];
@@ -22,14 +23,17 @@ interface IMultiSelectInnerProps {
   selectedValues?: ISelectedValues;
 }
 
-// controlled MultiSelect and uncontrolled MultiSelect
+// controlled MultiSelect and uncontrolled MultiSelect (由内向外还是由外向内，理解数据的流向)
 // controlled MultiSelect: selectedValue, updateSelectedValue 状态全部由外部去维护，可以通过改变 selectedValue 和直接调用 updateSelectedValue 两种方式去更新
 // uncontrolled MultiSelect: selectedValue, onSelectedValuesChange 状态由内部维护，但是当内部状态发生变化时，需要将内部状态通知给外部，然后再通过外部的 state 更新 value
+// options
+
 
 export interface IMultiSelectProps {
   selectedValues?: ISelectedValues;
   onSelectedValuesChange?: (selectedValues?: ISelectedValues) => void;
   children: (props: IMultiSelectInnerProps) => ReactNode;
+  options: ISelectOption[];
 }
 
 interface IMultiSelectState {
@@ -73,11 +77,17 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
     }
   }
 
-  componentDidUpdate(_: any, prevState: IMultiSelectState) {
+  componentDidUpdate(prevProps: IMultiSelectProps, prevState: IMultiSelectState) {
     if (!isEqual(prevState.selected, this.state.selected)) {
       if (this.props.onSelectedValuesChange) {
         this.props.onSelectedValuesChange(this.getSelectedValues())
       }
+    }
+
+    if (!isEqual(prevProps.options, this.props.options)) {
+      this.setState({
+        selected: this.removeInvalidSelectedValues(this.state.selected, this.props.options),
+      })
     }
   }
 
@@ -87,8 +97,18 @@ export class MultiSelect extends React.Component<IMultiSelectProps, IMultiSelect
     })
   };
 
+  removeInvalidSelectedValues = (selected: Dictionary<boolean>, options: ISelectOption[]) => {
+    const nextSelected = {} as Dictionary<boolean>;
+    forEach(options, (option: ISelectOption) => {
+      if (selected[option.value]) {
+        nextSelected[option.value] = selected[option.value];
+      }
+    });
+    return nextSelected;
+  }
+
   getSelectedValues = () => {
-    const result = pickBy(this.state.selected, value => value);
+    const result = pickBy(this.state.selected, value => value) as Dictionary<boolean>;
     return keys(result);
   }
 

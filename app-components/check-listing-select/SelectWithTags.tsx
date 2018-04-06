@@ -49,9 +49,13 @@ export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelec
       <div {...triggerElementWrapperStyles}>
         <Input placeholder={!isEmpty(selectedValues) ? '' : placeholder} onClick={onClick} readOnly />
         <div {...tagsWrapperStyles}>
-          <MultiSelect selectedValues={selectedValues} onSelectedValuesChange={(nextSelectedValues) => {
-            onChange(nextSelectedValues);
-          }}>
+          <MultiSelect
+            selectedValues={selectedValues}
+            onSelectedValuesChange={(nextSelectedValues) => {
+              onChange(nextSelectedValues);
+            }}
+            options={options}
+          >
             {({ selectedValues, updateSelectedValues }) => {
               return map(options, (option: ISelectOption) => {
                 return (

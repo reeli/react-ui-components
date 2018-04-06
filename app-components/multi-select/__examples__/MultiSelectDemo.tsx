@@ -32,7 +32,7 @@ export class MultiSelectDemo extends React.Component<any, any> {
 
   render() {
     return (
-      <MultiSelect selectedValues={this.state.values}>
+      <MultiSelect selectedValues={this.state.values} options={options}>
         {({ selectedValues }) => {
           console.log(selectedValues, 'selectedValues')
           return map(options, (option) => {

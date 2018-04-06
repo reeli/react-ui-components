@@ -1,6 +1,5 @@
 import {
-  Dictionary,
-  forEach,
+  filter,
   includes,
 } from 'lodash';
 import * as React from 'react';
@@ -12,7 +11,6 @@ import { ICheckboxListingProps } from '../listing/CheckboxListing';
 import {
   GroupedCheckboxListing,
   IGroupedCheckboxListing,
-  IGroupedOption,
 } from '../listing/GroupedCheckboxListing';
 import {
   ISelectedValues,
@@ -23,36 +21,27 @@ import { SelectWithTags } from './SelectWithTags';
 interface IGroupedCheckListingSelectProps {
   selectedValues?: ISelectedValues;
   placeholder?: string;
-  groupedOptions: Dictionary<IGroupedOption[]>;
+  options: ISelectOption[];
   getGroupTitle: IGroupedCheckboxListing['getGroupTitle'];
   onChange: ICheckboxListingProps['onChange'];
 }
 
-const pickSelectedOptionsByValue = (groupedOptions: Dictionary<IGroupedOption[]>, value: ISelectedValues = []) => {
-  const selectedOptions: ISelectOption[] = [];
-  forEach(groupedOptions, (options: IGroupedOption[]) => {
-    forEach(options, (option: IGroupedOption) => {
-      if (includes(value, option.value)) {
-        selectedOptions.push({
-          value: option.value,
-          display: option.display,
-        })
-      }
-    })
+const pickSelectedOptionsByValue = (options: ISelectOption[], value: ISelectedValues = []) => {
+  return filter(options, (option: ISelectOption) => {
+    return includes(value, option.value);
   });
-  return selectedOptions;
 };
 
 export class GroupedCheckListingSelect extends React.Component<IGroupedCheckListingSelectProps, any> {
   render() {
-    const { placeholder, groupedOptions, getGroupTitle, onChange } = this.props;
+    const { placeholder, options, getGroupTitle, onChange } = this.props;
     const { selectedValues } = this.props;
     return (
       <OverlayTrigger
         content={() => (
           <GroupedCheckboxListing
             selectedValues={selectedValues}
-            groupedOptions={groupedOptions}
+            options={options}
             onChange={onChange}
             getGroupTitle={getGroupTitle}
           />
@@ -64,7 +53,7 @@ export class GroupedCheckListingSelect extends React.Component<IGroupedCheckList
           return (
             <SelectWithTags
               selectedValues={selectedValues}
-              options={pickSelectedOptionsByValue(groupedOptions, selectedValues)}
+              options={pickSelectedOptionsByValue(options, selectedValues)}
               placeholder={placeholder}
               onClick={toggle}
               onChange={onChange}

@@ -30,34 +30,56 @@ const listItemStyles = css({
   },
 });
 
+interface ICheckListProps {
+  options: ISelectOption[];
+  selectedValues?: ISelectedValues;
+  updateSelectedValues: (value: ISelectedValues) => void;
+}
+
+export const CheckList = ({ options, selectedValues, updateSelectedValues }: ICheckListProps) => (
+  <>
+    {map(options, (option) => {
+      const isChecked = isValueInSelectedValues(option.value, selectedValues);
+      return (
+        <div key={option.value} {...listItemStyles}>
+          <Checkbox
+            value={isChecked}
+            onChange={() => {
+              isChecked
+                ? updateSelectedValues(dropValue(option.value, selectedValues))
+                : updateSelectedValues(addValue(option.value, selectedValues));
+            }}
+            label={option.display}
+          />
+        </div>
+      );
+    })}
+  </>
+);
+
 export class CheckboxListing extends React.Component<ICheckboxListingProps, any> {
   render() {
     const { options, onChange, selectedValues } = this.props;
     return (
-      <ul {...listStyles}>
-        <MultiSelect selectedValues={selectedValues} onSelectedValuesChange={(nextSelectedValues) => {
-          onChange(nextSelectedValues);
-        }}>
+      <div {...listStyles}>
+        <MultiSelect
+          selectedValues={selectedValues}
+          onSelectedValuesChange={(nextSelectedValues) => {
+            onChange(nextSelectedValues);
+          }}
+          options={options}
+        >
           {({ selectedValues, updateSelectedValues }) => {
-            return map(options, (option) => {
-              const isChecked = isValueInSelectedValues(option.value, selectedValues);
-              return (
-                <li key={option.value} {...listItemStyles}>
-                  <Checkbox
-                    value={isChecked}
-                    onChange={() => {
-                      isChecked
-                        ? updateSelectedValues(dropValue(option.value, selectedValues))
-                        : updateSelectedValues(addValue(option.value, selectedValues));
-                    }}
-                    label={option.display}
-                  />
-                </li>
-              );
-            })
+            return (
+              <CheckList
+                selectedValues={selectedValues}
+                updateSelectedValues={updateSelectedValues}
+                options={options}
+              />
+            )
           }}
         </MultiSelect>
-      </ul>
+      </div>
     );
   }
 }
