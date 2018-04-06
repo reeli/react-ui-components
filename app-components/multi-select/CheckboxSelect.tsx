@@ -17,14 +17,14 @@ import {
 } from '../with-multi-select/WithMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
-interface ICheckListingSelectProps {
+interface ICheckboxSelectProps {
   selectedValues?: ISelectedValues;
   placeholder?: string;
   options: ISelectOption[];
   onChange: ICheckboxListingProps['onChange'];
 }
 
-export class CheckListingSelect extends React.Component<ICheckListingSelectProps, any> {
+export class CheckboxSelect extends React.Component<ICheckboxSelectProps, any> {
   render() {
     const { placeholder, options, onChange, selectedValues } = this.props;
     return (

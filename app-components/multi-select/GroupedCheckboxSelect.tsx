@@ -18,7 +18,7 @@ import {
 } from '../with-multi-select/WithMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
-interface IGroupedCheckListingSelectProps {
+interface IGroupedCheckboxSelectProps {
   selectedValues?: ISelectedValues;
   placeholder?: string;
   options: ISelectOption[];
@@ -32,7 +32,7 @@ const pickSelectedOptionsByValue = (options: ISelectOption[], value: ISelectedVa
   });
 };
 
-export class GroupedCheckListingSelect extends React.Component<IGroupedCheckListingSelectProps, any> {
+export class GroupedCheckboxSelect extends React.Component<IGroupedCheckboxSelectProps, any> {
   render() {
     const { placeholder, options, getGroupTitle, onChange } = this.props;
     const { selectedValues } = this.props;

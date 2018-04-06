@@ -8,9 +8,9 @@ import * as React from 'react';
 import {
   ISelectedValues,
   ISelectOption,
-} from '../../multi-select/MultiSelect';
-import { CheckListingSelect } from '../CheckListingSelect';
-import { GroupedCheckListingSelect } from '../GroupedCheckListingSelect';
+} from '../../with-multi-select/WithMultiSelect';
+import { CheckboxSelect } from '../CheckboxSelect';
+import { GroupedCheckboxSelect } from '../GroupedCheckboxSelect';
 
 const provinces = [
   {
@@ -105,7 +105,7 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
     return (
       <div {...css({ display: 'flex' })}>
         <div {...css({ flex: 1 })}>
-          <CheckListingSelect
+          <CheckboxSelect
             selectedValues={this.state.provincesValue}
             options={provinces}
             onChange={this.handleProvinceChange}
@@ -113,7 +113,7 @@ export class CheckListingSelectDemo extends React.Component<any, any> {
           />
         </div>
         <div {...css({ flex: 1 })}>
-          <GroupedCheckListingSelect
+          <GroupedCheckboxSelect
             selectedValues={this.state.cityValue}
             options={this.state.cities}
             onChange={this.handleCityChange}
