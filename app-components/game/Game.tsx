@@ -56,15 +56,22 @@ const gameData: IGameData = {
 export class Game extends React.Component<any, any> {
   state = {
     isStart: false,
-    disappearItemId: null,
+    disappearItem: null,
     scores: 0,
+    targetWords: [],
   }
 
-  handleClick = (id: string) => {
-    const ele = this.refs[id];
+  componentDidMount() {
+    this.setState({
+      targetWords: this.getTargetWords(gameData),
+    });
+  }
+
+  handleClick = (word: string) => {
+    const ele = this.refs[word];
     if (ele && ele.state.top > 0) {
       this.setState({
-        disappearItemId: id,
+        disappearItem: word,
       }, () => {
         this.setState({
           scores: this.state.scores + 50,
@@ -82,35 +89,35 @@ export class Game extends React.Component<any, any> {
 
   render() {
     return (
-      <div>
+      <div {...css({ width: "370px" })}>
         <div {...containerStyles}>
           {this.state.isStart
             ? map(gameData.words, (word, idx: number) => {
-              return word.id === this.state.disappearItemId
+              return word.target === this.state.disappearItem
                 ? null
                 : <Word
                   key={idx}
                   text={word.origin}
-                  step={10}
+                  step={20}
                   initPosition={{ top: -idx * 80 }}
-                  ref={word.id}
+                  ref={word.target}
                   clientHeight={480}
                 />;
             })
             : null}
         </div>
         <div>
-          {map(gameData.words, (word, idx) => {
+          {map(this.state.targetWords, (word, idx) => {
             return <div
-              onClick={() => this.handleClick(word.id)}
               key={idx}
+              onClick={() => this.handleClick(word)}
               {...css({
                 display: "inline-block",
                 border: "1px solid #ccc",
                 margin: "0.5rem",
                 padding: "0 0.5rem",
               })}>
-              {word.target}
+              {word}
             </div>
           })}
         </div>

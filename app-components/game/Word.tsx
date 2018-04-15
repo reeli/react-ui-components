@@ -7,7 +7,7 @@ interface IWordProps {
   step?: number;
   timeSpace?: number;
   initPosition: {
-    top: number
+    top: number;
   };
   clientHeight: number;
 }
