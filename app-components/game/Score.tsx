@@ -6,6 +6,6 @@ interface IScoreProps {
 
 export class Score extends React.PureComponent<IScoreProps> {
   render() {
-    return <div>{this.props.scores}</div>
+    return <div>Scores: {this.props.scores}</div>
   }
 }

@@ -14,6 +14,7 @@ const containerStyles = css({
   border: "1px solid #ccc",
   position: "relative",
   backgroundColor: "#7080E6",
+  overflow: "hidden",
 });
 
 
@@ -79,6 +80,7 @@ export class Game extends React.Component<IGameProps, any> {
   render() {
     return (
       <div {...css({ width: "370px", position: "relative" })}>
+        <Score scores={this.state.scores} />
         <div {...containerStyles}>
           {this.state.isStart
             ? map(this.state.words, (word, idx: number) => {
@@ -109,7 +111,6 @@ export class Game extends React.Component<IGameProps, any> {
             </div>
           })}
         </div>
-        <Score scores={this.state.scores} />
         <button onClick={() => {
           this.setState({
             isStart: true,
