@@ -10,6 +10,7 @@ interface IWordProps {
     left: number;
   };
   clientHeight: number;
+  outOfStage: (isOutOfStage: boolean) => void;
 }
 
 interface IWordState {
@@ -49,6 +50,9 @@ export class Word extends React.PureComponent<IWordProps, IWordState> {
 
   move() {
     const { step = 10 } = this.props;
+    if (this.state.top > 0 && this.state.top < this.props.clientHeight && this.props.outOfStage) {
+      this.props.outOfStage(false);
+    }
     if (this.state.top <= this.props.clientHeight) {
       this.setState(prevState => ({
         ...prevState,
