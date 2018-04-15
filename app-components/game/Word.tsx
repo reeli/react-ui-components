@@ -3,14 +3,9 @@ import * as React from "react";
 
 interface IWordProps {
   text: string;
-  step: number;
-  timeSpace?: number;
-  initPosition: {
-    top: number;
-    left: number;
-  };
-  clientHeight: number;
-  outOfStage: (isOutOfStage: boolean) => void;
+  top: number;
+  left: number;
+  visible?: boolean;
 }
 
 interface IWordState {
@@ -23,7 +18,9 @@ const wordContainerStyles = css({
 });
 
 const wordStyles = css({
-  padding: "10px 20px",
+  padding: "0 20px",
+  height: "30px",
+  lineHeight: "30px",
   borderRadius: "5px",
   color: "blue",
   backgroundColor: "#fff",
@@ -32,44 +29,12 @@ const wordStyles = css({
 });
 
 export class Word extends React.PureComponent<IWordProps, IWordState> {
-  state = {
-    top: this.props.initPosition.top,
-    left: this.props.initPosition.left,
-  };
-
-  componentDidMount() {
-    this.setMove();
-  }
-
-  setMove() {
-    const { timeSpace = 1000 } = this.props;
-    setTimeout(() => {
-      this.move();
-    }, timeSpace)
-  }
-
-  move() {
-    const { step = 10 } = this.props;
-    if (this.state.top > 0 && this.state.top < this.props.clientHeight && this.props.outOfStage) {
-      this.props.outOfStage(false);
-    }
-    if (this.state.top <= this.props.clientHeight) {
-      this.setState(prevState => ({
-        ...prevState,
-        top: this.state.top + step,
-      }), () => {
-        this.setMove();
-      });
-    }
-  }
-
   render() {
-    return this.state.top > this.props.clientHeight
-      ? null
-      : (
-        <div {...css(wordContainerStyles, { top: this.state.top, left: this.state.left })}>
-          <div {...wordStyles}>{this.props.text}</div>
-        </div>
-      );
+    const { visible = false, top, left, text } = this.props;
+    return (
+      <div {...css(wordContainerStyles, { top, left, opacity: visible ? 1 : 0.5 })}>
+        <div {...wordStyles}>{text}</div>
+      </div>
+    )
   }
 }

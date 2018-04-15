@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Game,
   IGameData,
@@ -33,6 +33,6 @@ const gameData: IGameData = {
 
 export class GameDemo extends React.Component<any, any> {
   render() {
-    return <Game gameData={gameData} />;
+    return <Game gameData={gameData} wordHeight={30} />;
   }
 }

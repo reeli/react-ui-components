@@ -8,6 +8,7 @@ import {
 import * as React from "react";
 import { Score } from "./Score";
 import { Word } from "./Word";
+import { WordList } from "./WordList";
 
 const containerStyles = css({
   width: "370px",
@@ -32,16 +33,21 @@ export interface IGameData {
 
 interface IGameProps {
   gameData: IGameData;
+  timeSpace?: number;
+  step?: number;
+  clientHeight?: number;
+  wordHeight:number
 }
 
-interface IWordState extends IWord {
-  hide?: boolean;
+export interface IWordWithState extends IWord {
+  top: number;
+  left: number;
   isOutOfStage?: boolean;
-  isChecked?: boolean;
+  isSelected?: boolean;
 }
 
 interface IGameState {
-  words: IWordState[];
+  words: IWordWithState[];
   scores: number;
   isStart: boolean;
 }
@@ -55,12 +61,13 @@ export class Game extends React.Component<IGameProps, IGameState> {
 
   getWords() {
     const initWordState = {
-      hide: false,
-      isOutOfState: true,
-      isChecked: false,
+      isOutOfStage: true,
+      isSelected: false,
     };
     const initWords = map(this.props.gameData.words, (word) => {
       return {
+        top: 0,
+        left: 0,
         ...word,
         ...initWordState,
       };
@@ -70,32 +77,87 @@ export class Game extends React.Component<IGameProps, IGameState> {
         id: "",
         origin: "",
         target: interference,
+        top: 0,
+        left: 0,
         ...initWordState,
       }
     });
     return shuffle(initWords.concat(interferences));
   }
 
+
+  componentDidUpdate(_: any, prevState: IGameState) {
+    if (this.state.isStart && prevState.isStart !== this.state.isStart) {
+      this.initWords();
+    }
+  }
+
+  initWords() {
+    const interference = filter(this.state.words, (item) => {
+      return !item.origin;
+    });
+    const originWords = this.getWordsWithPositions(this.dropInterferences(this.state.words), true);
+    this.setState({
+      words: [
+        ...interference,
+        ...originWords,
+      ],
+    }, () => {
+      this.setMove();
+    });
+  }
+
+  getWordsWithPositions(words: IWordWithState[], isInit: boolean) {
+    const { step = 10, clientHeight = 480,wordHeight } = this.props;
+    return map(words, (word: IWordWithState, idx: number) => {
+      return {
+        ...word,
+        top: isInit ? step * -(idx + 1) * (wordHeight/step) : word.top + step,
+        left: idx % 2 === 0 ? 100 : 200,
+        isOutOfStage: word.top < -wordHeight || word.top > clientHeight,
+      };
+    });
+  }
+
+  setMove() {
+    const { timeSpace = 1000 } = this.props;
+    setTimeout(() => {
+      const interference = filter(this.state.words, (item) => {
+        return !item.origin;
+      });
+      const originWords = this.getWordsWithPositions(this.dropInterferences(this.state.words), false);
+      this.setState({
+        words: [
+          ...interference,
+          ...originWords,
+        ],
+      }, () => {
+        if (this.state.isStart) {
+          this.setMove()
+        }
+      });
+    }, timeSpace)
+  }
+
   handleClick = (word: string) => {
-    const current = find(this.state.words, (item) => item.target === word) as IWordState;
-    if (current && !current.hide && !current.isOutOfStage) {
+    const current = find(this.state.words, (item) => item.target === word) as IWordWithState;
+    if (current && (!current.isOutOfStage || !current.origin) && !current.isSelected) {
       this.setState({
         words: map(this.state.words, (item) => {
           if (item.target === word) {
             return {
               ...item,
-              hide: true,
-              isChecked: true,
+              isSelected: true,
             }
           }
           return item;
         }),
-        scores: this.state.scores + 50,
+        scores: current.origin ? this.state.scores + 50 : this.state.scores - 50,
       });
     }
   };
 
-  dropInterferences(words: IWordState[]) {
+  dropInterferences(words: IWordWithState[]) {
     return filter(words, (item) => {
       return !!item.origin
     });
@@ -108,47 +170,19 @@ export class Game extends React.Component<IGameProps, IGameState> {
         <div {...containerStyles}>
           {this.state.isStart
             ? map(this.dropInterferences(this.state.words), (word, idx: number) => {
-              return word.hide
+              return word.isSelected
                 ? null
                 : <Word
                   key={idx}
                   text={word.origin}
-                  step={10}
-                  initPosition={{ top: -(idx + 1) * 40, left: idx % 2 === 0 ? 80 : 200 }}
-                  clientHeight={480}
-                  outOfStage={(isOutOfStage) => {
-                    this.setState({
-                      words: map(this.state.words, (item) => {
-                        if (item.id === word.id) {
-                          return {
-                            ...item,
-                            isOutOfStage,
-                          };
-                        }
-                        return item;
-                      }),
-                    })
-                  }}
+                  top={word.top}
+                  left={word.left}
+                  visible={!word.isOutOfStage}
                 />;
             })
             : null}
         </div>
-        <div {...css({ position: "relative", zIndex: 999 })}>
-          {map(this.state.words, (word: IWordState, idx) => {
-            return <div
-              key={idx}
-              onClick={() => this.handleClick(word.target)}
-              {...css({
-                display: "inline-block",
-                border: "1px solid #ccc",
-                margin: "0.5rem",
-                padding: "0 0.5rem",
-                color: word.isOutOfStage ? "#000" : (word.isChecked ? "green" : "red"),
-              })}>
-              {word.target}
-            </div>
-          })}
-        </div>
+        <WordList words={this.state.words} onWordClick={(word) => this.handleClick(word.target)} />
         <button onClick={() => {
           this.setState({
             isStart: true,
