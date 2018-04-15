@@ -1,7 +1,7 @@
 {
   "name": "react-ui-components",
   "version": "1.0.0",
-  "description": "",
+  "description": "react ui components",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --history-api-fallback",
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/HelloRuiLi/react-ui-components.git"
   },
-  "author": "",
+  "author": "HelloRuiLi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HelloRuiLi/react-ui-components/issues"
