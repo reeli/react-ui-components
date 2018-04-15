@@ -1,5 +1,6 @@
 import { css } from "glamor";
 import {
+  find,
   map,
   shuffle,
 } from "lodash";
@@ -22,91 +23,78 @@ interface IWord {
   target: string;
 }
 
-interface IGameData {
+export interface IGameData {
   words: IWord[];
   interferences: string[]
 }
 
-const gameData: IGameData = {
-  words: [
-    {
-      id: "1",
-      origin: "Yes",
-      target: "Ya",
-    },
-    {
-      id: "2",
-      origin: "No",
-      target: "Na",
-    },
-    {
-      id: "3",
-      origin: "Hello",
-      target: "Holla",
-    },
-    {
-      id: "4",
-      origin: "Morning",
-      target: "Morn",
-    },
-  ],
-  interferences: ["Sorry", "Hi", "You"],
-};
+interface IGameProps {
+  gameData: IGameData;
+}
 
-export class Game extends React.Component<any, any> {
+export class Game extends React.Component<IGameProps, any> {
   state = {
     isStart: false,
-    disappearItem: null,
     scores: 0,
+    words: map(this.props.gameData.words, (word) => {
+      return {
+        ...word,
+        show: true,
+      };
+    }),
     targetWords: [],
-  }
+  };
 
   componentDidMount() {
     this.setState({
-      targetWords: this.getTargetWords(gameData),
+      targetWords: this.getTargetWords(),
+    })
+  }
+
+  getTargetWords() {
+    const targetList = map(this.state.words, (word) => {
+      return word.target;
     });
+    return shuffle(targetList.concat(this.props.gameData.interferences));
   }
 
   handleClick = (word: string) => {
-    const ele = this.refs[word];
-    if (ele && ele.state.top > 0) {
+    const current = find(this.state.words, (item) => item.target === word);
+    if (current && current.show) {
       this.setState({
-        disappearItem: word,
-      }, () => {
-        this.setState({
-          scores: this.state.scores + 50,
-        })
-      })
+        words: map(this.state.words, (item) => {
+          if (item.target === word) {
+            return {
+              ...item,
+              show: false,
+            }
+          }
+          return item;
+        }),
+        scores: this.state.scores + 50,
+      });
     }
   };
 
-  getTargetWords(gameData: IGameData) {
-    const targetList = map(gameData.words, (word) => {
-      return word.target;
-    });
-    return shuffle(targetList.concat(gameData.interferences));
-  }
-
   render() {
     return (
-      <div {...css({ width: "370px" })}>
+      <div {...css({ width: "370px", position: "relative" })}>
         <div {...containerStyles}>
           {this.state.isStart
-            ? map(gameData.words, (word, idx: number) => {
-              return word.target === this.state.disappearItem
+            ? map(this.state.words, (word, idx: number) => {
+              return !word.show
                 ? null
                 : <Word
                   key={idx}
                   text={word.origin}
-                  step={20}
-                  initPosition={{ top: -idx * 80 }}
-                  ref={word.target}
+                  step={10}
+                  initPosition={{ top: -(idx + 1) * 40, left: idx % 2 === 0 ? 80 : 200 }}
                   clientHeight={480}
                 />;
             })
             : null}
         </div>
-        <div>
+        <div {...css({ position: "relative", zIndex: 999 })}>
           {map(this.state.targetWords, (word, idx) => {
             return <div
               key={idx}

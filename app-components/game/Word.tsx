@@ -1,19 +1,20 @@
 import { css } from "glamor";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 
 interface IWordProps {
   text: string;
-  step?: number;
+  step: number;
   timeSpace?: number;
   initPosition: {
     top: number;
+    left: number;
   };
   clientHeight: number;
 }
 
 interface IWordState {
   top: number;
+  left: number;
 }
 
 const wordContainerStyles = css({
@@ -30,46 +31,39 @@ const wordStyles = css({
 });
 
 export class Word extends React.PureComponent<IWordProps, IWordState> {
-  node: HTMLElement | null = null;
-
   state = {
-    top: 0,
-    destroy: false,
+    top: this.props.initPosition.top,
+    left: this.props.initPosition.left,
   };
 
   componentDidMount() {
-    const clientRect = this.getClientRect();
-    this.setState({
-      top: this.props.initPosition.top - clientRect.height,
-    });
+    this.setMove();
   }
 
-  getClientRect() {
-    this.node = ReactDOM.findDOMNode(this) as HTMLElement;
-    return this.node.getBoundingClientRect() as ClientRect;
-  }
-
-  componentDidUpdate() {
-    const { step = 10, timeSpace = 1000, clientHeight } = this.props;
-    if (this.node && this.state.top > clientHeight) {
-      this.setState(prevState => ({
-        ...prevState,
-        destroy: true,
-      }));
-    }
+  setMove() {
+    const { timeSpace = 1000 } = this.props;
     setTimeout(() => {
+      this.move();
+    }, timeSpace)
+  }
+
+  move() {
+    const { step = 10 } = this.props;
+    if (this.state.top <= this.props.clientHeight) {
       this.setState(prevState => ({
         ...prevState,
         top: this.state.top + step,
-      }));
-    }, timeSpace);
+      }), () => {
+        this.setMove();
+      });
+    }
   }
 
   render() {
-    return this.state.destroy
+    return this.state.top > this.props.clientHeight
       ? null
       : (
-        <div {...css(wordContainerStyles, { top: this.state.top })}>
+        <div {...css(wordContainerStyles, { top: this.state.top, left: this.state.left })}>
           <div {...wordStyles}>{this.props.text}</div>
         </div>
       );
