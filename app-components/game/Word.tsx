@@ -6,6 +6,10 @@ interface IWordProps {
   text: string;
   step?: number;
   timeSpace?: number;
+  initPosition: {
+    top: number
+  };
+  clientHeight: number;
 }
 
 interface IWordState {
@@ -30,12 +34,13 @@ export class Word extends React.PureComponent<IWordProps, IWordState> {
 
   state = {
     top: 0,
+    destroy: false,
   };
 
   componentDidMount() {
     const clientRect = this.getClientRect();
     this.setState({
-      top: clientRect.top - clientRect.height,
+      top: this.props.initPosition.top - clientRect.height,
     });
   }
 
@@ -45,19 +50,28 @@ export class Word extends React.PureComponent<IWordProps, IWordState> {
   }
 
   componentDidUpdate() {
-    const { step = 10, timeSpace = 1000 } = this.props;
+    const { step = 10, timeSpace = 1000, clientHeight } = this.props;
+    if (this.node && this.state.top > clientHeight) {
+      this.setState(prevState => ({
+        ...prevState,
+        destroy: true,
+      }));
+    }
     setTimeout(() => {
-      this.setState({
+      this.setState(prevState => ({
+        ...prevState,
         top: this.state.top + step,
-      });
+      }));
     }, timeSpace);
   }
 
   render() {
-    return (
-      <div {...css(wordContainerStyles, { top: this.state.top })}>
-        <div {...wordStyles}>{this.props.text}</div>
-      </div>
-    );
+    return this.state.destroy
+      ? null
+      : (
+        <div {...css(wordContainerStyles, { top: this.state.top })}>
+          <div {...wordStyles}>{this.props.text}</div>
+        </div>
+      );
   }
 }
