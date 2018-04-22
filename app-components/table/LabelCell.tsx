@@ -15,7 +15,5 @@ const labelStyles = css({
 });
 
 export const LabelCell = ({ label, labelRender }: ILabelCell) => {
-  return labelRender
-    ? <div {...labelStyles}>{labelRender()}</div>
-    : <div {...labelStyles}>{label ? label : ''}</div>;
+  return labelRender ? <div {...labelStyles}>{labelRender()}</div> : <div {...labelStyles}>{label ? label : ''}</div>;
 };

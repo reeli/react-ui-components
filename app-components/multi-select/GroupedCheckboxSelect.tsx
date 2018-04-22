@@ -1,21 +1,9 @@
-import {
-  filter,
-  includes,
-} from 'lodash';
+import { filter, includes } from 'lodash';
 import * as React from 'react';
-import {
-  OverlayTrigger,
-  Placement,
-} from '../core/OverlayTrigger';
+import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 import { ICheckboxListingProps } from '../listing/CheckboxListing';
-import {
-  GroupedCheckboxListing,
-  IGroupedCheckboxListing,
-} from '../listing/GroupedCheckboxListing';
-import {
-  ISelectedValues,
-  ISelectOption,
-} from '../with-multi-select/WithMultiSelect';
+import { GroupedCheckboxListing, IGroupedCheckboxListing } from '../listing/GroupedCheckboxListing';
+import { ISelectedValues, ISelectOption } from '../with-multi-select/WithMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
 interface IGroupedCheckboxSelectProps {
@@ -58,9 +46,9 @@ export class GroupedCheckboxSelect extends React.Component<IGroupedCheckboxSelec
               onClick={toggle}
               onChange={onChange}
             />
-          )
+          );
         }}
       </OverlayTrigger>
-    )
+    );
   }
 }

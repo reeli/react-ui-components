@@ -1,12 +1,4 @@
-import {
-  Dictionary,
-  filter,
-  forEach,
-  includes,
-  isEqual,
-  keys,
-  pickBy,
-} from 'lodash';
+import { Dictionary, filter, forEach, includes, isEqual, keys, pickBy } from 'lodash';
 import * as React from 'react';
 import { ReactNode } from 'react';
 
@@ -31,7 +23,7 @@ export interface IWithMultiSelectProps {
 }
 
 interface IWithMultiSelectState {
-  selected: Dictionary<boolean>
+  selected: Dictionary<boolean>;
 }
 
 export const dropValue = (value: string | number, values: ISelectedValues = []) => {
@@ -39,10 +31,7 @@ export const dropValue = (value: string | number, values: ISelectedValues = []) 
 };
 
 export const addValue = (value: string | number, values: ISelectedValues = []) => {
-  return [
-    ...values,
-    value,
-  ] as ISelectedValues | any[];
+  return [...values, value] as ISelectedValues | any[];
 };
 
 export const isValueInSelectedValues = (value: string | number, selectedValues?: ISelectedValues) => {
@@ -52,7 +41,7 @@ export const isValueInSelectedValues = (value: string | number, selectedValues?:
 export class WithMultiSelect extends React.Component<IWithMultiSelectProps, IWithMultiSelectState> {
   state = {
     selected: WithMultiSelect.getSelectedFromValue(this.props.selectedValues),
-  }
+  };
 
   static getSelectedFromValue = (value?: ISelectedValues) => {
     const selected = {} as Dictionary<boolean>;
@@ -61,7 +50,7 @@ export class WithMultiSelect extends React.Component<IWithMultiSelectProps, IWit
     });
 
     return selected;
-  }
+  };
 
   componentWillReceiveProps(nextProps: IWithMultiSelectProps) {
     if (!isEqual(nextProps.selectedValues, this.props.selectedValues)) {
@@ -74,21 +63,21 @@ export class WithMultiSelect extends React.Component<IWithMultiSelectProps, IWit
   componentDidUpdate(prevProps: IWithMultiSelectProps, prevState: IWithMultiSelectState) {
     if (!isEqual(prevState.selected, this.state.selected)) {
       if (this.props.onSelectedValuesChange) {
-        this.props.onSelectedValuesChange(this.getSelectedValues())
+        this.props.onSelectedValuesChange(this.getSelectedValues());
       }
     }
 
     if (!isEqual(prevProps.options, this.props.options)) {
       this.setState({
         selected: this.removeInvalidSelectedValues(this.state.selected, this.props.options),
-      })
+      });
     }
   }
 
   updateSelectedValues = (value?: ISelectedValues) => {
     this.setState({
       selected: WithMultiSelect.getSelectedFromValue(value),
-    })
+    });
   };
 
   removeInvalidSelectedValues = (selected: Dictionary<boolean>, options: ISelectOption[]) => {
@@ -99,17 +88,17 @@ export class WithMultiSelect extends React.Component<IWithMultiSelectProps, IWit
       }
     });
     return nextSelected;
-  }
+  };
 
   getSelectedValues = () => {
     const result = pickBy(this.state.selected, value => value) as Dictionary<boolean>;
     return keys(result);
-  }
+  };
 
   render() {
     return this.props.children({
       updateSelectedValues: this.updateSelectedValues,
       selectedValues: this.getSelectedValues(),
-    })
+    });
   }
 }

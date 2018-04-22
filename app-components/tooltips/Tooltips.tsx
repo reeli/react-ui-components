@@ -1,16 +1,13 @@
 import { css } from 'glamor';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import {
-  OverlayTrigger,
-  Placement,
-} from '../core/OverlayTrigger';
+import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 
 interface ITooltipsProps {
   children: JSX.Element | null | string;
-  width?: string
-  content?: string | JSX.Element | null
-  placement?: Placement,
+  width?: string;
+  content?: string | JSX.Element | null;
+  placement?: Placement;
 }
 
 const tooltipsStyles = css({
@@ -37,7 +34,6 @@ const arrowUp = css({
   width: 0,
   height: 0,
 });
-
 
 export class Tooltips extends React.Component<ITooltipsProps, any> {
   private tooltipTrigger: Element | null = null;

@@ -1,15 +1,8 @@
 import * as React from 'react';
-import {
-  OverlayTrigger,
-  Placement,
-} from '../core/OverlayTrigger';
+import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 import { Input } from '../input/Input';
-import {
-  IListingItem,
-  IListingProps,
-  Listing,
-} from '../listing/Listing';
-import { IPortalPropsInnerProps, } from '../portal/Portal';
+import { IListingItem, IListingProps, Listing } from '../listing/Listing';
+import { IPortalPropsInnerProps } from '../portal/Portal';
 
 export interface ISelectProps extends IListingProps {
   value: string;

@@ -37,7 +37,7 @@ interface ICheckListProps {
 
 export const CheckList = ({ options, selectedValues, updateSelectedValues }: ICheckListProps) => (
   <>
-    {map(options, (option) => {
+    {map(options, option => {
       const isChecked = isValueInSelectedValues(option.value, selectedValues);
       return (
         <div key={option.value} {...listItemStyles}>
@@ -63,7 +63,7 @@ export class CheckboxListing extends React.Component<ICheckboxListingProps, any>
       <div {...listStyles}>
         <WithMultiSelect
           selectedValues={selectedValues}
-          onSelectedValuesChange={(nextSelectedValues) => {
+          onSelectedValuesChange={nextSelectedValues => {
             onChange(nextSelectedValues);
           }}
           options={options}
@@ -75,7 +75,7 @@ export class CheckboxListing extends React.Component<ICheckboxListingProps, any>
                 updateSelectedValues={updateSelectedValues}
                 options={options}
               />
-            )
+            );
           }}
         </WithMultiSelect>
       </div>

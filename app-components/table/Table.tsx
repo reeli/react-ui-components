@@ -1,10 +1,7 @@
 import { css } from 'glamor';
 import { map } from 'lodash';
 import * as React from 'react';
-import {
-  IColumn,
-  Row,
-} from './Row';
+import { IColumn, Row } from './Row';
 
 interface ITable {
   dataSource: any[];

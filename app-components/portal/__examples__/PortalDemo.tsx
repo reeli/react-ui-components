@@ -16,7 +16,7 @@ export class PortalDemo extends React.Component<any, any> {
               gooooooooooooood!! <span onClick={close}>X</span>
             </span>
           )}
-          beforeClose={(resetPortal) => {
+          beforeClose={resetPortal => {
             console.log('before close');
             resetPortal();
           }}

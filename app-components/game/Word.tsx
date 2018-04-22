@@ -1,5 +1,5 @@
-import { css } from "glamor";
-import * as React from "react";
+import { css } from 'glamor';
+import * as React from 'react';
 
 interface IWordProps {
   text: string;
@@ -14,18 +14,18 @@ interface IWordState {
 }
 
 const wordContainerStyles = css({
-  position: "absolute",
+  position: 'absolute',
 });
 
 const wordStyles = css({
-  padding: "0 20px",
-  height: "30px",
-  lineHeight: "30px",
-  borderRadius: "5px",
-  color: "blue",
-  backgroundColor: "#fff",
-  textAlign: "center",
-  maxWidth: "200px",
+  padding: '0 20px',
+  height: '30px',
+  lineHeight: '30px',
+  borderRadius: '5px',
+  color: 'blue',
+  backgroundColor: '#fff',
+  textAlign: 'center',
+  maxWidth: '200px',
 });
 
 export class Word extends React.PureComponent<IWordProps, IWordState> {
@@ -35,6 +35,6 @@ export class Word extends React.PureComponent<IWordProps, IWordState> {
       <div {...css(wordContainerStyles, { top, left, opacity: visible ? 1 : 0.5 })}>
         <div {...wordStyles}>{text}</div>
       </div>
-    )
+    );
   }
 }

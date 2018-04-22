@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 interface IScoreProps {
   scores: number;
@@ -6,6 +6,6 @@ interface IScoreProps {
 
 export class Score extends React.PureComponent<IScoreProps> {
   render() {
-    return <div>Scores: {this.props.scores}</div>
+    return <div>Scores: {this.props.scores}</div>;
   }
 }

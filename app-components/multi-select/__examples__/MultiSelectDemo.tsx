@@ -1,14 +1,7 @@
 import { css } from 'glamor';
-import {
-  filter,
-  find,
-  includes,
-} from 'lodash';
+import { filter, find, includes } from 'lodash';
 import * as React from 'react';
-import {
-  ISelectedValues,
-  ISelectOption,
-} from '../../with-multi-select/WithMultiSelect';
+import { ISelectedValues, ISelectOption } from '../../with-multi-select/WithMultiSelect';
 import { CheckboxSelect } from '../CheckboxSelect';
 import { GroupedCheckboxSelect } from '../GroupedCheckboxSelect';
 
@@ -68,7 +61,7 @@ const cities = [
 const getCitiesBySelectedProvinces = (data: ISelectOption[], provincesValue: any[]) => {
   return filter(data, (item: ISelectOption) => {
     return includes(provincesValue, item.group);
-  })
+  });
 };
 
 const getDisplayByValue = (value: string | number, options: ISelectOption[]) => {
@@ -92,13 +85,16 @@ export class MultiSelectDemo extends React.Component<any, any> {
 
   handleProvinceChange = (selectedValues?: ISelectedValues) => {
     console.log(this.state.provincesValue, 'provincesValue');
-    this.setState({
-      provincesValue: selectedValues,
-    }, () => {
-      this.setState({
-        cities: getCitiesBySelectedProvinces(cities, this.state.provincesValue),
-      })
-    });
+    this.setState(
+      {
+        provincesValue: selectedValues,
+      },
+      () => {
+        this.setState({
+          cities: getCitiesBySelectedProvinces(cities, this.state.provincesValue),
+        });
+      },
+    );
   };
 
   render() {
@@ -117,7 +113,7 @@ export class MultiSelectDemo extends React.Component<any, any> {
             selectedValues={this.state.cityValue}
             options={this.state.cities}
             onChange={this.handleCityChange}
-            getGroupTitle={(key) => {
+            getGroupTitle={key => {
               return getDisplayByValue(key, provinces);
             }}
             placeholder="选择城市..."

@@ -1,16 +1,8 @@
 import { css } from 'glamor';
-import {
-  isEmpty,
-  map,
-} from 'lodash';
+import { isEmpty, map } from 'lodash';
 import * as React from 'react';
 import { Input } from '../input/Input';
-import {
-  dropValue,
-  ISelectedValues,
-  ISelectOption,
-  WithMultiSelect,
-} from '../with-multi-select/WithMultiSelect';
+import { dropValue, ISelectedValues, ISelectOption, WithMultiSelect } from '../with-multi-select/WithMultiSelect';
 
 const tagStyles = css({
   display: 'inline-block',
@@ -39,8 +31,7 @@ interface ISelectWithTagsProps {
   options: ISelectOption[];
 }
 
-interface ISelectWithTagsState {
-}
+interface ISelectWithTagsState {}
 
 export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelectWithTagsState> {
   render() {
@@ -51,7 +42,7 @@ export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelec
         <div {...tagsWrapperStyles}>
           <WithMultiSelect
             selectedValues={selectedValues}
-            onSelectedValuesChange={(nextSelectedValues) => {
+            onSelectedValuesChange={nextSelectedValues => {
               onChange(nextSelectedValues);
             }}
             options={options}
@@ -61,16 +52,20 @@ export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelec
                 return (
                   <div key={option.value} {...tagStyles}>
                     <span>{option.display}</span>
-                    <span onClick={() => {
-                      updateSelectedValues(dropValue(option.value, selectedValues));
-                    }}>X</span>
+                    <span
+                      onClick={() => {
+                        updateSelectedValues(dropValue(option.value, selectedValues));
+                      }}
+                    >
+                      X
+                    </span>
                   </div>
-                )
-              })
+                );
+              });
             }}
           </WithMultiSelect>
         </div>
       </div>
-    )
+    );
   }
 }

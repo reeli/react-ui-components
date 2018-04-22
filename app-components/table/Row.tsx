@@ -1,8 +1,5 @@
 import { css } from 'glamor';
-import {
-  get,
-  map,
-} from 'lodash';
+import { get, map } from 'lodash';
 import * as React from 'react';
 import { Component } from 'react';
 import { Cell } from './Cell';
@@ -31,24 +28,13 @@ export class Row extends Component<IRowProps, any> {
     const { column, dataSource } = this.props;
     return (
       <div {...rowStyles}>
-        <Cell
-          label={<LabelCell
-            label={column.label}
-            labelRender={column.labelRender}
-          />}
-        />
+        <Cell label={<LabelCell label={column.label} labelRender={column.labelRender} />} />
         {map(dataSource, (item: any, idx: number) => {
           if (column.cellRender) {
-            return <Cell
-              key={idx}
-              value={column.cellRender(item, dataSource)}
-            />;
+            return <Cell key={idx} value={column.cellRender(item, dataSource)} />;
           }
           if (column.fieldKey) {
-            return <Cell
-              key={idx}
-              value={get(item, column.fieldKey)}
-            />;
+            return <Cell key={idx} value={get(item, column.fieldKey)} />;
           }
           return null;
         })}

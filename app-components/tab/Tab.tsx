@@ -44,14 +44,17 @@ export class Tab extends React.Component<ITabProps, any> {
   }
 
   handleClick = (currentIdx: number) => {
-    this.setState({
-      activeIdx: this.props.toggleable ? this.toggle(currentIdx) : currentIdx,
-    }, () => {
-      if (this.props.getActiveIdx && isFunction(this.props.getActiveIdx)) {
-        this.props.getActiveIdx(this.state.activeIdx);
-      }
-    });
-  }
+    this.setState(
+      {
+        activeIdx: this.props.toggleable ? this.toggle(currentIdx) : currentIdx,
+      },
+      () => {
+        if (this.props.getActiveIdx && isFunction(this.props.getActiveIdx)) {
+          this.props.getActiveIdx(this.state.activeIdx);
+        }
+      },
+    );
+  };
 
   render() {
     const { activeIdx } = this.state;
@@ -60,8 +63,10 @@ export class Tab extends React.Component<ITabProps, any> {
         <div {...tabHeadersStyles}>
           {React.Children.map(this.props.children, (child: React.ReactChild, index) => {
             return (
-              <div onClick={() => this.handleClick(index)} {...css(headerStyles,
-                { color: index === activeIdx ? 'red' : 'black' })}>
+              <div
+                onClick={() => this.handleClick(index)}
+                {...css(headerStyles, { color: index === activeIdx ? 'red' : 'black' })}
+              >
                 {React.isValidElement<ITabGroupProps>(child) && child.props.header}
               </div>
             );

@@ -1,20 +1,8 @@
-import {
-  filter,
-  includes,
-} from 'lodash';
+import { filter, includes } from 'lodash';
 import * as React from 'react';
-import {
-  OverlayTrigger,
-  Placement,
-} from '../core/OverlayTrigger';
-import {
-  CheckboxListing,
-  ICheckboxListingProps,
-} from '../listing/CheckboxListing';
-import {
-  ISelectedValues,
-  ISelectOption,
-} from '../with-multi-select/WithMultiSelect';
+import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
+import { CheckboxListing, ICheckboxListingProps } from '../listing/CheckboxListing';
+import { ISelectedValues, ISelectOption } from '../with-multi-select/WithMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
 interface ICheckboxSelectProps {
@@ -29,13 +17,7 @@ export class CheckboxSelect extends React.Component<ICheckboxSelectProps, any> {
     const { placeholder, options, onChange, selectedValues } = this.props;
     return (
       <OverlayTrigger
-        content={() => (
-          <CheckboxListing
-            selectedValues={selectedValues}
-            options={options}
-            onChange={onChange}
-          />
-        )}
+        content={() => <CheckboxListing selectedValues={selectedValues} options={options} onChange={onChange} />}
         placement={Placement.leftBottom}
         closeOnOutSide
       >
@@ -49,9 +31,9 @@ export class CheckboxSelect extends React.Component<ICheckboxSelectProps, any> {
               onClick={toggle}
               onChange={onChange}
             />
-          )
+          );
         }}
       </OverlayTrigger>
-    )
+    );
   }
 }

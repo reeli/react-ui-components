@@ -1,17 +1,14 @@
 import { css } from 'glamor';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import {
-  OverlayTrigger,
-  Placement,
-} from '../core/OverlayTrigger';
+import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 
 interface IPopoverProps {
-  children: JSX.Element | null | string
-  width?: string
-  content?: string | JSX.Element | null
-  placement?: Placement
-  closeOnOutSide?: boolean
+  children: JSX.Element | null | string;
+  width?: string;
+  content?: string | JSX.Element | null;
+  placement?: Placement;
+  closeOnOutSide?: boolean;
 }
 
 const popoverStyles = css({
@@ -38,7 +35,6 @@ const arrowUp = css({
   width: 0,
   height: 0,
 });
-
 
 export class Popover extends React.Component<IPopoverProps, any> {
   state = {
@@ -73,7 +69,7 @@ export class Popover extends React.Component<IPopoverProps, any> {
         )}
         placement={placement}
         isOpen={this.state.isOpen}
-        onOpenChanged={(isOpen) => {
+        onOpenChanged={isOpen => {
           this.setState({
             isOpen,
           });

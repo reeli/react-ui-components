@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-  IPortalProps,
-  Portal,
-} from '../portal/Portal';
+import { IPortalProps, Portal } from '../portal/Portal';
 import { Position } from './Position';
 
 export enum Placement {
@@ -14,7 +11,7 @@ export enum Placement {
 }
 
 interface IOverlayTriggerProps extends IPortalProps {
-  placement?: Placement
+  placement?: Placement;
 }
 
 export class OverlayTrigger extends React.Component<IOverlayTriggerProps, any> {
@@ -59,25 +56,29 @@ export class OverlayTrigger extends React.Component<IOverlayTriggerProps, any> {
     const { content, children, placement = Placement.bottom, ...others } = this.props;
     return (
       <Portal
-        content={(innerProps) => <Position>
-          {(contentPosition) => {
-            this.contentPosition = contentPosition;
-            const position = this.getPositionByPlacement(placement);
-            return (
-              <div style={{ position: 'absolute', top: position.top, left: position.left }}>
-                {content(innerProps)}
-              </div>
-            );
-          }}
-        </Position>}
+        content={innerProps => (
+          <Position>
+            {contentPosition => {
+              this.contentPosition = contentPosition;
+              const position = this.getPositionByPlacement(placement);
+              return (
+                <div style={{ position: 'absolute', top: position.top, left: position.left }}>
+                  {content(innerProps)}
+                </div>
+              );
+            }}
+          </Position>
+        )}
         {...others}
       >
-        {(innerProps) => <Position>
-          {(triggerPosition) => {
-            this.triggerPosition = triggerPosition;
-            return children(innerProps);
-          }}
-        </Position>}
+        {innerProps => (
+          <Position>
+            {triggerPosition => {
+              this.triggerPosition = triggerPosition;
+              return children(innerProps);
+            }}
+          </Position>
+        )}
       </Portal>
     );
   }

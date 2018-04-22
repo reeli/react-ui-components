@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-  Component,
-  ReactInstance,
-} from 'react';
+import { Component, ReactInstance } from 'react';
 import * as ReactDOM from 'react-dom';
 import { findDOMNode } from 'react-dom';
 import { isFunction } from 'util';
@@ -116,9 +113,11 @@ export class Portal extends Component<IPortalProps, IPortalState> {
   renderPortal() {
     if (this.state.isOpen) {
       return (
-        <BasePortal ref={(portal) => {
-          this.portal = portal;
-        }}>
+        <BasePortal
+          ref={portal => {
+            this.portal = portal;
+          }}
+        >
           {this.props.content({
             open: this.open,
             close: this.close,
@@ -135,10 +134,10 @@ export class Portal extends Component<IPortalProps, IPortalState> {
       <>
         {this.props.children
           ? this.props.children({
-            open: this.open,
-            close: this.close,
-            toggle: this.toggle,
-          })
+              open: this.open,
+              close: this.close,
+              toggle: this.toggle,
+            })
           : null}
         {this.renderPortal()}
       </>

@@ -15,12 +15,15 @@ export class Position extends Component<IPositionProps, any> {
 
   componentDidMount() {
     this.ele = findDOMNode(this);
-    this.setState({
-      position: this.ele.getBoundingClientRect(),
-    }, () => {
-      document.body.addEventListener('wheel', this.updatePosition);
-      window.addEventListener('resize', this.updatePosition);
-    });
+    this.setState(
+      {
+        position: this.ele.getBoundingClientRect(),
+      },
+      () => {
+        document.body.addEventListener('wheel', this.updatePosition);
+        window.addEventListener('resize', this.updatePosition);
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -47,7 +50,7 @@ export class Position extends Component<IPositionProps, any> {
         position: this.getPosition(this.ele),
       });
     }
-  }
+  };
 
   render() {
     return this.props.children(this.state.position);
