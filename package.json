@@ -22,11 +22,6 @@
   "homepage": "https://github.com/HelloRuiLi/react-ui-components#readme",
   "devDependencies": {
     "@types/html-webpack-plugin": "2.30.1",
-    "@types/lodash": "4.14.97",
-    "@types/react": "16.0.35",
-    "@types/react-dom": "16.0.3",
-    "@types/react-router": "4.0.21",
-    "@types/react-router-dom": "4.2.3",
     "@types/webpack": "3.8.4",
     "prettier": "1.10.2",
     "raw-loader": "0.5.1",
@@ -35,11 +30,16 @@
     "webpack-dev-server": "2.11.1"
   },
   "dependencies": {
+    "@types/react-router": "4.0.21",
+    "@types/react-router-dom": "4.2.3",
+    "@types/lodash": "4.14.97",
+    "@types/react": "16.3.12",
+    "@types/react-dom": "16.0.5",
     "glamor": "2.20.40",
     "html-webpack-plugin": "2.30.1",
     "lodash": "4.17.4",
-    "react": "16.2.0",
-    "react-dom": "16.2.0",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
     "react-router": "4.2.0",
     "react-router-dom": "4.2.2",
     "webpack": "3.10.0"
