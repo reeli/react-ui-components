@@ -14,16 +14,18 @@ export class Position extends Component<IPositionProps, any> {
   };
 
   componentDidMount() {
-    this.ele = findDOMNode(this);
-    this.setState(
-      {
-        position: this.ele.getBoundingClientRect(),
-      },
-      () => {
-        document.body.addEventListener('wheel', this.updatePosition);
-        window.addEventListener('resize', this.updatePosition);
-      },
-    );
+    this.ele = findDOMNode(this) as Element | null;
+    if (this.ele) {
+      this.setState(
+        {
+          position: this.ele.getBoundingClientRect(),
+        },
+        () => {
+          document.body.addEventListener('wheel', this.updatePosition);
+          window.addEventListener('resize', this.updatePosition);
+        },
+      );
+    }
   }
 
   componentWillUnmount() {
