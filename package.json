@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --history-api-fallback",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pretty": "prettier --write '{app-components,app-sg,__{tests,mocks}__}/**/*{.ts,tsx}'",
+    "pretty": "prettier --write '{app-components,app-style-guide,__{tests,mocks}__}/**/*{.ts,tsx}'",
     "build": "webpack",
     "watch": "tsc --watch"
   },
