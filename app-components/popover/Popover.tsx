@@ -1,10 +1,10 @@
 import { css } from 'glamor';
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
+import { IPortalPropsInnerProps } from '../portal/Portal';
 
 interface IPopoverProps {
-  children: JSX.Element | null | string;
+  children: (props: IPortalPropsInnerProps) => React.ReactNode;
   width?: string;
   content?: string | JSX.Element | null;
   placement?: Placement;
@@ -37,26 +37,6 @@ const arrowUp = css({
 });
 
 export class Popover extends React.Component<IPopoverProps, any> {
-  state = {
-    isOpen: false,
-  };
-
-  componentDidMount() {
-    const popoverTrigger = findDOMNode(this);
-    popoverTrigger.addEventListener('click', this.toggle);
-  }
-
-  componentWillUnmount() {
-    const tooltipTrigger = findDOMNode(this);
-    tooltipTrigger.removeEventListener('click', this.toggle);
-  }
-
-  toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  };
-
   render() {
     const { width, content, children, placement, closeOnOutSide } = this.props;
     return (
@@ -68,16 +48,10 @@ export class Popover extends React.Component<IPopoverProps, any> {
           </div>
         )}
         placement={placement}
-        isOpen={this.state.isOpen}
-        onOpenChanged={isOpen => {
-          this.setState({
-            isOpen,
-          });
-        }}
         closeOnOutSide={closeOnOutSide}
       >
-        {() => {
-          return <>{children}</>;
+        {props => {
+          return <>{children(props)}</>;
         }}
       </OverlayTrigger>
     );
