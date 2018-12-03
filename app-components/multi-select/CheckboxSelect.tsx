@@ -2,7 +2,7 @@ import { filter, includes } from 'lodash';
 import * as React from 'react';
 import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 import { CheckboxListing, ICheckboxListingProps } from '../listing/CheckboxListing';
-import { ISelectedValues, ISelectOption } from '../with-multi-select/WithMultiSelect';
+import { ISelectedValues, ISelectOption } from '../with-multi-select/useMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
 
 interface ICheckboxSelectProps {

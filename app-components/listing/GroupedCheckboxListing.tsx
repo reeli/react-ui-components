@@ -1,8 +1,9 @@
 import { Dictionary, groupBy, map } from 'lodash';
 import * as React from 'react';
 
-import { ISelectedValues, ISelectOption, WithMultiSelect } from '../with-multi-select/WithMultiSelect';
 import { CheckList, ICheckboxListingProps } from './CheckboxListing';
+import { ISelectedValues, ISelectOption } from '../with-multi-select/interfaces';
+import { useMultiSelect } from '../with-multi-select/useMultiSelect';
 
 export interface IGroupedCheckboxListing {
   selectedValues?: ISelectedValues;
@@ -11,29 +12,18 @@ export interface IGroupedCheckboxListing {
   onChange: ICheckboxListingProps['onChange'];
 }
 
-export class GroupedCheckboxListing extends React.Component<IGroupedCheckboxListing, any> {
-  render() {
-    const { options, selectedValues, getGroupTitle, onChange } = this.props;
-    return (
-      <WithMultiSelect
-        selectedValues={selectedValues}
-        onSelectedValuesChange={nextSelectedValues => {
-          onChange(nextSelectedValues);
-        }}
-        options={options}
-      >
-        {() => {
-          const groups = groupBy(options, 'group') as Dictionary<ISelectOption[]>;
-          return map(groups, (groupOptions: ISelectOption[], key: string | number) => {
-            return (
-              <div key={key}>
-                <div>{getGroupTitle(key)}</div>
-                <CheckList selectedValues={selectedValues} options={groupOptions} updateSelectedValues={onChange} />
-              </div>
-            );
-          });
-        }}
-      </WithMultiSelect>
-    );
-  }
-}
+export const GroupedCheckboxListing = (props: IGroupedCheckboxListing): React.ReactNode => {
+  const { options, selectedValues, getGroupTitle, onChange } = props;
+  const multiSelect = useMultiSelect({
+    selectedValues,
+  });
+
+  const groups = groupBy(options, 'group') as Dictionary<ISelectOption[]>;
+
+  return map(groups, (groupOptions: ISelectOption[], key: string | number) => (
+    <div key={key}>
+      <div>{getGroupTitle(key)}</div>
+      <CheckList selectedValues={multiSelect.selectedValues} options={groupOptions} updateSelectedValues={onChange} />
+    </div>
+  ));
+};

@@ -3,8 +3,8 @@ import * as React from 'react';
 import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 import { ICheckboxListingProps } from '../listing/CheckboxListing';
 import { GroupedCheckboxListing, IGroupedCheckboxListing } from '../listing/GroupedCheckboxListing';
-import { ISelectedValues, ISelectOption } from '../with-multi-select/WithMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
+import {ISelectedValues, ISelectOption} from "../with-multi-select/interfaces";
 
 interface IGroupedCheckboxSelectProps {
   selectedValues?: ISelectedValues;
@@ -27,12 +27,12 @@ export class GroupedCheckboxSelect extends React.Component<IGroupedCheckboxSelec
     return (
       <OverlayTrigger
         content={() => (
-          <GroupedCheckboxListing
-            selectedValues={selectedValues}
-            options={options}
-            onChange={onChange}
-            getGroupTitle={getGroupTitle}
-          />
+            <GroupedCheckboxListing
+                selectedValues={selectedValues}
+                options={options}
+                onChange={onChange}
+                getGroupTitle={getGroupTitle}
+            />
         )}
         placement={Placement.leftBottom}
         closeOnOutSide

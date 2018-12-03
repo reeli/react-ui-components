@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component, ReactInstance } from 'react';
 import * as ReactDOM from 'react-dom';
 import { findDOMNode } from 'react-dom';
-import { isFunction } from 'util';
+import { isFunction } from 'lodash';
 
 class BasePortal extends React.Component<{ children: JSX.Element | null }, any> {
   node?: HTMLElement;
@@ -29,7 +29,7 @@ export interface IPortalPropsInnerProps {
   toggle: () => void;
 }
 
-type TChildrenRender<T> = (innerProps: T) => JSX.Element | null;
+type TChildrenRender<T> = (innerProps: T) => React.ReactNode;
 
 export interface IPortalProps {
   content: TChildrenRender<IPortalPropsInnerProps>;

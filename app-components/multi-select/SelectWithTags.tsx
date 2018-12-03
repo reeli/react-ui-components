@@ -1,8 +1,10 @@
-import { css } from 'glamor';
-import { isEmpty, map } from 'lodash';
+import {css} from 'glamor';
+import {isEmpty, map} from 'lodash';
 import * as React from 'react';
-import { Input } from '../input/Input';
-import { dropValue, ISelectedValues, ISelectOption, WithMultiSelect } from '../with-multi-select/WithMultiSelect';
+import {Input} from '../input/Input';
+import {useMultiSelect} from '../with-multi-select/useMultiSelect';
+import {ISelectedValues, ISelectOption} from '../with-multi-select/interfaces';
+import {dropValue} from "../with-multi-select/utils";
 
 const tagStyles = css({
   display: 'inline-block',
@@ -31,41 +33,31 @@ interface ISelectWithTagsProps {
   options: ISelectOption[];
 }
 
-interface ISelectWithTagsState {}
-
-export class SelectWithTags extends React.Component<ISelectWithTagsProps, ISelectWithTagsState> {
-  render() {
-    const { options, placeholder, selectedValues, onChange, onClick } = this.props;
-    return (
-      <div {...triggerElementWrapperStyles}>
-        <Input placeholder={!isEmpty(selectedValues) ? '' : placeholder} onClick={onClick} readOnly />
-        <div {...tagsWrapperStyles}>
-          <WithMultiSelect
-            selectedValues={selectedValues}
-            onSelectedValuesChange={nextSelectedValues => {
-              onChange(nextSelectedValues);
-            }}
-            options={options}
-          >
-            {({ selectedValues, updateSelectedValues }) => {
-              return map(options, (option: ISelectOption) => {
-                return (
-                  <div key={option.value} {...tagStyles}>
-                    <span>{option.display}</span>
-                    <span
-                      onClick={() => {
-                        updateSelectedValues(dropValue(option.value, selectedValues));
-                      }}
-                    >
-                      X
-                    </span>
-                  </div>
-                );
-              });
-            }}
-          </WithMultiSelect>
-        </div>
+export function SelectWithTags(props: ISelectWithTagsProps) {
+  const { options, placeholder, selectedValues, onChange, onClick } = props;
+  const multiSelect = useMultiSelect({
+    selectedValues,
+    onSelectedValuesChange: onChange,
+  });
+  return (
+    <div {...triggerElementWrapperStyles}>
+      <Input placeholder={!isEmpty(selectedValues) ? '' : placeholder} onClick={onClick} readOnly />
+      <div {...tagsWrapperStyles}>
+        {map(options, (option: ISelectOption) => {
+          return (
+            <div key={option.value} {...tagStyles}>
+              <span>{option.display}</span>
+              <span
+                onClick={() => {
+                  multiSelect.updateSelectedValues(dropValue(option.value, multiSelect.selectedValues));
+                }}
+              >
+                X
+              </span>
+            </div>
+          );
+        })}
       </div>
-    );
-  }
+    </div>
+  );
 }

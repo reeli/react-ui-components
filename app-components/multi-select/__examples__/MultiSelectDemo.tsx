@@ -1,9 +1,9 @@
 import { css } from 'glamor';
 import { filter, find, includes } from 'lodash';
 import * as React from 'react';
-import { ISelectedValues, ISelectOption } from '../../with-multi-select/WithMultiSelect';
 import { CheckboxSelect } from '../CheckboxSelect';
 import { GroupedCheckboxSelect } from '../GroupedCheckboxSelect';
+import {ISelectedValues, ISelectOption} from "../../with-multi-select/interfaces";
 
 const provinces = [
   {
