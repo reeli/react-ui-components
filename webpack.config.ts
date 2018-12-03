@@ -19,8 +19,8 @@ const webpackConfig: webpack.Configuration = {
             options: {
               transpileOnly: true,
               compilerOptions: {
-                'module': 'es6',
-                'target': 'es5',
+                module: 'es6',
+                target: 'es5',
               },
             },
           },
@@ -38,10 +38,7 @@ const webpackConfig: webpack.Configuration = {
       template: './index.html',
     }),
   ],
-  devServer: {
-    compress: true,
-    port: 9000,
-  },
+  mode: 'development',
 };
 
 export = webpackConfig;
