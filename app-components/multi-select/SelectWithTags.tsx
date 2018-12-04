@@ -1,10 +1,9 @@
-import {css} from 'glamor';
-import {isEmpty, map} from 'lodash';
+import { css } from 'glamor';
+import { filter, isEmpty, map } from 'lodash';
 import * as React from 'react';
-import {Input} from '../input/Input';
-import {useMultiSelect} from '../with-multi-select/useMultiSelect';
-import {ISelectedValues, ISelectOption} from '../with-multi-select/interfaces';
-import {dropValue} from "../with-multi-select/utils";
+import { Input } from '../input/Input';
+import { useMultiSelect } from '../with-multi-select/useMultiSelect';
+import { ISelectOption, TSelectedValues } from '../with-multi-select/interfaces';
 
 const tagStyles = css({
   display: 'inline-block',
@@ -26,12 +25,16 @@ const tagsWrapperStyles = css({
 });
 
 interface ISelectWithTagsProps {
-  selectedValues?: ISelectedValues;
+  selectedValues?: TSelectedValues;
   placeholder?: string;
-  onChange: (selectedValues?: ISelectedValues) => void;
+  onChange: (selectedValues?: TSelectedValues) => void;
   onClick?: () => void;
   options: ISelectOption[];
 }
+
+export const dropValue = (value: string | number, values: TSelectedValues = []) => {
+  return filter(values, (val: string | number) => val !== value) as TSelectedValues | any[];
+};
 
 export function SelectWithTags(props: ISelectWithTagsProps) {
   const { options, placeholder, selectedValues, onChange, onClick } = props;

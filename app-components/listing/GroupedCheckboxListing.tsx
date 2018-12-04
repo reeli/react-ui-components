@@ -1,12 +1,12 @@
 import { Dictionary, groupBy, map } from 'lodash';
 import * as React from 'react';
 
-import { CheckList, ICheckboxListingProps } from './CheckboxListing';
-import { ISelectedValues, ISelectOption } from '../with-multi-select/interfaces';
+import { CheckboxListing, ICheckboxListingProps } from './CheckboxListing';
+import { ISelectOption, TSelectedValues } from '../with-multi-select/interfaces';
 import { useMultiSelect } from '../with-multi-select/useMultiSelect';
 
 export interface IGroupedCheckboxListing {
-  selectedValues?: ISelectedValues;
+  selectedValues?: TSelectedValues;
   options: ISelectOption[];
   getGroupTitle: (key: string | number) => string | number;
   onChange: ICheckboxListingProps['onChange'];
@@ -23,7 +23,7 @@ export const GroupedCheckboxListing = (props: IGroupedCheckboxListing): React.Re
   return map(groups, (groupOptions: ISelectOption[], key: string | number) => (
     <div key={key}>
       <div>{getGroupTitle(key)}</div>
-      <CheckList selectedValues={multiSelect.selectedValues} options={groupOptions} updateSelectedValues={onChange} />
+      <CheckboxListing selectedValues={multiSelect.selectedValues} options={groupOptions} onChange={onChange} />
     </div>
   ));
 };

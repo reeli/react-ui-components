@@ -3,7 +3,7 @@ import { filter, find, includes } from 'lodash';
 import * as React from 'react';
 import { CheckboxSelect } from '../CheckboxSelect';
 import { GroupedCheckboxSelect } from '../GroupedCheckboxSelect';
-import {ISelectedValues, ISelectOption} from "../../with-multi-select/interfaces";
+import {TSelectedValues, ISelectOption} from "../../with-multi-select/interfaces";
 
 const provinces = [
   {
@@ -76,14 +76,14 @@ export class MultiSelectDemo extends React.Component<any, any> {
     cities: {} as ISelectOption[],
   };
 
-  handleCityChange = (selectedValues?: ISelectedValues) => {
+  handleCityChange = (selectedValues?: TSelectedValues) => {
     console.log(this.state.cityValue, 'cityValue');
     this.setState({
       cityValue: selectedValues,
     });
   };
 
-  handleProvinceChange = (selectedValues?: ISelectedValues) => {
+  handleProvinceChange = (selectedValues?: TSelectedValues) => {
     console.log(this.state.provincesValue, 'provincesValue');
     this.setState(
       {

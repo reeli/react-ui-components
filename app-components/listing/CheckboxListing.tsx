@@ -2,14 +2,13 @@ import { css } from 'glamor';
 import { map } from 'lodash';
 import * as React from 'react';
 import { Checkbox } from '../checkbox/Checkbox';
-import { isValueInSelectedValues, useMultiSelect } from '../with-multi-select/useMultiSelect';
-import { ISelectedValues, ISelectOption } from '../with-multi-select/interfaces';
-import { addValue, dropValue } from '../with-multi-select/utils';
+import { useMultiSelect } from '../with-multi-select/useMultiSelect';
+import { ISelectOption, TSelectedValues } from '../with-multi-select/interfaces';
 
 export interface ICheckboxListingProps {
-  selectedValues?: ISelectedValues;
+  selectedValues?: TSelectedValues;
   options: ISelectOption[];
-  onChange: (value?: ISelectedValues) => void;
+  onChange: (value?: TSelectedValues) => void;
 }
 
 const listStyles = css({
@@ -24,46 +23,29 @@ const listItemStyles = css({
   },
 });
 
-interface ICheckListProps {
-  options: ISelectOption[];
-  selectedValues?: ISelectedValues;
-  updateSelectedValues: (value: ISelectedValues) => void;
-}
-
-export const CheckList = ({ options, selectedValues, updateSelectedValues }: ICheckListProps) => (
-  <>
-    {map(options, option => {
-      const isChecked = isValueInSelectedValues(option.value, selectedValues);
-      return (
-        <div key={option.value} {...listItemStyles}>
-          <Checkbox
-            value={isChecked}
-            onChange={() => {
-              isChecked
-                ? updateSelectedValues(dropValue(option.value, selectedValues))
-                : updateSelectedValues(addValue(option.value, selectedValues));
-            }}
-            label={option.display}
-          />
-        </div>
-      );
-    })}
-  </>
-);
-
 export function CheckboxListing(props: ICheckboxListingProps) {
   const { options, onChange, selectedValues } = props;
-  const multiSelect = useMultiSelect({
+  const { selectedState, toggle } = useMultiSelect({
     selectedValues,
     onSelectedValuesChange: onChange,
   });
   return (
     <div {...listStyles}>
-      <CheckList
-        selectedValues={multiSelect.selectedValues}
-        updateSelectedValues={multiSelect.updateSelectedValues}
-        options={options}
-      />
+      <>
+        {map(options, option => {
+          return (
+            <div key={option.value} {...listItemStyles}>
+              <Checkbox
+                value={selectedState[option.value]}
+                onChange={() => {
+                  toggle(option.value);
+                }}
+                label={option.display}
+              />
+            </div>
+          );
+        })}
+      </>
     </div>
   );
 }

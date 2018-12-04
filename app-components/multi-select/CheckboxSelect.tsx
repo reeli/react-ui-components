@@ -2,11 +2,11 @@ import { filter, includes } from 'lodash';
 import * as React from 'react';
 import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 import { CheckboxListing, ICheckboxListingProps } from '../listing/CheckboxListing';
-import { ISelectedValues, ISelectOption } from '../with-multi-select/useMultiSelect';
 import { SelectWithTags } from './SelectWithTags';
+import { ISelectOption, TSelectedValues } from '../with-multi-select/interfaces';
 
 interface ICheckboxSelectProps {
-  selectedValues?: ISelectedValues;
+  selectedValues?: TSelectedValues;
   placeholder?: string;
   options: ISelectOption[];
   onChange: ICheckboxListingProps['onChange'];

@@ -1,43 +1,66 @@
-import { includes, isEqual } from 'lodash';
+import { clone, isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { ISelectedValues } from './interfaces';
-import { toSelectedValues, toSelectedValuesMap } from './utils';
-
-export const isValueInSelectedValues = (value: string | number, selectedValues?: ISelectedValues) => {
-  return includes(selectedValues, value);
-};
+import { TSelectedState, TSelectedValue, TSelectedValues } from './interfaces';
+import { toSelectedState, toSelectedValues } from './utils';
 
 interface IUseMultiSelectProps {
-  selectedValues?: ISelectedValues;
-  onSelectedValuesChange?: (selectedValues?: ISelectedValues) => void;
+  selectedValues?: TSelectedValues;
+  onSelectedValuesChange?: (selectedValues?: TSelectedValues) => void;
 }
 
-export const useMultiSelect = (props: IUseMultiSelectProps) => {
-  const init = toSelectedValuesMap(props.selectedValues);
-  const [selectedValuesMap, setSelectedValuesMap] = useState(init);
+const setValueByPrevState = (key: TSelectedValue) => {
+  return (val: boolean) => {
+    return (prevState: TSelectedState) => {
+      const temp = clone(prevState);
+      temp[key] = val;
+      return temp;
+    };
+  };
+};
+
+export const usePrevious = (value: any) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    ref.current = value;
+  });
+
+  return ref.current;
+};
+
+export const useMultiSelect = ({ selectedValues, onSelectedValuesChange }: IUseMultiSelectProps) => {
+  const [selectedState, setSelectedState] = useState(() => toSelectedState(selectedValues));
   const mountedRef = useRef(false);
-  const [prevSelectedValues, setPrevSelectedValues] = useState<ISelectedValues>([]);
-  const [prevMap, setPrevMap] = useState(init);
+  const [prevSelectedValues, setPrevSelectedValues] = useState<TSelectedValues>([]);
+  const [prevSelectedState, prevSetSelectedState] = useState(selectedState);
 
   useEffect(() => {
-    if (mountedRef.current && props.onSelectedValuesChange) {
-      if (!isEqual(prevMap, selectedValuesMap)) {
-        props.onSelectedValuesChange(toSelectedValues(selectedValuesMap));
-        setPrevMap(selectedValuesMap);
+    if (mountedRef.current && onSelectedValuesChange) {
+      if (!isEqual(prevSelectedState, selectedState)) {
+        onSelectedValuesChange(toSelectedValues(selectedState));
+        prevSetSelectedState(selectedState);
       }
     }
 
-    if (props.selectedValues && !isEqual(props.selectedValues, prevSelectedValues)) {
-      setPrevSelectedValues(props.selectedValues);
-      setSelectedValuesMap(toSelectedValuesMap(props.selectedValues));
+    if (selectedValues && !isEqual(selectedValues, prevSelectedValues)) {
+      setPrevSelectedValues(selectedValues);
+      setSelectedState(toSelectedState(selectedValues));
     }
   });
 
   mountedRef.current = true;
 
   return {
-    selectedValues: toSelectedValues(selectedValuesMap),
-    updateSelectedValues: (selectedValues: ISelectedValues) =>
-      setSelectedValuesMap(toSelectedValuesMap(selectedValues)),
+    selectedValues: toSelectedValues(selectedState),
+    selectedState,
+    updateSelectedValues: (selectedValues: TSelectedValues) => setSelectedState(toSelectedState(selectedValues)),
+    add: (value: TSelectedValue) => {
+      setSelectedState(setValueByPrevState(value)(true));
+    },
+    remove: (value: TSelectedValue) => {
+      setSelectedState(setValueByPrevState(value)(false));
+    },
+    toggle: (value: TSelectedValue) => {
+      setSelectedState((prevState: TSelectedState) => setValueByPrevState(value)(!prevState[value])(prevState));
+    },
   };
 };

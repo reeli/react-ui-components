@@ -1,8 +1,7 @@
-import { includes, map } from 'lodash';
-import React, { useState } from 'react';
+import { map } from 'lodash';
+import React from 'react';
 import { Checkbox } from '../../checkbox/Checkbox';
 import { useMultiSelect } from '../useMultiSelect';
-import { addValue, dropValue } from '../utils';
 
 const options = [
   {
@@ -22,25 +21,20 @@ const options = [
 const initialValues = ['cat', 'dog'];
 
 export const UseMultiSelectDemo = () => {
-  const [values, setValues] = useState(initialValues);
-  const { selectedValues } = useMultiSelect({
-    selectedValues: values,
+  const { selectedState, toggle } = useMultiSelect({
+    selectedValues: initialValues,
     onSelectedValuesChange: values => {
       console.log(values, 'onchange');
     },
   });
 
   return map(options, option => {
-    const isChecked = includes(values, option.value);
     return (
       <Checkbox
         key={option.value}
-        value={isChecked}
+        value={selectedState[option.value]}
         onChange={() => {
-          const nextValues = isChecked
-            ? dropValue(option.value, selectedValues)
-            : addValue(option.value, selectedValues);
-          setValues(nextValues);
+          toggle(option.value);
         }}
         label={option.display}
       />

@@ -4,17 +4,17 @@ import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
 import { ICheckboxListingProps } from '../listing/CheckboxListing';
 import { GroupedCheckboxListing, IGroupedCheckboxListing } from '../listing/GroupedCheckboxListing';
 import { SelectWithTags } from './SelectWithTags';
-import {ISelectedValues, ISelectOption} from "../with-multi-select/interfaces";
+import {TSelectedValues, ISelectOption} from "../with-multi-select/interfaces";
 
 interface IGroupedCheckboxSelectProps {
-  selectedValues?: ISelectedValues;
+  selectedValues?: TSelectedValues;
   placeholder?: string;
   options: ISelectOption[];
   getGroupTitle: IGroupedCheckboxListing['getGroupTitle'];
   onChange: ICheckboxListingProps['onChange'];
 }
 
-const pickSelectedOptionsByValue = (options: ISelectOption[], value: ISelectedValues = []) => {
+const pickSelectedOptionsByValue = (options: ISelectOption[], value: TSelectedValues = []) => {
   return filter(options, (option: ISelectOption) => {
     return includes(value, option.value);
   });

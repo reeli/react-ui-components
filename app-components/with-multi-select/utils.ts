@@ -1,28 +1,13 @@
-import { filter, forEach, isEmpty } from 'lodash';
-import { ISelectedValues, TSelectedValuesMap } from './interfaces';
+import { forEach, keys, pickBy } from 'lodash';
+import { TSelectedState, TSelectedValues } from './interfaces';
 
-export const toSelectedValuesMap = (selectedValues?: ISelectedValues): TSelectedValuesMap => {
-  const selectedValuesMap = new Map();
+export const toSelectedValues = (selectedState: TSelectedState): TSelectedValues =>
+  keys(pickBy(selectedState, isSelected => isSelected));
 
-  if (isEmpty(selectedValues)) {
-    return selectedValuesMap;
-  }
-
-  forEach(selectedValues, value => {
-    selectedValuesMap.set(value, true);
+export const toSelectedState = (arr?: TSelectedValues) => {
+  const temp = {} as TSelectedState;
+  forEach(arr, key => {
+    temp[key] = true;
   });
-
-  return selectedValuesMap;
-};
-
-export const toSelectedValues = (selectedMap: TSelectedValuesMap): ISelectedValues => {
-  return [...selectedMap.keys()];
-};
-
-export const dropValue = (value: string | number, values: ISelectedValues = []) => {
-  return filter(values, (val: string | number) => val !== value) as ISelectedValues | any[];
-};
-
-export const addValue = (value: string | number, values: ISelectedValues = []) => {
-  return [...values, value] as ISelectedValues | any[];
+  return temp;
 };
