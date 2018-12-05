@@ -36,7 +36,7 @@ export const UseMultiSelectDemo = () => {
           <Checkbox
             key={option.value}
             value={selectedState[option.value]}
-            onChange={() => {
+            onValueChange={() => {
               toggle(option.value);
             }}
             label={option.display}
@@ -44,6 +44,12 @@ export const UseMultiSelectDemo = () => {
         );
       })}
       <div onClick={selectAll}>select all</div>
+      <Checkbox
+        onValueChange={value => {
+          console.log(value, '----------');
+        }}
+        label={'select all'}
+      />
       <div onClick={unselectAll}>unselect all</div>
     </div>
   );
