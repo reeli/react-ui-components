@@ -11,3 +11,5 @@ tips:
 ## 主要作用
 
 缓存 selected 状态，并且让 selected 状态正确更新
+
+- 传入 options，方便取值，不然 selectAll 实现。

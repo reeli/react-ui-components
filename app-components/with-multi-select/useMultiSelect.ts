@@ -1,9 +1,10 @@
-import { clone, isEqual } from 'lodash';
+import { clone, forEach, isEqual } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { TSelectedState, TSelectedValue, TSelectedValues } from './interfaces';
+import { ISelectOption, TSelectedState, TSelectedValue, TSelectedValues } from './interfaces';
 import { toSelectedState, toSelectedValues } from './utils';
 
 interface IUseMultiSelectProps {
+  options: ISelectOption[];
   selectedValues?: TSelectedValues;
   onSelectedValuesChange?: (selectedValues?: TSelectedValues) => void;
 }
@@ -27,8 +28,8 @@ export const usePrevious = (value: any) => {
   return ref.current;
 };
 
-export const useMultiSelect = ({ selectedValues, onSelectedValuesChange }: IUseMultiSelectProps) => {
-  const [selectedState, setSelectedState] = useState(() => toSelectedState(selectedValues));
+export const useMultiSelect = ({ selectedValues, options, onSelectedValuesChange }: IUseMultiSelectProps) => {
+  const [selectedState, setSelectedState] = useState(() => toSelectedState(selectedValues, options));
   const mountedRef = useRef(false);
   const [prevSelectedValues, setPrevSelectedValues] = useState<TSelectedValues>([]);
   const [prevSelectedState, prevSetSelectedState] = useState(selectedState);
@@ -43,7 +44,7 @@ export const useMultiSelect = ({ selectedValues, onSelectedValuesChange }: IUseM
 
     if (selectedValues && !isEqual(selectedValues, prevSelectedValues)) {
       setPrevSelectedValues(selectedValues);
-      setSelectedState(toSelectedState(selectedValues));
+      setSelectedState(toSelectedState(selectedValues, options));
     }
   });
 
@@ -52,7 +53,8 @@ export const useMultiSelect = ({ selectedValues, onSelectedValuesChange }: IUseM
   return {
     selectedValues: toSelectedValues(selectedState),
     selectedState,
-    updateSelectedValues: (selectedValues: TSelectedValues) => setSelectedState(toSelectedState(selectedValues)),
+    updateSelectedValues: (selectedValues: TSelectedValues) =>
+      setSelectedState(toSelectedState(selectedValues, options)),
     add: (value: TSelectedValue) => {
       setSelectedState(setValueByPrevState(value)(true));
     },
@@ -61,6 +63,20 @@ export const useMultiSelect = ({ selectedValues, onSelectedValuesChange }: IUseM
     },
     toggle: (value: TSelectedValue) => {
       setSelectedState((prevState: TSelectedState) => setValueByPrevState(value)(!prevState[value])(prevState));
+    },
+    selectAll: () => {
+      setSelectedState(() => {
+        const nextState = {} as TSelectedState;
+        forEach(options, option => (nextState[option.value] = true));
+        return nextState;
+      });
+    },
+    unselectAll: () => {
+      setSelectedState(() => {
+        const nextState = {} as TSelectedState;
+        forEach(options, option => (nextState[option.value] = false));
+        return nextState;
+      });
     },
   };
 };

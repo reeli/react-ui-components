@@ -16,6 +16,7 @@ export const GroupedCheckboxListing = (props: IGroupedCheckboxListing): React.Re
   const { options, selectedValues, getGroupTitle, onChange } = props;
   const multiSelect = useMultiSelect({
     selectedValues,
+    options,
   });
 
   const groups = groupBy(options, 'group') as Dictionary<ISelectOption[]>;

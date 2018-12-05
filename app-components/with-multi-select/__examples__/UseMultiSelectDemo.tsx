@@ -21,23 +21,30 @@ const options = [
 const initialValues = ['cat', 'dog'];
 
 export const UseMultiSelectDemo = () => {
-  const { selectedState, toggle } = useMultiSelect({
+  const { selectedState, toggle, selectAll, unselectAll } = useMultiSelect({
+    options,
     selectedValues: initialValues,
     onSelectedValuesChange: values => {
       console.log(values, 'onchange');
     },
   });
 
-  return map(options, option => {
-    return (
-      <Checkbox
-        key={option.value}
-        value={selectedState[option.value]}
-        onChange={() => {
-          toggle(option.value);
-        }}
-        label={option.display}
-      />
-    );
-  });
+  return (
+    <div>
+      {map(options, option => {
+        return (
+          <Checkbox
+            key={option.value}
+            value={selectedState[option.value]}
+            onChange={() => {
+              toggle(option.value);
+            }}
+            label={option.display}
+          />
+        );
+      })}
+      <div onClick={selectAll}>select all</div>
+      <div onClick={unselectAll}>unselect all</div>
+    </div>
+  );
 };

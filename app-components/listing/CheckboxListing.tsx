@@ -28,6 +28,7 @@ export function CheckboxListing(props: ICheckboxListingProps) {
   const { selectedState, toggle } = useMultiSelect({
     selectedValues,
     onSelectedValuesChange: onChange,
+    options,
   });
   return (
     <div {...listStyles}>

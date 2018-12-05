@@ -1,13 +1,15 @@
 import { forEach, keys, pickBy } from 'lodash';
-import { TSelectedState, TSelectedValues } from './interfaces';
+import { ISelectOption, TSelectedState, TSelectedValues } from './interfaces';
 
 export const toSelectedValues = (selectedState: TSelectedState): TSelectedValues =>
   keys(pickBy(selectedState, isSelected => isSelected));
 
-export const toSelectedState = (arr?: TSelectedValues) => {
+export const toSelectedState = (selectedValues: TSelectedValues = [], options: ISelectOption[]) => {
   const temp = {} as TSelectedState;
-  forEach(arr, key => {
-    temp[key] = true;
+
+  forEach(options, option => {
+    selectedValues.includes(option.value) ? (temp[option.value] = true) : (temp[option.value] = false);
   });
+
   return temp;
 };
