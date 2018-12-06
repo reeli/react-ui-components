@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { usePrevious } from '../../core/utils/common';
+import {usePrevious} from "../core/usePrevious";
 
 interface IUseCheckboxProps {
   inputValue?: any;
