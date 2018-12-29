@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Portal } from '../Portal';
+import React from "react";
+import { Portal } from "../Portal";
 
 export class PortalDemo extends React.Component<any, any> {
   state = {
@@ -16,13 +16,12 @@ export class PortalDemo extends React.Component<any, any> {
               gooooooooooooood!! <span onClick={close}>X</span>
             </span>
           )}
-          beforeClose={resetPortal => {
-            console.log('before close');
-            resetPortal();
+          onBeforeClose={() => {
+            console.log("before close");
           }}
-          closeOnOutSide
+          closeOnOutsideClick
         >
-          {({ toggle }) => <button onClick={toggle}>test</button>}
+          {({ toggle }) => <button onClick={toggle}>button</button>}
         </Portal>
         <div
           onClick={() => {
@@ -31,7 +30,6 @@ export class PortalDemo extends React.Component<any, any> {
             });
           }}
         >
-          {' '}
           click to open
         </div>
       </div>
