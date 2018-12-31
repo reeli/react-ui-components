@@ -8,12 +8,13 @@ interface IBasicPortalProps {
 export const BasicPortal = (props: IBasicPortalProps) => {
   let container: HTMLDivElement | null = null;
 
+  // If container not exist, create a div container
   if (!container) {
     container = document.createElement("div");
     document.body.appendChild(container);
   }
 
-  // Equal as componentWillUnmount
+  // Clean up container when componentWillUnmount
   useEffect(() => {
     return function cleanup() {
       if (container) {
