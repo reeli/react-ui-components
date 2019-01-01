@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export enum Placement {
   leftCenter,
@@ -46,7 +46,8 @@ const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | n
 
 export const usePlacement = ({ triggerRect, contentRect, placement }: IUsePlacementProps): IPosition => {
   const [position, updatePosition] = useState({ left: 0, top: 0 });
-  useEffect(
+  // change useEffect to useLayout to fix a bug
+  useLayoutEffect(
     () => {
       const position = getPosition(triggerRect, contentRect, placement);
       updatePosition(position);
