@@ -1,7 +1,7 @@
 import React, { RefObject, useCallback, useRef } from "react";
-import { Portal } from "../Portal";
 import { usePortal } from "../usePortal";
 import { useOutSideClick } from "../useOutSideClick";
+import { BasicPortal } from "../BasicPortal";
 
 export function PortalDemo() {
   const [isOpen, open, close] = usePortal();
@@ -14,14 +14,16 @@ export function PortalDemo() {
   useOutSideClick(contentEl, startLeave);
 
   return (
-    <div>
+    <div style={{ height: "900px", overflow: "scroll" }}>
       <button onClick={isOpen ? startLeave : open}>button</button>
-      <Portal isOpen={isOpen}>
-        <div ref={contentEl as RefObject<HTMLDivElement>}>
-          This is content!
-          <button onClick={startLeave}>Close X</button>
-        </div>
-      </Portal>
+      {isOpen && (
+        <BasicPortal>
+          <div ref={contentEl as RefObject<HTMLDivElement>}>
+            This is content!
+            <button onClick={startLeave}>Close X</button>
+          </div>
+        </BasicPortal>
+      )}
     </div>
   );
 }

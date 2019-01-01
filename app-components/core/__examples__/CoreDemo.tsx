@@ -1,28 +1,39 @@
-import { css } from 'glamor';
-import * as React from 'react';
-import { OverlayTrigger, Placement } from '../OverlayTrigger';
-import { Position } from '../Position';
+import { css } from "glamor";
+import * as React from "react";
+import { useRef } from "react";
+import { usePortal } from "../../portal/usePortal";
+import { BasicPortal } from "../../portal/BasicPortal";
+import { Overlay, Position } from "../Overlay";
 
-export class CoreDemo extends React.Component<any, any> {
-  render() {
-    return (
-      <div {...css({ padding: '0 10rem' })}>
-        <Position>
-          {() => {
-            return <div>this is an element</div>;
-          }}
-        </Position>
-        <OverlayTrigger
-          content={({ close }) => (
-            <span {...css({ width: '120px' })}>
-              Overlay content!! <span onClick={close}>XXX</span>
-            </span>
-          )}
-          placement={Placement.left}
-        >
-          {({ toggle }) => <button onClick={toggle}>Overlay Trigger</button>}
-        </OverlayTrigger>
+export function CoreDemo() {
+  const [isOpen, openState, closeState] = usePortal();
+  const triggerRef = useRef(null);
+
+  return (
+    <div {...css({ padding: "0 10rem" })}>
+      <div onClick={openState} ref={triggerRef}>
+        trigger
       </div>
-    );
-  }
+      {isOpen && (
+        <BasicPortal>
+          <Position triggerRef={triggerRef}>
+            <div onClick={closeState}>content x</div>
+          </Position>
+        </BasicPortal>
+      )}
+      ------------------------------------
+      <Overlay
+        trigger={({ triggerEl, open }) => {
+          return (
+            <div ref={triggerEl} onClick={open}>
+              this is trigger
+            </div>
+          );
+        }}
+        content={({ close }) => {
+          return <div onClick={close}>content</div>;
+        }}
+      />
+    </div>
+  );
 }
