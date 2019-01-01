@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HelloRuiLi/react-ui-components.git"
+    "url": "git+https://github.com/reeli/react-ui-components.git"
   },
-  "author": "HelloRuiLi",
+  "author": "reeli",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HelloRuiLi/react-ui-components/issues"
+    "url": "https://github.com/reeli/react-ui-components/issues"
   },
-  "homepage": "https://github.com/HelloRuiLi/react-ui-components#readme",
+  "homepage": "https://github.com/reeli/react-ui-components#readme",
   "devDependencies": {
     "@types/d3-shape": "1.2.7",
     "@types/lodash": "4.14.119",
