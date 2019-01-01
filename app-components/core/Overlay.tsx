@@ -3,7 +3,7 @@ import { ReactNode, RefObject, useRef } from "react";
 import { useDOMRect } from "./useDOMRect";
 import { NPortal } from "../portal/NPortal";
 import { Placement, usePlacement } from "./usePlacement";
-import { usePortal } from "../portal/usePortal";
+import { useToggle } from "../portal/useToggle";
 
 interface IOverlayTriggerProps {
   placement?: Placement;
@@ -13,7 +13,7 @@ interface IOverlayTriggerProps {
 
 export const Overlay = ({ trigger, content, placement = Placement.bottomLeft }: IOverlayTriggerProps) => {
   const triggerEl = useRef(null);
-  const [isOpen, open, close] = usePortal();
+  const [isOpen, open, close] = useToggle();
 
   return (
     <>

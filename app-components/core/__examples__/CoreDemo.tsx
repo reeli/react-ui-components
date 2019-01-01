@@ -1,12 +1,12 @@
 import { css } from "glamor";
 import * as React from "react";
 import { useRef } from "react";
-import { usePortal } from "../../portal/usePortal";
+import { useToggle } from "../../portal/useToggle";
 import { BasicPortal } from "../../portal/BasicPortal";
 import { Overlay, Position } from "../Overlay";
 
 export function CoreDemo() {
-  const [isOpen, openState, closeState] = usePortal();
+  const [isOpen, openState, closeState] = useToggle();
   const triggerRef = useRef(null);
 
   return (

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-export const usePortal = (defaultOpen: boolean = false) => {
+export const useToggle = (defaultOpen: boolean = false) => {
   const [openState, setOpenState] = useState(defaultOpen);
 
   /*

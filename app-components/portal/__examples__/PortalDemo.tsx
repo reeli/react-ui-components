@@ -1,10 +1,10 @@
 import React, { RefObject, useCallback, useRef } from "react";
-import { usePortal } from "../usePortal";
+import { useToggle } from "../useToggle";
 import { useOutSideClick } from "../useOutSideClick";
 import { BasicPortal } from "../BasicPortal";
 
 export function PortalDemo() {
-  const [isOpen, open, close] = usePortal();
+  const [isOpen, open, close] = useToggle();
   const contentEl = useRef<HTMLElement>(null);
   const startLeave = useCallback(() => {
     // do something before close
