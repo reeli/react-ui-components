@@ -1,5 +1,3 @@
-import { useLayoutEffect, useState } from "react";
-
 export enum Placement {
   leftCenter,
   rightCenter,
@@ -26,18 +24,21 @@ const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | n
   let position = {} as IPosition;
   if (triggerRect && contentRect) {
     const dWidth = (triggerRect.width - contentRect.width) / 2;
+    const contentTop = triggerRect.top + triggerRect.height + document.documentElement.scrollTop;
+
     switch (placement) {
       case Placement.bottomRight:
-        position.top = triggerRect.top + triggerRect.height;
-        position.left = triggerRect.left + (triggerRect.width - contentRect.width);
+        position.left =
+          triggerRect.left + (triggerRect.width - contentRect.width) + document.documentElement.scrollLeft;
+        position.top = contentTop;
         break;
       case Placement.bottomCenter:
-        position.left = triggerRect.left - dWidth;
-        position.top = triggerRect.top + triggerRect.height;
+        position.left = triggerRect.left + dWidth + document.documentElement.scrollLeft;
+        position.top = contentTop;
         break;
       case Placement.bottomLeft:
-        position.left = triggerRect.left;
-        position.top = triggerRect.top + triggerRect.height;
+        position.left = triggerRect.left + document.documentElement.scrollLeft;
+        position.top = contentTop;
         break;
     }
   }
@@ -45,14 +46,6 @@ const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | n
 };
 
 export const usePlacement = ({ triggerRect, contentRect, placement }: IUsePlacementProps): IPosition => {
-  const [position, updatePosition] = useState({ left: 0, top: 0 });
-  // change useEffect to useLayout to fix a bug
-  useLayoutEffect(
-    () => {
-      const position = getPosition(triggerRect, contentRect, placement);
-      updatePosition(position);
-    },
-    [triggerRect, contentRect, placement],
-  );
-  return position;
+  // TODO: Add useMemo here
+  return getPosition(triggerRect, contentRect, placement);
 };
