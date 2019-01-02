@@ -7,7 +7,6 @@ import { Placement } from "../core/usePlacement";
 
 interface ITooltipsProps {
   children: ReactElement<any>;
-  width?: string;
   content?: ReactNode;
   placement?: Placement;
 }
