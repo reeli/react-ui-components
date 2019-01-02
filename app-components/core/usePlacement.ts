@@ -21,24 +21,26 @@ interface IPosition {
 }
 
 const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | null, placement: Placement) => {
-  let position = {} as IPosition;
+  let position = {
+    top: document.documentElement.scrollTop,
+    left: document.documentElement.scrollLeft,
+  } as IPosition;
   if (triggerRect && contentRect) {
     const dWidth = (triggerRect.width - contentRect.width) / 2;
-    const contentTop = triggerRect.top + triggerRect.height + document.documentElement.scrollTop;
+    const contentTop = triggerRect.top + triggerRect.height;
 
     switch (placement) {
       case Placement.bottomRight:
-        position.left =
-          triggerRect.left + (triggerRect.width - contentRect.width) + document.documentElement.scrollLeft;
-        position.top = contentTop;
+        position.left += triggerRect.left + (triggerRect.width - contentRect.width);
+        position.top += contentTop;
         break;
       case Placement.bottomCenter:
-        position.left = triggerRect.left + dWidth + document.documentElement.scrollLeft;
-        position.top = contentTop;
+        position.left += triggerRect.left + dWidth;
+        position.top += contentTop;
         break;
       case Placement.bottomLeft:
-        position.left = triggerRect.left + document.documentElement.scrollLeft;
-        position.top = contentTop;
+        position.left += triggerRect.left;
+        position.top += contentTop;
         break;
     }
   }
