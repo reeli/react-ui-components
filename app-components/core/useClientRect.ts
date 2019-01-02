@@ -1,6 +1,9 @@
 import { RefObject, useLayoutEffect, useState } from "react";
 
-export const useDOMRect = (ele: RefObject<HTMLElement | null>, inputs: ReadonlyArray<any> = []): ClientRect | null => {
+export const useClientRect = (
+  ele: RefObject<HTMLElement | null>,
+  inputs: ReadonlyArray<any> = [],
+): ClientRect | null => {
   const [domRect, updateDOMRect] = useState<ClientRect | null>(null);
 
   useLayoutEffect(() => {

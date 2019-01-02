@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ReactNode, RefObject, useRef } from "react";
-import { useDOMRect } from "./useDOMRect";
+import { useClientRect } from "./useClientRect";
 import { NPortal } from "../portal/NPortal";
 import { Placement, usePlacement } from "./usePlacement";
 import { useToggle } from "../portal/useToggle";
@@ -40,8 +40,8 @@ export const Position = ({
   placement?: Placement;
 }) => {
   const contentEl = useRef(null);
-  const triggerRect = useDOMRect(triggerRef);
-  const contentRect = useDOMRect(contentEl);
+  const triggerRect = useClientRect(triggerRef);
+  const contentRect = useClientRect(contentEl);
 
   const position = usePlacement({
     triggerRect,
