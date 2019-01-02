@@ -50,7 +50,7 @@ export const Position = ({
   });
 
   return (
-    <div style={{ position: "absolute", top: position.top, left: position.left }} ref={contentEl}>
+    <div style={{ position: "absolute", top: position.top, left: position.left, zIndex: 999 }} ref={contentEl}>
       {children}
     </div>
   );

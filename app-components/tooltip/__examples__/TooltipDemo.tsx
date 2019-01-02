@@ -2,9 +2,11 @@ import { css } from "glamor";
 import * as React from "react";
 import { Tooltip } from "../Tooltip";
 import { Placement } from "../../core/usePlacement";
+import { Button } from "../../button/Button";
 
 const tooltipsStyles = css({
-  position: "absolute",
+  // position: "absolute", // can not set absolute here
+  position: "relative",
   zIndex: 1000,
   padding: "8px 0",
   width: 100,
@@ -17,6 +19,7 @@ const tooltipsInnerStyles = css({
   fontSize: "14px",
   padding: ".3rem",
   borderRadius: 4,
+  textAlign: "center",
 });
 
 const arrowUp = css({
@@ -31,34 +34,51 @@ const arrowUp = css({
   height: 0,
 });
 
-const TooltipContent = () => (
+const centerStyles = css({
+  left: "50%",
+});
+
+const leftStyels = css({
+  left: 20,
+});
+
+const rightStyles = css({
+  right: 20,
+});
+
+const TooltipContent = ({ placement = "left" }: { placement?: "center" | "left" | "right" }) => (
   <div {...css(tooltipsStyles)}>
-    <div {...arrowUp} />
+    <div
+      {...arrowUp}
+      {...placement === "center" && centerStyles}
+      {...placement === "left" && leftStyels}
+      {...placement === "right" && rightStyles}
+    />
     <div {...tooltipsInnerStyles}>
       <div>Prompt Text</div>
     </div>
   </div>
 );
 
-// const TooltipTrigger = forwardRef((props, ref: Ref<HTMLSpanElement>) => (
-//   <span ref={ref} {...css({ display: "inline-block" })} {...props}>
-//     Prompt Text
-//   </span>
-// ));
-
 export class TooltipDemo extends React.Component<any, any> {
   render() {
     return (
       <div {...css({ height: "1000px", marginTop: 200 })}>
-        <Tooltip width="330px" placement={Placement.bottomLeft} content={<TooltipContent />}>
-          <span {...css({ display: "inline-block" })}>Bottom Left</span>
-        </Tooltip>
-        <Tooltip width="330px" placement={Placement.bottomCenter} content={<TooltipContent />}>
-          <span {...css({ display: "inline-block" })}>Bottom Center</span>
-        </Tooltip>
-        <Tooltip width="330px" placement={Placement.bottomRight} content={<TooltipContent />}>
-          <span {...css({ display: "inline-block", background: "red" })}>Bottom Right</span>
-        </Tooltip>
+        <span style={{ marginRight: 15 }}>
+          <Tooltip placement={Placement.bottomLeft} content={<TooltipContent placement={"left"} />}>
+            <Button>On Bottom Left</Button>
+          </Tooltip>
+        </span>
+        <span style={{ marginRight: 15 }}>
+          <Tooltip placement={Placement.bottomCenter} content={<TooltipContent placement={"center"} />}>
+            <Button>On Bottom Center</Button>
+          </Tooltip>
+        </span>
+        <span style={{ marginRight: 15 }}>
+          <Tooltip placement={Placement.bottomRight} content={<TooltipContent placement={"right"} />}>
+            <Button>On Bottom Right</Button>
+          </Tooltip>
+        </span>
       </div>
     );
   }
