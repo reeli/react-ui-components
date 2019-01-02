@@ -1,9 +1,10 @@
 import * as React from "react";
-import { ReactElement, ReactNode, useRef } from "react";
+import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import { useToggle } from "../portal/useToggle";
 import { BasicPortal } from "../portal/BasicPortal";
 import { Position } from "../core/Overlay";
 import { Placement } from "../core/usePlacement";
+import invariant from "invariant";
 
 interface ITooltipsProps {
   children: ReactElement<any>;
@@ -14,11 +15,18 @@ interface ITooltipsProps {
 export function Tooltip(props: ITooltipsProps) {
   const { content, children, placement } = props;
   const [isOpen, show, hide] = useToggle();
-  const triggerEl = useRef(null);
+  const triggerEl = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    invariant(
+      triggerEl.current instanceof HTMLElement,
+      "The children must be able to receive ref prop of HTMLElement.",
+    );
+  }, []);
 
   return (
     <>
-      {React.cloneElement(children, {
+      {React.cloneElement(React.Children.only(children), {
         ref: triggerEl,
         onMouseEnter: show,
         onMouseLeave: hide,
