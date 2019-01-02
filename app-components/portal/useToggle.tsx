@@ -1,22 +1,22 @@
 import { useMemo, useState } from "react";
 
-export const useToggle = (defaultOpen: boolean = false) => {
-  const [openState, setOpenState] = useState(defaultOpen);
+export const useToggle = (defaultState: boolean = false) => {
+  const [isShow, setShowState] = useState(defaultState);
 
   /*
-    `useMemo` here to ensure `open` and `close` only be created once.
-     Otherwise, it would be create again every time when the Function component re-render.
-     */
+       `useMemo` here to ensure `open` and `close` only be created once.
+        Otherwise, it would be create again every time when the Function component re-render.
+        */
 
-  const { open, close } = useMemo(() => {
+  const { show, hide } = useMemo(() => {
     const create = (state: boolean) => () => {
-      setOpenState(state);
+      setShowState(state);
     };
     return {
-      open: create(true),
-      close: create(false),
+      show: create(true),
+      hide: create(false),
     };
   }, []);
 
-  return [openState, open, close] as [typeof openState, typeof open, typeof close];
+  return [isShow, show, hide] as [typeof isShow, typeof show, typeof hide];
 };

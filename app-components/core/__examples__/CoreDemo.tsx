@@ -6,18 +6,18 @@ import { BasicPortal } from "../../portal/BasicPortal";
 import { Overlay, Position } from "../Overlay";
 
 export function CoreDemo() {
-  const [isOpen, openState, closeState] = useToggle();
+  const [isShow, show, hide] = useToggle();
   const triggerRef = useRef(null);
 
   return (
     <div {...css({ padding: "0 10rem" })}>
-      <div onClick={openState} ref={triggerRef}>
+      <div onClick={show} ref={triggerRef}>
         trigger
       </div>
-      {isOpen && (
+      {isShow && (
         <BasicPortal>
           <Position triggerRef={triggerRef}>
-            <div onClick={closeState}>content x</div>
+            <div onClick={hide}>content x</div>
           </Position>
         </BasicPortal>
       )}
