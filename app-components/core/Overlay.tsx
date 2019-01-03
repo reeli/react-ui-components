@@ -39,9 +39,9 @@ export const Position = ({
   children: ReactNode;
   placement?: Placement;
 }) => {
-  const contentEl = useRef(null);
+  const contentEl = useRef<HTMLDivElement>(null);
   const triggerRect = useClientRect(triggerRef);
-  const contentRect = useClientRect(contentEl);
+  const contentRect = useClientRect(contentEl, [], false);
 
   const position = usePlacement({
     triggerRect,
@@ -50,7 +50,15 @@ export const Position = ({
   });
 
   return (
-    <div style={{ position: "absolute", top: position.top, left: position.left, zIndex: 999 }} ref={contentEl}>
+    <div
+      style={{
+        position: "absolute",
+        left: position.left,
+        top: position.top,
+        willChange: "transform",
+      }}
+      ref={contentEl}
+    >
       {children}
     </div>
   );
