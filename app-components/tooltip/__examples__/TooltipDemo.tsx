@@ -3,6 +3,7 @@ import * as React from "react";
 import { Tooltip } from "../Tooltip";
 import { Placement } from "../../core/usePlacement";
 import { Button } from "../../button/Button";
+import { IncreasingNumber } from "../../increasing-number";
 
 const tooltipsStyles = css({
   // position: "absolute", // can not set absolute here
@@ -64,6 +65,9 @@ export class TooltipDemo extends React.Component<any, any> {
   render() {
     return (
       <div {...css({ height: "1000px", marginTop: 200 })}>
+        <IncreasingNumber totalNumber={100} totalTime={10000}>
+          {({ increasingNumber }) => <div>{increasingNumber}</div>}
+        </IncreasingNumber>
         <span style={{ marginRight: 15 }}>
           <Tooltip placement={Placement.bottomLeft} content={<TooltipContent placement={"left"} />}>
             <Button>On Bottom Left</Button>
@@ -74,11 +78,21 @@ export class TooltipDemo extends React.Component<any, any> {
             <Button>On Bottom Center</Button>
           </Tooltip>
         </span>
-        <span style={{ marginRight: 15 }}>
-          <Tooltip placement={Placement.bottomRight} content={<TooltipContent placement={"right"} />}>
-            <Button>On Bottom Right</Button>
-          </Tooltip>
-        </span>
+        <div style={{ height: 200, background: "pink", overflow: "scroll" }}>
+          <span style={{ marginRight: 15 }}>
+            <Tooltip placement={Placement.bottomRight} content={<TooltipContent placement={"right"} />}>
+              <Button>On Bottom Right</Button>
+            </Tooltip>
+          </span>
+        </div>
+        <div>111</div>
+        <div>111</div>
+        <div>111</div>
+        <div>111</div>
+        <div>111</div>
+        <div>111</div>
+        <div>111</div>
+        <div>111</div>
       </div>
     );
   }
