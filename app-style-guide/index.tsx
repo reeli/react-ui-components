@@ -1,33 +1,33 @@
-import { css } from 'glamor';
-import createBrowserHistory from 'history/createBrowserHistory';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Router, Switch } from 'react-router';
-import { Nav } from './components/Nav';
-import { getRouterRoutes } from './getRouterRoutes';
-import { routesConfig } from './getRoutesConfig';
-import { ThemeContext } from './ThemeContext';
+import { css } from "glamor";
+import createBrowserHistory from "history/createBrowserHistory";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Router, Switch } from "react-router";
+import { Nav } from "./components/Nav";
+import { getRouterRoutes } from "./getRouterRoutes";
+import { routesConfig } from "./getRoutesConfig";
+import { ThemeContext } from "./ThemeContext";
 
 const browserHistory = createBrowserHistory();
 
 const containerStyles = css({
-  position: 'absolute',
+  position: "absolute",
   left: 0,
   top: 0,
   right: 0,
   bottom: 0,
-  display: 'flex',
-  flex: '1 0 auto',
+  display: "flex",
 });
 
 const mainStyles = css({
-  padding: '1rem',
-  width: '100%',
+  padding: "1rem",
+  flex: 1,
+  overflow: "scroll",
 });
 
 class App extends React.Component<any, any> {
   state = {
-    theme: 'light',
+    theme: "light",
   };
 
   render() {
@@ -39,7 +39,7 @@ class App extends React.Component<any, any> {
               theme: this.state.theme,
               toggleTheme: () => {
                 this.setState({
-                  theme: this.state.theme === 'light' ? 'dark' : 'light',
+                  theme: this.state.theme === "light" ? "dark" : "light",
                 });
               },
             }}
@@ -55,4 +55,4 @@ class App extends React.Component<any, any> {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
