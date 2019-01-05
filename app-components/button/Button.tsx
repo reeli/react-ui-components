@@ -8,12 +8,15 @@ const buttonStyles = css({
   borderRadius: 4,
   border: "1px solid #ccc",
   fontSize: 14,
+  outline: "none",
 });
 
-export const Button = forwardRef(({ children, ...others }: { children: ReactNode }, ref: Ref<HTMLButtonElement>) => {
-  return (
-    <button ref={ref} {...buttonStyles} {...others}>
-      {children}
-    </button>
-  );
-});
+export const Button = forwardRef(
+  ({ children, ...others }: { children: ReactNode; onClick?: () => void }, ref: Ref<HTMLButtonElement>) => {
+    return (
+      <button ref={ref} {...buttonStyles} {...others}>
+        {children}
+      </button>
+    );
+  },
+);
