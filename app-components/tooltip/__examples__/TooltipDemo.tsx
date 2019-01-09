@@ -48,7 +48,7 @@ const rightStyles = css({
 });
 
 const TooltipContent = ({ placement = "left" }: { placement?: "center" | "left" | "right" }) => (
-  <div {...css(tooltipsStyles)}>
+  <div {...css(tooltipsStyles)} data-role="tooltip">
     <div
       {...arrowUp}
       {...placement === "center" && centerStyles}
@@ -65,6 +65,10 @@ export class TooltipDemo extends React.Component<any, any> {
   render() {
     return (
       <div {...css({ height: "1000px", marginTop: 200 })}>
+        <div style={{ position: "relative", height: "60px", overflow: "hidden", marginBottom: 50 }}>
+          <Button>On Bottom Left</Button>
+          <TooltipContent />
+        </div>
         <IncreasingNumber totalNumber={100} totalTime={10000}>
           {({ increasingNumber }) => <div>{increasingNumber}</div>}
         </IncreasingNumber>

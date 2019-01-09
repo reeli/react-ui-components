@@ -11,6 +11,7 @@ export const BasicPortal = (props: IBasicPortalProps) => {
   // If container not exist, create a div container
   if (!container) {
     container = document.createElement("div");
+    container.setAttribute("role", "portal");
     document.body.appendChild(container);
   }
 
