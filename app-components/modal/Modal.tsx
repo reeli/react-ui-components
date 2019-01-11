@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import { BasicPortal } from "../portal/BasicPortal";
 
-const Overlay = () => (
+const Backdrop = () => (
   <div
     style={{
       position: "absolute",
@@ -31,7 +31,7 @@ interface IModalProps {
   BackdropComponent?: FunctionComponent;
 }
 
-export const Modal = ({ children, isOpen, BackdropComponent = Overlay }: IModalProps) => {
+export const Modal = ({ children, isOpen, BackdropComponent = Backdrop }: IModalProps) => {
   return isOpen ? (
     <BasicPortal>
       <div style={modalStyles}>

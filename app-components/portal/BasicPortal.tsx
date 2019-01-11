@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 interface IBasicPortalProps {
@@ -6,23 +6,24 @@ interface IBasicPortalProps {
 }
 
 export const BasicPortal = (props: IBasicPortalProps) => {
-  let container: HTMLDivElement | null = null;
+  let containerRef = useRef<HTMLDivElement | null>(null);
 
   // If container not exist, create a div container
-  if (!container) {
-    container = document.createElement("div");
-    container.setAttribute("role", "portal");
-    document.body.appendChild(container);
+  if (!containerRef.current) {
+    containerRef.current = document.createElement("div");
+    containerRef.current.setAttribute("role", "portal");
+    containerRef.current.setAttribute("data-time", `${new Date().getTime()}`);
+    document.body.appendChild(containerRef.current);
   }
 
   // Clean up container when componentWillUnmount
   useEffect(() => {
     return function cleanup() {
-      if (container) {
-        document.body.removeChild(container);
+      if (containerRef.current) {
+        document.body.removeChild(containerRef.current);
       }
     };
-  });
+  }, []);
 
-  return createPortal(props.children, container);
+  return createPortal(props.children, containerRef.current);
 };

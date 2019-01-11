@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "../Modal";
 import { useToggle } from "../../portal/useToggle";
 import { Button } from "../../button/Button";
@@ -17,6 +17,8 @@ const modalContentStyles = {
 const contentStyles = { marginBottom: 15 };
 
 export function ModalDemo() {
+  const [state, setState] = useState(0);
+
   const [isOpen, open, close] = useToggle();
 
   return (
@@ -25,7 +27,10 @@ export function ModalDemo() {
       <Modal isOpen={isOpen}>
         <div style={modalContentStyles}>
           <h2>Modal Title</h2>
-          <div style={contentStyles}>This is some content.</div>
+          <div style={contentStyles}>
+            This is some content.
+            <Button onClick={() => setState(val => val + 1)}>{state}</Button>
+          </div>
           <Button onClick={close}>Close</Button>
         </div>
       </Modal>
