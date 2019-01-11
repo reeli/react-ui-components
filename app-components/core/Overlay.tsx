@@ -30,33 +30,23 @@ export const Overlay = ({ trigger, content, placement = Placement.bottomLeft }: 
   );
 };
 
-export const Position = ({
-  triggerRef,
-  placement = Placement.bottomRight,
-  children,
-}: {
+interface IPositionProps {
   triggerRef: RefObject<HTMLElement | null>;
   children: ReactNode;
   placement?: Placement;
-}) => {
+}
+
+export const Position = ({ triggerRef, placement = Placement.bottomRight, children }: IPositionProps) => {
   const contentEl = useRef<HTMLDivElement>(null);
   const triggerRect = useClientRect(triggerRef);
   const contentRect = useClientRect(contentEl, [], false);
 
-  const position = usePlacement({
-    triggerRect,
-    contentRect,
-    placement,
-  });
+  // 根据触发元素和内容元素的 ClientRect，以及摆放位置，计算出内容元素的坐标
+  const position = usePlacement({ triggerRect, contentRect, placement });
 
   return (
     <div
-      style={{
-        position: "absolute",
-        left: position.left,
-        top: position.top,
-        willChange: "transform",
-      }}
+      style={{ position: "absolute", left: position.left, top: position.top, willChange: "transform" }}
       ref={contentEl}
     >
       {children}

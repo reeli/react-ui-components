@@ -9,15 +9,15 @@ export enum Placement {
   bottomRight,
 }
 
+interface IPosition {
+  left: number;
+  top: number;
+}
+
 interface IUsePlacementProps {
   triggerRect: ClientRect | null;
   contentRect: ClientRect | null;
   placement: Placement;
-}
-
-interface IPosition {
-  left: number;
-  top: number;
 }
 
 const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | null, placement: Placement) => {
