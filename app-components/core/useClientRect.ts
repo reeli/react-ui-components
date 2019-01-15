@@ -1,50 +1,21 @@
-import { RefObject, useLayoutEffect, useState } from "react";
-import { getScrollParents } from "./getScrollParent";
+import { RefObject, useLayoutEffect, useMemo, useState } from "react";
 
-export const useClientRect = (
-  ele: RefObject<HTMLElement | null>,
-  inputs: ReadonlyArray<any> = [],
-  shouldBindEvent: boolean = true,
-): ClientRect | null => {
-  const [domRect, updateDOMRect] = useState<ClientRect | null>(null);
+export const useClientRect = (ele: RefObject<HTMLElement | null>) => {
+  const [clientRect, setClientRect] = useState<ClientRect | null>(null);
 
-  useLayoutEffect(() => {
-    const getRect = () => {
-      if (ele.current) {
-        updateDOMRect(ele.current!.getBoundingClientRect());
-      }
+  // 更新元素的 ClientRect，使用 useMemo 确保只创建一次 updateClientRect 方法
+  const updateClientRect = useMemo(() => {
+    return () => {
+      setClientRect(ele.current!.getBoundingClientRect());
     };
+  }, []);
 
-    let ticking = false;
-
-    function scroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          getRect();
-          ticking = false;
-        });
-      }
-      ticking = true;
+  // 只有当 React 组件 didMount 时，才能取到元素的 ClientRect，所以这里要使用 useLayoutEffect
+  useLayoutEffect(() => {
+    if (ele.current) {
+      updateClientRect();
     }
+  }, []);
 
-    scroll();
-
-    if (shouldBindEvent && ele.current) {
-      const parentElements = getScrollParents(ele.current);
-      parentElements.forEach(parentElement => {
-        parentElement.addEventListener("scroll", scroll);
-      });
-
-      window.addEventListener("resize", scroll);
-
-      return function cleanup() {
-        parentElements.forEach(parentElement => {
-          parentElement.removeEventListener("scroll", scroll);
-        });
-        window.removeEventListener("resize", scroll);
-      };
-    }
-  }, inputs);
-
-  return domRect;
+  return [clientRect, updateClientRect] as [typeof clientRect, typeof updateClientRect];
 };

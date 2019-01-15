@@ -4,6 +4,8 @@ import { useClientRect } from "./useClientRect";
 import { NPortal } from "../portal/NPortal";
 import { Placement, usePlacement } from "./usePlacement";
 import { useToggle } from "../portal/useToggle";
+import { useScroll } from "./useScroll";
+import { useResize } from "./useResize";
 
 interface IOverlayTriggerProps {
   placement?: Placement;
@@ -38,8 +40,13 @@ interface IPositionProps {
 
 export const Position = ({ triggerRef, placement = Placement.bottomRight, children }: IPositionProps) => {
   const contentEl = useRef<HTMLDivElement>(null);
-  const triggerRect = useClientRect(triggerRef);
-  const contentRect = useClientRect(contentEl, [], false);
+  const [triggerRect, updateTriggerRect] = useClientRect(triggerRef);
+  const [contentRect] = useClientRect(contentEl);
+
+  // 给 trigger 元素和它的滚动父节点绑定 scroll 事件，更新它的 ClientRect
+  useScroll(triggerRef, updateTriggerRect);
+  // 监听 resize 事件，并更新 trigger 元素的 ClientRect
+  useResize(updateTriggerRect);
 
   // 根据触发元素和内容元素的 ClientRect，以及摆放位置，计算出内容元素的坐标
   const position = usePlacement({ triggerRect, contentRect, placement });
