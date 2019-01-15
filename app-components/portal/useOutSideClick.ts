@@ -1,11 +1,11 @@
 import { RefObject, useLayoutEffect } from "react";
 
-export const useOutSideClick = (ele: RefObject<HTMLElement | null>, onOutSideClick: () => void) => {
+export const useOutSideClick = (ele: RefObject<HTMLElement | null>, onOutSideClick: (evt: Event) => void) => {
   useLayoutEffect(() => {
     const handleOutSideClick = (evt: Event) => {
       const node = ele.current!;
       if (node && !node.contains(evt.target as HTMLElement)) {
-        onOutSideClick();
+        onOutSideClick(evt);
       }
     };
 

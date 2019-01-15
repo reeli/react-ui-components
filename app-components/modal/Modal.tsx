@@ -1,8 +1,13 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { FunctionComponent, MouseEventHandler, ReactNode } from "react";
 import { BasicPortal } from "../portal/BasicPortal";
 
-const Backdrop = () => (
+interface IBackdropProps {
+  onBackDropClick?: MouseEventHandler;
+}
+
+const Backdrop = ({ onBackDropClick }: IBackdropProps) => (
   <div
+    onClick={onBackDropClick}
     style={{
       position: "absolute",
       top: 0,
@@ -12,7 +17,6 @@ const Backdrop = () => (
       background: "rgba(0,0,0,0.65)",
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     }}
-    onClick={close}
   />
 );
 
@@ -25,17 +29,17 @@ const modalStyles = {
   zIndex: 999,
 } as any;
 
-interface IModalProps {
+interface IModalProps extends IBackdropProps {
   isOpen: boolean;
   children: ReactNode;
-  BackdropComponent?: FunctionComponent;
+  BackdropComponent?: FunctionComponent<any>;
 }
 
-export const Modal = ({ children, isOpen, BackdropComponent = Backdrop }: IModalProps) => {
+export const Modal = ({ children, isOpen, onBackDropClick, BackdropComponent = Backdrop }: IModalProps) => {
   return isOpen ? (
     <BasicPortal>
       <div style={modalStyles}>
-        <BackdropComponent />
+        <BackdropComponent onBackDropClick={onBackDropClick} />
         {children}
       </div>
     </BasicPortal>

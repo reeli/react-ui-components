@@ -16,6 +16,21 @@ const modalContentStyles = {
 
 const contentStyles = { marginBottom: 15 };
 
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
 export function ModalDemo() {
   const [state, setState] = useState(0);
 
@@ -24,14 +39,15 @@ export function ModalDemo() {
   return (
     <div>
       <Button onClick={open}>Open Modal</Button>
-      <Modal isOpen={isOpen}>
-        <div style={modalContentStyles}>
+      <Modal isOpen={isOpen} onBackDropClick={close}>
+        <div style={{ ...modalContentStyles, ...getModalStyle() }}>
           <h2>Modal Title</h2>
           <div style={contentStyles}>
             This is some content.
             <Button onClick={() => setState(val => val + 1)}>{state}</Button>
           </div>
           <Button onClick={close}>Close</Button>
+          <ModalDemo />
         </div>
       </Modal>
     </div>
