@@ -14,6 +14,7 @@ export const BasicPortal = (props: IBasicPortalProps) => {
   // 如果 container 节点不存在，创建一个 div 元素，保存到 "ref" 的 current 属性中，并且添加到 document.body。
   if (!containerRef.current) {
     containerRef.current = document.createElement("div");
+    containerRef.current.setAttribute("role", "portal");
     document.body.appendChild(containerRef.current);
   }
 
