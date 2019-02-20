@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 export const useToggle = (defaultVisible: boolean = false) => {
   const [visible, setVisible] = useState(defaultVisible);
 
-  // 使用 useMemo 是为了确保只创建一次 show() 和 hide() 方法。否则，每一次组件 re-render 时都会创建。
+  // 使用 useMemo 是为了确保只创建一次 show 和 hide 方法。否则，每一次组件 re-render 时都会重新创建。
   const { show, hide } = useMemo(() => {
     return {
       show: () => setVisible(true),
