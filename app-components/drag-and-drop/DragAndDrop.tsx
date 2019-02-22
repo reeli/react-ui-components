@@ -45,9 +45,8 @@ export class DragAndDrop extends Component {
 
   handleCityDrop = (_: any, item: any) => {
     const nextList = swap(this.state.list, item, this.state.draggedItem);
+    // If drag too fast, sometimes this method cannot be called, so we should clear state in drag end method.
     this.setState({
-      draggedItem: null,
-      targetItem: null,
       list: nextList,
     });
   };
@@ -66,6 +65,13 @@ export class DragAndDrop extends Component {
     });
   };
 
+  handleDragEnd = () => {
+    this.setState({
+      draggedItem: null,
+      targetItem: null,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -75,10 +81,12 @@ export class DragAndDrop extends Component {
             onDrop={e => this.handleCityDrop(e, item)}
             onDragOver={e => this.handleCityDragOver(e, item)}
             onDragStart={e => this.handleCityDragStart(e, item)}
+            onDragEnd={() => this.handleDragEnd()}
             draggable
             style={{
               border: `1px solid ${item.id === get(this.state.targetItem, "id") ? "red" : "black"}`,
               padding: 20,
+              margin: 20,
             }}
           >
             {item.city}
