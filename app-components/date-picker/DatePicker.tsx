@@ -1,39 +1,68 @@
-import React from "react";
-import moment from "moment";
-import { chunk, map, range } from "lodash";
+import React, { useState } from "react";
+import { chunk, map } from "lodash";
 import { getMonthDate } from "./utils";
+import moment from "moment";
+
+const countYearMonth = ({ year, month }: { year: number; month: number }) => {
+  let temp: { year: number; month: number } = {
+    year,
+    month,
+  };
+
+  if (month < 0) {
+    temp = {
+      year: year - 1,
+      month: 11,
+    };
+  }
+
+  if (month > 11) {
+    temp = {
+      year: year + 1,
+      month: 0,
+    };
+  }
+
+  return temp;
+};
 
 export function DatePicker() {
-  console.log(getMonthDate());
-  const startDay = moment()
-    .startOf("month")
-    .day(0);
-  const endDay = moment()
-    .endOf("month")
-    .day(6); // 6+7*5  5 Saturdays from now
+  const current = {
+    month: moment().month(),
+    year: moment().year(),
+  };
+  const [monthDate, setMonthDate] = useState({
+    year: current.year,
+    month: current.month,
+  });
 
-  const daysBefore = startDay.format("DD");
-  const daysBeforeEnd = startDay.daysInMonth();
-  const before = range(Number(daysBefore), daysBeforeEnd + 1);
-
-  const daysAfter = endDay.format("DD");
-  const after = range(1, Number(daysAfter) + 1);
-
-  const total = [...before, ...range(1, moment().daysInMonth() + 1), ...after];
-
-  const prev = moment()
-    .startOf("month")
-    .subtract(1, "month")
-    .format("M");
-  const next = moment()
-    .startOf("month")
-    .add(1, "month")
-    .format("M");
-  console.log(prev, next);
   return (
     <div>
-      <button>prev</button>
-      <button>next</button>
+      <button
+        onClick={() => {
+          setMonthDate(
+            countYearMonth({
+              year: monthDate.year,
+              month: monthDate.month - 1,
+            }),
+          );
+        }}
+      >
+        prev
+      </button>
+      <button
+        onClick={() => {
+          setMonthDate(
+            countYearMonth({
+              year: monthDate.year,
+              month: monthDate.month + 1,
+            }),
+          );
+        }}
+      >
+        next
+      </button>
+      <div>{moment([monthDate.year, monthDate.month]).format("YYYY MM")} 月</div>
       <table>
         <thead>
           <tr>
@@ -46,17 +75,23 @@ export function DatePicker() {
             <th>六</th>
           </tr>
         </thead>
-        {chunk(total, 7).map((row, idx) => {
-          return (
-            <tr key={idx}>
-              {map(row, (day, idx) => (
-                <td key={idx} style={{ padding: 10 }} onClick={() => {}}>
-                  {day}
-                </td>
-              ))}
-            </tr>
-          );
-        })}
+        <tbody>
+          {chunk(getMonthDate(moment([monthDate.year, monthDate.month, 1])), 7).map((row, idx) => {
+            return (
+              <tr key={idx}>
+                {map(row, (week, idx) => (
+                  <td
+                    key={idx}
+                    style={{ padding: 10, color: week.isHead || week.isTail ? "#ccc" : "black" }}
+                    onClick={() => {}}
+                  >
+                    {week.day}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );
