@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "module": "commonjs",
     "moduleResolution": "node",
     "jsx": "react",
@@ -12,6 +12,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "outDir": ".tmp",
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true
   },
   "exclude": ["node_modules"]

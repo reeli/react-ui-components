@@ -38,6 +38,11 @@ const webpackConfig: webpack.Configuration = {
       template: "./index.html",
     }),
   ],
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    modules: [__dirname, "node_modules"],
+  },
+
   mode: "development",
 };
 
