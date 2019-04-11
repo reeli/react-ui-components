@@ -43,7 +43,8 @@ const webpackConfig: webpack.Configuration = {
     modules: [__dirname, "node_modules"],
   },
 
-  mode: "development",
+  mode: (process.env.NODE_ENV as any) || "development",
+  devtool: process.env.NODE_ENV === "development" ? "source-map" : undefined,
 };
 
 export = webpackConfig;

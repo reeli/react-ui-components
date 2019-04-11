@@ -4,7 +4,7 @@
   "description": "react ui components",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config=webpack.config.ts --port=9001 --compress --open --history-api-fallback",
+    "start": "NODE_ENV=development webpack-dev-server --config=webpack.config.ts --port=9001 --compress --open --history-api-fallback",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pretty": "prettier --write '{app-components,app-style-guide,__{tests,mocks}__}/**/*{.ts,tsx}'",
     "build": "webpack",
