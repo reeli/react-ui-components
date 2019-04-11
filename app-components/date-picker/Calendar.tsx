@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { chunk, map } from "lodash";
-import { getMonthDate } from "./utils";
+import { Month } from "./Month";
 import moment from "moment";
 
 const countYearMonth = ({ year, month }: { year: number; month: number }) => {
@@ -26,7 +25,7 @@ const countYearMonth = ({ year, month }: { year: number; month: number }) => {
   return temp;
 };
 
-export function DatePicker() {
+export function Calendar() {
   const current = {
     month: moment().month(),
     year: moment().year(),
@@ -75,23 +74,7 @@ export function DatePicker() {
             <th>六</th>
           </tr>
         </thead>
-        <tbody>
-          {chunk(getMonthDate(moment([monthDate.year, monthDate.month, 1])), 7).map((row, idx) => {
-            return (
-              <tr key={idx}>
-                {map(row, (week, idx) => (
-                  <td
-                    key={idx}
-                    style={{ padding: 10, color: week.isHead || week.isTail ? "#ccc" : "black" }}
-                    onClick={() => {}}
-                  >
-                    {week.day}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
+        <Month year={monthDate.year} month={monthDate.month} />
       </table>
     </div>
   );

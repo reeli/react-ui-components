@@ -34,7 +34,7 @@ const genDay = ({
   });
 };
 
-export const getMonthDate = (m: Moment = moment()): IDay[] => {
+export const getMonthDays = (m: Moment = moment()): IDay[] => {
   // 获取本月的第一天是一周的第几天，用 0-6 来表示，其中 0 表示星期天，6 表示星期六
   const dateStr = m.format("YYYY-MM-DD");
   const firstDayOfMonthAtWeek = moment(dateStr)
