@@ -1,26 +1,18 @@
 import React from "react";
-import { Moment } from "moment";
 
-export interface IDay {
-  date: Moment;
-  enable: boolean;
+interface IDayProps {
+  disabled: boolean;
+  current: boolean;
+  isHeadOrTail: boolean;
   selected: boolean;
-  active: boolean;
+  onSelect: (value: any) => void;
+  value: any;
+  children: React.ReactChild;
 }
 
-interface IDayProps extends IDay {
-  day: number;
-  onSelect: (day: IDay) => void;
-}
-
-export function Day({ selected, enable, day, active, date, onSelect }: IDayProps) {
+export function Day({ selected, disabled, isHeadOrTail, current, value, onSelect, children }: IDayProps) {
   const handleClick = () => {
-    onSelect({
-      enable,
-      selected: true,
-      active: true,
-      date,
-    });
+    onSelect(value);
   };
 
   return (
@@ -28,14 +20,15 @@ export function Day({ selected, enable, day, active, date, onSelect }: IDayProps
       onClick={handleClick}
       style={{
         padding: 10,
-        color: enable ? "black" : "#ccc",
+        color: isHeadOrTail ? "#ccc" : "black",
         background: selected ? "orange" : "#fff",
-        borderWidth: active ? 1 : 0,
+        borderWidth: current ? 1 : 0,
         borderStyle: "solid",
-        borderColor: "pink",
+        borderColor: current ? "blue" : "pink",
+        opacity: disabled ? 0 : 1,
       }}
     >
-      {day}
+      {children}
     </td>
   );
 }

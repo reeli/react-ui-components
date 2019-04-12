@@ -1,81 +1,43 @@
-import React, { useState } from "react";
-import { Month } from "./Month";
-import moment from "moment";
-
-const countYearMonth = ({ year, month }: { year: number; month: number }) => {
-  let temp: { year: number; month: number } = {
-    year,
-    month,
-  };
-
-  if (month < 0) {
-    temp = {
-      year: year - 1,
-      month: 11,
-    };
-  }
-
-  if (month > 11) {
-    temp = {
-      year: year + 1,
-      month: 0,
-    };
-  }
-
-  return temp;
-};
+import React, { useCallback, useRef, useState } from "react";
+import { Position } from "../core/Overlay";
+import { BasicPortal } from "../portal/BasicPortal";
+import { PickerTable } from "./PickerTable";
+import { Placement } from "../core/usePlacement";
+import { useOutSideClick } from "../portal/useOutSideClick";
+import { Input } from "../input/Input";
 
 export function Calendar() {
-  const current = {
-    month: moment().month(),
-    year: moment().year(),
-  };
-  const [monthDate, setMonthDate] = useState({
-    year: current.year,
-    month: current.month,
-  });
+  const triggerEl = useRef(null);
+  const contentEl = useRef(null);
+  const [open, setOpen] = useState(false);
+  const startLeave = useCallback(() => {
+    // do something before close
+    setOpen(false);
+  }, []);
+
+  useOutSideClick(contentEl, startLeave);
+
+  const [value, setValue] = useState("");
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          setMonthDate(
-            countYearMonth({
-              year: monthDate.year,
-              month: monthDate.month - 1,
-            }),
-          );
-        }}
-      >
-        prev
-      </button>
-      <button
-        onClick={() => {
-          setMonthDate(
-            countYearMonth({
-              year: monthDate.year,
-              month: monthDate.month + 1,
-            }),
-          );
-        }}
-      >
-        next
-      </button>
-      <div>{moment([monthDate.year, monthDate.month]).format("YYYY MM")} 月</div>
-      <table>
-        <thead>
-          <tr>
-            <th>日</th>
-            <th>一</th>
-            <th>二</th>
-            <th>三</th>
-            <th>四</th>
-            <th>五</th>
-            <th>六</th>
-          </tr>
-        </thead>
-        <Month year={monthDate.year} month={monthDate.month} />
-      </table>
-    </div>
+    <>
+      <div style={{ width: 400 }} ref={triggerEl}>
+        <Input value={value} onClick={() => setOpen(!open)} placeholder={"Choose a date..."} />
+      </div>
+      {open && (
+        <BasicPortal>
+          <Position triggerRef={triggerEl} placement={Placement.bottomLeft}>
+            <div ref={contentEl}>
+              <PickerTable
+                onSelect={val => {
+                  setValue(val);
+                  return setOpen(false);
+                }}
+              />
+            </div>
+          </Position>
+        </BasicPortal>
+      )}
+    </>
   );
 }
