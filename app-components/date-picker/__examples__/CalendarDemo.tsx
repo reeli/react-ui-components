@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Calendar } from "../Calendar";
+import { DatePicker } from "../DatePicker";
 
 export class CalendarDemo extends React.Component<any, any> {
   render() {
-    return <Calendar />;
+    return <DatePicker />;
   }
 }

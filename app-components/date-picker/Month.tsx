@@ -8,14 +8,15 @@ interface IMonthProps {
   month: number;
   year: number;
   onSelect: (val: any) => void;
+  selectedValue?: string | null;
 }
 
-export function Month({ month, year, onSelect }: IMonthProps) {
-  const [selected, setSelected] = useState<string | null>(null);
+export function Month({ month, year, onSelect, selectedValue = null }: IMonthProps) {
+  const [selected, setSelected] = useState<string | null>(selectedValue);
   const monthDays = getMonthDays(moment([year, month, 1]));
 
   return (
-    <tbody>
+    <>
       {chunk(monthDays, 7).map((weekDays, key) => (
         <tr key={key}>
           {weekDays.map(({ isHeadOrTail, disabled, date, current, day }, idx) => {
@@ -29,9 +30,8 @@ export function Month({ month, year, onSelect }: IMonthProps) {
                 disabled={disabled}
                 value={value}
                 onSelect={val => {
-                  console.log(val);
+                  setSelected(val);
                   onSelect(val);
-                  return setSelected(val);
                 }}
               >
                 {day}
@@ -40,6 +40,6 @@ export function Month({ month, year, onSelect }: IMonthProps) {
           })}
         </tr>
       ))}
-    </tbody>
+    </>
   );
 }

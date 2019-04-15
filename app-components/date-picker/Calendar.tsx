@@ -1,43 +1,15 @@
-import React, { useCallback, useRef, useState } from "react";
-import { Position } from "../core/Overlay";
-import { BasicPortal } from "../portal/BasicPortal";
-import { PickerTable } from "./PickerTable";
-import { Placement } from "../core/usePlacement";
-import { useOutSideClick } from "../portal/useOutSideClick";
-import { Input } from "../input/Input";
+import React, { useState } from "react";
+import moment from "moment";
+import { CalendarHeader } from "./CalendarHeader";
+import { CalendarBody } from "./CalendarBody";
 
-export function Calendar() {
-  const triggerEl = useRef(null);
-  const contentEl = useRef(null);
-  const [open, setOpen] = useState(false);
-  const startLeave = useCallback(() => {
-    // do something before close
-    setOpen(false);
-  }, []);
-
-  useOutSideClick(contentEl, startLeave);
-
-  const [value, setValue] = useState("");
+export function Calendar({ onSelect, selectedValue }: { selectedValue?: string | null; onSelect: (val: any) => void }) {
+  const [date, setDate] = useState(selectedValue ? moment(selectedValue) : moment());
 
   return (
-    <>
-      <div style={{ width: 400 }} ref={triggerEl}>
-        <Input value={value} onClick={() => setOpen(!open)} placeholder={"Choose a date..."} />
-      </div>
-      {open && (
-        <BasicPortal>
-          <Position triggerRef={triggerEl} placement={Placement.bottomLeft}>
-            <div ref={contentEl}>
-              <PickerTable
-                onSelect={val => {
-                  setValue(val);
-                  return setOpen(false);
-                }}
-              />
-            </div>
-          </Position>
-        </BasicPortal>
-      )}
-    </>
+    <div>
+      <CalendarHeader date={date} onDateChange={value => setDate(value)} />
+      <CalendarBody month={date.month()} year={date.year()} onSelect={onSelect} selectedValue={selectedValue} />
+    </div>
   );
 }
