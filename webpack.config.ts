@@ -15,14 +15,7 @@ const webpackConfig: webpack.Configuration = {
         test: /(\.ts|\.tsx)$/,
         use: [
           {
-            loader: "ts-loader",
-            options: {
-              transpileOnly: true,
-              compilerOptions: {
-                module: "es6",
-                target: "es5",
-              },
-            },
+            loader: "babel-loader",
           },
         ],
       },

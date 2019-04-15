@@ -9,7 +9,13 @@ interface ICalendarHeaderProps {
 export function CalendarHeader({ date, onDateChange }: ICalendarHeaderProps) {
   const [dateValue, setDate] = useState(date || moment());
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 0" }}>
+    <div
+      css={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "10px 0",
+      }}
+    >
       <div>
         <button
           onClick={() => {
