@@ -1,63 +1,90 @@
-import * as React from "react";
-import { useState } from "react";
-import { CompositeDecorator, ContentBlock, ContentState, Editor, EditorState, Modifier } from "draft-js";
+import React, { useRef, useState } from "react";
+import { convertFromRaw, EditorState, RawDraftContentState } from "draft-js";
+import Editor from "draft-js-plugins-editor";
+import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";
+import mentions from "./mentions";
 
-function findVariableEntities(
-  contentBlock: ContentBlock,
-  callback: (start: number, end: number) => void,
-  contentState: ContentState,
-) {
-  contentBlock.findEntityRanges(character => {
-    const entityKey = character.getEntity();
-    return entityKey !== null && contentState.getEntity(entityKey).getType() === "MY_ENTITY_TYPE";
-  }, callback);
-}
-
-const MyWrapper = () => (
-  <span contentEditable={false} style={{ color: "red" }}>
-    hello&nbsp;
-  </span>
-);
-
-const decorator = new CompositeDecorator([
-  {
-    strategy: findVariableEntities,
-    component: MyWrapper,
+const editorStyles: any = {
+  editor: {
+    boxSizing: "border-box",
+    border: "1px solid #ddd",
+    cursor: "text",
+    padding: "16px",
+    borderRadius: "2px",
+    marginBottom: "2em",
+    boxShadow: "inset 0px 1px 8px -3px #ABABAB",
+    background: "#fefefe",
   },
-]);
+};
 
-export const RichTextEditor = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty(decorator));
-  const handleChange = (editorState: EditorState) => {
+const initialValue: RawDraftContentState = {
+  blocks: [
+    {
+      key: "bgj08",
+      text: "Matthew test",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [{ offset: 0, length: 7, key: 0 }],
+      data: {},
+    },
+  ],
+  entityMap: {
+    "0": {
+      type: "mention",
+      mutability: "SEGMENTED",
+      data: {
+        mention: {
+          name: "Matthew",
+          link: "https://twitter.com/mrussell247",
+        },
+      },
+    },
+  },
+};
+
+const mentionPlugin = createMentionPlugin({
+  entityMutability: "IMMUTABLE",
+});
+
+export const SimpleMentionEditor = () => {
+  const [editorState, setEditorState] = useState(EditorState.createWithContent(convertFromRaw(initialValue)));
+  const [suggestions, setSuggestions] = useState(mentions);
+  const divEl = useRef<HTMLDivElement | null>(null);
+
+  const onChange = (editorState: EditorState) => {
+    // console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent()), null, 2));
     setEditorState(editorState);
   };
 
-  const insert = () => {
-    let contentState = editorState.getCurrentContent();
-    const selectionState = editorState.getSelection();
-    const contentStateWithEntity = contentState.createEntity("MY_ENTITY_TYPE", "IMMUTABLE");
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    contentState = Modifier.insertText(contentState, selectionState, " ");
-    contentState = Modifier.insertText(contentState, selectionState, "hello", undefined, entityKey);
-
-    let newState = EditorState.push(editorState, contentState, "insert-characters");
-
-    if (!newState.getCurrentContent().equals(editorState.getCurrentContent())) {
-      const sel = newState.getSelection();
-      const updatedSelection: any = sel.merge({
-        anchorOffset: sel.getAnchorOffset() + 1,
-        focusOffset: sel.getAnchorOffset() + 1,
-      });
-      // Forcing the current selection ensures that it will be at it's right place.
-      newState = EditorState.forceSelection(newState, updatedSelection);
-    }
-    setEditorState(newState);
+  const onSearchChange = ({ value }: any) => {
+    setSuggestions(defaultSuggestionsFilter(value, mentions));
   };
 
+  const onAddMention = (_mention: any) => {
+    // console.log(mention, "mention");
+    // get the mention object selected
+  };
+
+  const focus = () => {
+    if (divEl.current) {
+      divEl.current!.focus();
+    }
+  };
+
+  const { MentionSuggestions } = mentionPlugin;
+  const plugins = [mentionPlugin];
+
   return (
-    <div>
-      <button onClick={insert}>Insert span</button>
-      <Editor placeholder="placeholder..." editorState={editorState} onChange={handleChange} />
+    <div style={editorStyles.editor} onClick={focus}>
+      <Editor
+        // readOnly
+        editorState={editorState}
+        onChange={onChange}
+        plugins={plugins}
+        ref={divEl}
+      />
+      <MentionSuggestions onSearchChange={onSearchChange} suggestions={suggestions} onAddMention={onAddMention} />
     </div>
   );
 };
