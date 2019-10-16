@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { RefObject, useCallback, useLayoutEffect, useState } from "react";
 
 export const useClientRect = (ele: RefObject<HTMLElement | null>, deps: any[] = []) => {
   const [clientRect, setClientRect] = useState<ClientRect | null>(null);
@@ -10,7 +10,8 @@ export const useClientRect = (ele: RefObject<HTMLElement | null>, deps: any[] = 
     }
   }, []);
 
-  useEffect(() => {
+  // 当可以访问 element dom 时，需要立即更新 client rect，否则会出现位置的延迟
+  useLayoutEffect(() => {
     // 需要通过 deps 来更新 rect。因为 dom element 动态创建时，给 ref.current 重新赋值，但不会 trigger re-render
 
     updateClientRect();

@@ -21,9 +21,8 @@ export function Popover(props: IPopoverProps) {
   const contentEl = useRef<HTMLDivElement>(null);
   const position = usePosition(triggerEl, contentEl, placement, [isOpen]);
 
-  // ?
-  useOutSideClick(triggerEl, hide);
-  useOutSideClick(contentEl, hide);
+  // click out side 绑定到每一个 Popover，因为每一个 Popover 判断 outside 的对象不同。who's outside?
+  useOutSideClick([triggerEl, contentEl], hide, isOpen);
 
   useEffect(() => {
     invariant(

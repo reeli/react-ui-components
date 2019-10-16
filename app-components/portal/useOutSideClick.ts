@@ -1,18 +1,32 @@
 import { RefObject, useLayoutEffect } from "react";
 
-export const useOutSideClick = (ele: RefObject<HTMLElement | null>, onOutSideClick: (evt: Event) => void) => {
-  useLayoutEffect(() => {
-    const handleOutSideClick = (evt: Event) => {
-      const node = ele.current!;
-      if (node && !node.contains(evt.target as HTMLElement)) {
-        onOutSideClick(evt);
+export const useOutSideClick = (
+  elements: RefObject<HTMLElement | null>[],
+  onOutSideClick: (evt: Event) => void,
+  active: boolean = true,
+) =>
+  useLayoutEffect(
+    () => {
+      if (!active) {
+        return;
       }
-    };
 
-    document.body.addEventListener("click", handleOutSideClick);
+      const handleOutSideClick = (evt: Event) => {
+        const shouldIgnore = elements.some(ele => {
+          const node = ele.current!;
+          return node && node.contains(evt.target as HTMLElement);
+        });
 
-    return function cleanup() {
-      document.body.removeEventListener("click", handleOutSideClick);
-    };
-  }, []);
-};
+        if (!shouldIgnore) {
+          onOutSideClick(evt);
+        }
+      };
+
+      document.body.addEventListener("click", handleOutSideClick);
+
+      return function cleanup() {
+        document.body.removeEventListener("click", handleOutSideClick);
+      };
+    },
+    [active],
+  );
