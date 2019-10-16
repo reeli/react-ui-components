@@ -11,10 +11,11 @@ interface IPopoverProps {
   children: ReactElement<any>;
   content?: ReactNode;
   placement?: Placement;
+  closeOnClickOutSide?: boolean;
 }
 
 export function Popover(props: IPopoverProps) {
-  const { content, children, placement } = props;
+  const { content, children, placement, closeOnClickOutSide = true } = props;
   const [isOpen, show, hide] = useToggle();
 
   const triggerEl = useRef<HTMLElement>(null);
@@ -22,7 +23,7 @@ export function Popover(props: IPopoverProps) {
   const position = usePosition(triggerEl, contentEl, placement, [isOpen]);
 
   // click out side 绑定到每一个 Popover，因为每一个 Popover 判断 outside 的对象不同。who's outside?
-  useOutSideClick([triggerEl, contentEl], hide, isOpen);
+  useOutSideClick([triggerEl, contentEl], hide, closeOnClickOutSide && isOpen);
 
   useEffect(() => {
     invariant(

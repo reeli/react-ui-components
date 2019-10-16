@@ -7,7 +7,11 @@ export class PopoverDemo extends React.Component<any, any> {
   render() {
     return (
       <>
-        <Popover content="Purchase or reload your card, get ¥10 extra!" placement={Placement.bottomLeft}>
+        <Popover
+          content="Purchase or reload your card, get ¥10 extra!"
+          placement={Placement.bottomLeft}
+          closeOnClickOutSide={false}
+        >
           <span {...css({ marginLeft: "23rem" })}>Popover Left</span>
         </Popover>
         <Popover content="Purchase or reload your card, get ¥10 extra!" placement={Placement.bottomCenter}>
