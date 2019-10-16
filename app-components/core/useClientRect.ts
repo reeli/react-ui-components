@@ -1,21 +1,20 @@
-import { RefObject, useLayoutEffect, useMemo, useState } from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 
-export const useClientRect = (ele: RefObject<HTMLElement | null>) => {
+export const useClientRect = (ele: RefObject<HTMLElement | null>, deps: any[] = []) => {
   const [clientRect, setClientRect] = useState<ClientRect | null>(null);
 
   // 更新元素的 ClientRect，使用 useMemo 确保只创建一次 updateClientRect 方法
-  const updateClientRect = useMemo(() => {
-    return () => {
-      setClientRect(ele.current!.getBoundingClientRect());
-    };
-  }, []);
-
-  // 只有当 React 组件 didMount 时，才能取到元素的 ClientRect，所以这里要使用 useLayoutEffect
-  useLayoutEffect(() => {
+  const updateClientRect = useCallback(() => {
     if (ele.current) {
-      updateClientRect();
+      setClientRect(ele.current!.getBoundingClientRect());
     }
   }, []);
+
+  useEffect(() => {
+    // 需要通过 deps 来更新 rect。因为 dom element 动态创建时，给 ref.current 重新赋值，但不会 trigger re-render
+
+    updateClientRect();
+  }, deps);
 
   return [clientRect, updateClientRect] as [typeof clientRect, typeof updateClientRect];
 };

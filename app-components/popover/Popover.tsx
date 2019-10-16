@@ -1,59 +1,58 @@
-import { css } from 'glamor';
-import * as React from 'react';
-import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
-import { IPortalPropsInnerProps } from '../portal/Portal';
+import * as React from "react";
+import { ReactElement, ReactNode, useEffect, useRef } from "react";
+import { useToggle } from "../portal/useToggle";
+import invariant from "invariant";
+import { BasicPortal } from "../portal/BasicPortal";
+import { Placement } from "../core/usePlacement";
+import { useOutSideClick } from "../portal/useOutSideClick";
+import { usePosition } from "./usePosition";
 
 interface IPopoverProps {
-  children: (props: IPortalPropsInnerProps) => React.ReactNode;
-  width?: string;
-  content?: string | JSX.Element | null;
+  children: ReactElement<any>;
+  content?: ReactNode;
   placement?: Placement;
-  closeOnOutSide?: boolean;
 }
 
-const popoverStyles = css({
-  position: 'absolute',
-  zIndex: 1000,
-  padding: '8px 0',
-});
+export function Popover(props: IPopoverProps) {
+  const { content, children, placement } = props;
+  const [isOpen, show, hide] = useToggle();
 
-const popoverInnerStyles = css({
-  backgroundColor: '#4a4a4a',
-  color: '#fff',
-  fontSize: '14px',
-  padding: '.3rem',
-});
+  const triggerEl = useRef<HTMLElement>(null);
+  const contentEl = useRef<HTMLDivElement>(null);
+  const position = usePosition(triggerEl, contentEl, placement, [isOpen]);
 
-const arrowUp = css({
-  position: 'absolute',
-  top: 0,
-  left: '10%',
-  marginLeft: '-5px',
-  borderLeft: '5px solid transparent',
-  borderRight: '5px solid transparent',
-  borderBottom: '8px solid #4a4a4a',
-  width: 0,
-  height: 0,
-});
+  // ?
+  useOutSideClick(triggerEl, hide);
+  useOutSideClick(contentEl, hide);
 
-export class Popover extends React.Component<IPopoverProps, any> {
-  render() {
-    const { width, content, children, placement, closeOnOutSide } = this.props;
-    return (
-      <OverlayTrigger
-        content={() => (
-          <div {...css(popoverStyles, { width })}>
-            <div {...arrowUp} />
-            <div {...popoverInnerStyles}>{content}</div>
-          </div>
-        )}
-        placement={placement}
-        closeOnOutSide={closeOnOutSide}
-      >
-        {props => {
-          return <>{children(props)}</>;
-        }}
-      </OverlayTrigger>
+  useEffect(() => {
+    invariant(
+      triggerEl.current instanceof HTMLElement,
+      "The children must be able to receive ref prop of HTMLElement.",
     );
-  }
+  }, []);
+
+  return (
+    <>
+      {React.cloneElement(React.Children.only(children), {
+        ref: triggerEl,
+        onClick: show,
+      })}
+      {isOpen && (
+        <BasicPortal>
+          <div
+            style={{
+              position: "absolute",
+              left: position.left,
+              top: position.top,
+              willChange: "transform",
+            }}
+            ref={contentEl}
+          >
+            {content}
+          </div>
+        </BasicPortal>
+      )}
+    </>
+  );
 }
