@@ -36,12 +36,19 @@ export const dropValue = (value: string | number, values: TSelectedValues = []) 
   return filter(values, (val: string | number) => val !== value) as TSelectedValues | any[];
 };
 
-export function SelectWithTags(props: ISelectWithTagsProps) {
-  const { options, placeholder, selectedValues, onChange, onClick } = props;
+export const SelectWithTags: React.FC<ISelectWithTagsProps> = ({
+  options,
+  placeholder,
+  selectedValues,
+  onChange,
+  onClick,
+}) => {
   const multiSelect = useMultiSelect({
     selectedValues,
+    options,
     onSelectedValuesChange: onChange,
   });
+
   return (
     <div {...triggerElementWrapperStyles}>
       <Input placeholder={!isEmpty(selectedValues) ? "" : placeholder} onClick={onClick} readOnly />
@@ -63,4 +70,4 @@ export function SelectWithTags(props: ISelectWithTagsProps) {
       </div>
     </div>
   );
-}
+};

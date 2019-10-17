@@ -12,7 +12,7 @@ export interface IGroupedCheckboxListing {
   onChange: ICheckboxListingProps["onChange"];
 }
 
-export const GroupedCheckboxListing = (props: IGroupedCheckboxListing): React.ReactNode => {
+export const GroupedCheckboxListing = (props: IGroupedCheckboxListing) => {
   const { options, selectedValues, getGroupTitle, onChange } = props;
   const multiSelect = useMultiSelect({
     selectedValues,
@@ -21,10 +21,14 @@ export const GroupedCheckboxListing = (props: IGroupedCheckboxListing): React.Re
 
   const groups = groupBy(options, "group") as Dictionary<ISelectOption[]>;
 
-  return map(groups, (groupOptions: ISelectOption[], key: string | number) => (
-    <div key={key}>
-      <div>{getGroupTitle(key)}</div>
-      <CheckboxListing selectedValues={multiSelect.selectedValues} options={groupOptions} onChange={onChange} />
-    </div>
-  ));
+  return (
+    <>
+      {map(groups, (groupOptions: ISelectOption[], key: string | number) => (
+        <div key={key}>
+          <div>{getGroupTitle(key)}</div>
+          <CheckboxListing selectedValues={multiSelect.selectedValues} options={groupOptions} onChange={onChange} />
+        </div>
+      ))}
+    </>
+  );
 };

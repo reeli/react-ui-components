@@ -1,10 +1,11 @@
 import { filter, includes } from "lodash";
 import React from "react";
-import { OverlayTrigger, Placement } from "../core/OverlayTrigger";
+import { OverlayTrigger } from "../core/OverlayTrigger";
 import { ICheckboxListingProps } from "../listing/CheckboxListing";
 import { GroupedCheckboxListing, IGroupedCheckboxListing } from "../listing/GroupedCheckboxListing";
 import { SelectWithTags } from "./SelectWithTags";
-import { TSelectedValues, ISelectOption } from "../with-multi-select/interfaces";
+import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
+import { useToggle } from "app-components/core";
 
 interface IGroupedCheckboxSelectProps {
   selectedValues?: TSelectedValues;
@@ -20,35 +21,34 @@ const pickSelectedOptionsByValue = (options: ISelectOption[], value: TSelectedVa
   });
 };
 
-export class GroupedCheckboxSelect extends React.Component<IGroupedCheckboxSelectProps, any> {
-  render() {
-    const { placeholder, options, getGroupTitle, onChange } = this.props;
-    const { selectedValues } = this.props;
-    return (
-      <OverlayTrigger
-        content={() => (
-          <GroupedCheckboxListing
-            selectedValues={selectedValues}
-            options={options}
-            onChange={onChange}
-            getGroupTitle={getGroupTitle}
-          />
-        )}
-        placement={Placement.leftBottom}
-        closeOnOutSide
-      >
-        {({ toggle }) => {
-          return (
-            <SelectWithTags
-              selectedValues={selectedValues}
-              options={pickSelectedOptionsByValue(options, selectedValues)}
-              placeholder={placeholder}
-              onClick={toggle}
-              onChange={onChange}
-            />
-          );
-        }}
-      </OverlayTrigger>
-    );
-  }
-}
+export const GroupedCheckboxSelect: React.FC<IGroupedCheckboxSelectProps> = ({
+  placeholder,
+  options,
+  getGroupTitle,
+  onChange,
+  selectedValues,
+}) => {
+  const [, , , toggle] = useToggle();
+  return (
+    <OverlayTrigger
+      content={
+        <GroupedCheckboxListing
+          selectedValues={selectedValues}
+          options={options}
+          onChange={onChange}
+          getGroupTitle={getGroupTitle}
+        />
+      }
+    >
+      <div>
+        <SelectWithTags
+          selectedValues={selectedValues}
+          options={pickSelectedOptionsByValue(options, selectedValues)}
+          placeholder={placeholder}
+          onClick={toggle}
+          onChange={onChange}
+        />
+      </div>
+    </OverlayTrigger>
+  );
+};

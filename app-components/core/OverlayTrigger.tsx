@@ -4,7 +4,7 @@ import { Portal } from "../portal";
 import { Placement, useOutSideClick, usePosition, useRefValue, useToggle } from "../core";
 import { isEqual } from "lodash";
 
-interface IOverlayTriggerProps {
+export interface IOverlayTriggerProps {
   children: ReactElement<any>; // 不能是 undefined、boolean、null 或者 text，只能是一个 react element（不一定有 DOM，所以要用 invariant 来控制），但是可以把 ref 绑上去
   content?: ReactNode;
   placement?: Placement;
@@ -19,7 +19,8 @@ export const OverlayTrigger: React.FC<IOverlayTriggerProps> = ({
   closeOnClickOutSide = true,
   visible = false,
 }) => {
-  const [isOpen, show, hide, setIsOpen] = useToggle();
+  // TODO: visible 状态的控制，究竟是在内部还是在外部？
+  const [isOpen, show, hide, , setIsOpen] = useToggle(visible);
   const isOpenRef = useRefValue(isOpen);
 
   const triggerEl = useRef<HTMLElement>(null);

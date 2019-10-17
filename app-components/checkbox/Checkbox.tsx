@@ -5,19 +5,19 @@ import { IconUnchecked } from "./assets/IconUnchecked";
 
 interface ICheckboxProps {
   value?: boolean;
-  onValueChange?: (value: boolean) => void;
+  onChange?: (value: boolean) => void;
   label?: string | number;
 }
 
-const defaultOnValueChange = (_: boolean) => {};
+const defaultOnChange = (_: boolean) => {};
 
 export function Checkbox(props: ICheckboxProps) {
-  const { value = false, label, onValueChange = defaultOnValueChange } = props;
+  const { value = false, label, onChange = defaultOnChange } = props;
   return (
     <label {...checkboxWrapperStyles}>
       <div {...inputWrapper}>
         {value ? <IconChecked /> : <IconUnchecked />}
-        <input type="checkbox" checked={value} onChange={() => onValueChange(!value)} {...inputStyles} />
+        <input type="checkbox" checked={value} onChange={() => onChange(!value)} {...inputStyles} />
       </div>
       {label && <span {...labelStyles}>{label}</span>}
     </label>

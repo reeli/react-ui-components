@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { Placement, getPlacement } from "./getPlacement";
+import { getPlacement, Placement } from "./getPlacement";
 import { useClientRect } from "./useClientRect";
 import { useScroll } from "./useScroll";
 import { useResize } from "./useResize";
@@ -7,7 +7,7 @@ import { useResize } from "./useResize";
 export const usePosition = (
   triggerEl: RefObject<HTMLElement | null>,
   contentEl: RefObject<HTMLElement | null>,
-  placement = Placement.bottomRight,
+  placement = Placement.bottomLeft,
   deps: any[] = [],
 ) => {
   const [triggerRect, updateTriggerRect] = useClientRect(triggerEl, deps);
