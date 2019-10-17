@@ -3,7 +3,7 @@ import { filter, find, includes } from "lodash";
 import React from "react";
 import { CheckboxSelect } from "../CheckboxSelect";
 import { GroupedCheckboxSelect } from "../GroupedCheckboxSelect";
-import { TSelectedValues, ISelectOption } from "../../with-multi-select/interfaces";
+import { ISelectOption, TSelectedValues } from "../../with-multi-select/interfaces";
 
 const provinces = [
   {
@@ -58,8 +58,12 @@ const cities = [
   },
 ];
 
-const getCitiesBySelectedProvinces = (data: ISelectOption[], provincesValue: any[]) => {
-  return filter(data, (item: ISelectOption) => {
+interface ISelectOptionWithGroup extends ISelectOption {
+  group: string;
+}
+
+const getCitiesBySelectedProvinces = (data: ISelectOptionWithGroup[], provincesValue: any[]) => {
+  return filter(data, item => {
     return includes(provincesValue, item.group);
   });
 };
