@@ -1,22 +1,26 @@
 import * as React from "react";
 import { ReactElement, ReactNode, useEffect, useRef } from "react";
-import { useToggle } from "../portal/useToggle";
 import invariant from "invariant";
 import { BasicPortal } from "../portal/BasicPortal";
 import { Placement } from "../core/getPlacement";
 import { useOutSideClick } from "../portal/useOutSideClick";
 import { usePosition } from "./usePosition";
+import { isEqual } from "lodash";
+import { useRefValue } from "../core/useRefValue";
+import { useToggle } from "../portal/useToggle";
 
 interface IPopoverProps {
   children: ReactElement<any>;
   content?: ReactNode;
   placement?: Placement;
   closeOnClickOutSide?: boolean;
+  visible?: boolean;
 }
 
 export function Popover(props: IPopoverProps) {
-  const { content, children, placement, closeOnClickOutSide = true } = props;
-  const [isOpen, show, hide] = useToggle();
+  const { content, children, placement, closeOnClickOutSide = true, visible = false } = props;
+  const [isOpen, show, hide, setIsOpen] = useToggle();
+  const isOpenRef = useRefValue(isOpen);
 
   const triggerEl = useRef<HTMLElement>(null);
   const contentEl = useRef<HTMLDivElement>(null);
@@ -32,6 +36,15 @@ export function Popover(props: IPopoverProps) {
       "The children must be able to receive ref prop of HTMLElement.",
     );
   }, []);
+
+  useEffect(
+    () => {
+      if (!isEqual(visible, isOpenRef.current)) {
+        setIsOpen(visible);
+      }
+    },
+    [visible],
+  );
 
   return (
     <>
