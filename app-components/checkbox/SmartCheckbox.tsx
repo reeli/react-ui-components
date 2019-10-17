@@ -1,6 +1,6 @@
-import { Checkbox } from './Checkbox';
-import * as React from 'react';
-import { useInput } from './useInput';
+import { Checkbox } from "./Checkbox";
+import React from "react";
+import { useInput } from "./useInput";
 
 interface ISmartCheckboxProps {
   value?: boolean;

@@ -1,6 +1,6 @@
-import isEqual from 'lodash/isEqual';
-import * as React from 'react';
-import { isNumber } from 'util';
+import isEqual from "lodash/isEqual";
+import React from "react";
+import { isNumber } from "lodash";
 
 interface IIncreasingNumberInnerProps {
   totalNumber: number;
@@ -49,7 +49,7 @@ export class IncreasingNumber extends React.Component<IIncreasingNumberProps, an
   increaseAnimate = ({ totalNumber, totalTime, speed }: IIncreasingNumberProps) => {
     const time = totalTime || 1000;
     const animationSpeed = speed || 10;
-    const step = totalNumber / time * animationSpeed;
+    const step = (totalNumber / time) * animationSpeed;
 
     this.changingNumber = this.changingNumber + step;
     if (this.changingNumber >= totalNumber) {

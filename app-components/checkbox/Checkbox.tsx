@@ -1,7 +1,7 @@
-import { css } from 'glamor';
-import * as React from 'react';
-import { IconChecked } from './assets/IconChecked';
-import { IconUnchecked } from './assets/IconUnchecked';
+import { css } from "glamor";
+import React from "react";
+import { IconChecked } from "./assets/IconChecked";
+import { IconUnchecked } from "./assets/IconUnchecked";
 
 interface ICheckboxProps {
   value?: boolean;
@@ -25,23 +25,23 @@ export function Checkbox(props: ICheckboxProps) {
 }
 
 const checkboxWrapperStyles = css({
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
 });
 
 const inputWrapper = css({
-  position: 'relative',
-  width: '24px',
-  height: '24px',
+  position: "relative",
+  width: "24px",
+  height: "24px",
 });
 
 const inputStyles = css({
   width: 0,
   height: 0,
-  visibility: 'hidden',
+  visibility: "hidden",
 });
 
 const labelStyles = css({
-  marginLeft: '.2rem',
-  display: 'inline-block',
+  marginLeft: ".2rem",
+  display: "inline-block",
 });

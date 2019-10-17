@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { Input } from '../Input';
+import React from "react";
+import { Input } from "../Input";
 
 export class InputDemo extends React.Component<any, any> {
   state = {
-    value: '',
+    value: "",
   };
 
   handleChange = (_: any, value: string) => {

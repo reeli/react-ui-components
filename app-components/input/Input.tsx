@@ -1,26 +1,26 @@
-import { css } from 'glamor';
-import * as React from 'react';
+import { css } from "glamor";
+import React from "react";
 
 interface IInputProps {
   value?: string;
   onChange?: (evt: React.ChangeEvent<HTMLInputElement>, value: any) => any;
-  type?: 'text' | 'number' | 'checkbox' | 'radio';
+  type?: "text" | "number" | "checkbox" | "radio";
   onClick?: (evt: React.MouseEvent<HTMLInputElement>, value: any) => any;
   placeholder?: string;
   readOnly?: boolean;
 }
 
 const inputStyles = css({
-  position: 'relative',
-  borderWidth: '0 0 1px 0',
-  fontSize: '15px',
-  padding: '5px 1px',
-  width: '100%',
-  color: '#00AF66',
-  textShadow: '0px 0px 0px #000',
-  background: 'transparent',
-  boxSizing: 'border-box',
-  marginTop: '14px',
+  position: "relative",
+  borderWidth: "0 0 1px 0",
+  fontSize: "15px",
+  padding: "5px 1px",
+  width: "100%",
+  color: "#00AF66",
+  textShadow: "0px 0px 0px #000",
+  background: "transparent",
+  boxSizing: "border-box",
+  marginTop: "14px",
 });
 
 export class Input extends React.Component<IInputProps, any> {
@@ -38,7 +38,7 @@ export class Input extends React.Component<IInputProps, any> {
   };
 
   render() {
-    const { type = 'text', value, placeholder = '', readOnly = false } = this.props;
+    const { type = "text", value, placeholder = "", readOnly = false } = this.props;
     return (
       <input
         type={type}
@@ -47,7 +47,7 @@ export class Input extends React.Component<IInputProps, any> {
         onClick={this.handleClick}
         placeholder={placeholder}
         readOnly={readOnly}
-        {...css(inputStyles, { cursor: readOnly ? 'pointer' : 'default' })}
+        {...css(inputStyles, { cursor: readOnly ? "pointer" : "default" })}
       />
     );
   }

@@ -1,27 +1,27 @@
-import { css } from 'glamor';
-import { filter, isEmpty, map } from 'lodash';
-import * as React from 'react';
-import { Input } from '../input/Input';
-import { useMultiSelect } from '../with-multi-select/useMultiSelect';
-import { ISelectOption, TSelectedValues } from '../with-multi-select/interfaces';
+import { css } from "glamor";
+import { filter, isEmpty, map } from "lodash";
+import React from "react";
+import { Input } from "../input/Input";
+import { useMultiSelect } from "../with-multi-select/useMultiSelect";
+import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
 
 const tagStyles = css({
-  display: 'inline-block',
-  border: '1px solid #ccc',
-  marginRight: '.5rem',
-  padding: '0 .5rem',
+  display: "inline-block",
+  border: "1px solid #ccc",
+  marginRight: ".5rem",
+  padding: "0 .5rem",
 });
 
 const triggerElementWrapperStyles = css({
-  position: 'relative',
+  position: "relative",
 });
 
 const tagsWrapperStyles = css({
-  position: 'absolute',
+  position: "absolute",
   left: 0,
-  top: '50%',
-  transform: 'translateY(-50%)',
-  display: 'inline-block',
+  top: "50%",
+  transform: "translateY(-50%)",
+  display: "inline-block",
 });
 
 interface ISelectWithTagsProps {
@@ -44,7 +44,7 @@ export function SelectWithTags(props: ISelectWithTagsProps) {
   });
   return (
     <div {...triggerElementWrapperStyles}>
-      <Input placeholder={!isEmpty(selectedValues) ? '' : placeholder} onClick={onClick} readOnly />
+      <Input placeholder={!isEmpty(selectedValues) ? "" : placeholder} onClick={onClick} readOnly />
       <div {...tagsWrapperStyles}>
         {map(options, (option: ISelectOption) => {
           return (

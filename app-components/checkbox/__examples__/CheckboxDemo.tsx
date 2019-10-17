@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Checkbox } from '../Checkbox';
-import { SmartCheckbox } from '../SmartCheckbox';
+import React from "react";
+import { Checkbox } from "../Checkbox";
+import { SmartCheckbox } from "../SmartCheckbox";
 
 export class CheckboxDemo extends React.Component<any, any> {
   state = {

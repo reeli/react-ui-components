@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Tab, TabGroup } from '../Tab';
+import React from "react";
+import { Tab, TabGroup } from "../Tab";
 
 export class TabDemo extends React.Component<any, any> {
   render() {

@@ -1,9 +1,9 @@
-import { css } from 'glamor';
-import { map } from 'lodash';
-import * as React from 'react';
-import { Checkbox } from '../checkbox/Checkbox';
-import { useMultiSelect } from '../with-multi-select/useMultiSelect';
-import { ISelectOption, TSelectedValues } from '../with-multi-select/interfaces';
+import { css } from "glamor";
+import { map } from "lodash";
+import React from "react";
+import { Checkbox } from "../checkbox/Checkbox";
+import { useMultiSelect } from "../with-multi-select/useMultiSelect";
+import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
 
 export interface ICheckboxListingProps {
   selectedValues?: TSelectedValues;
@@ -16,9 +16,9 @@ const listStyles = css({
 });
 
 const listItemStyles = css({
-  listStyle: 'none',
-  marginTop: '.5rem',
-  '&:first-child': {
+  listStyle: "none",
+  marginTop: ".5rem",
+  "&:first-child": {
     marginTop: 0,
   },
 });

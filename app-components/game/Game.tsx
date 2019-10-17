@@ -1,17 +1,17 @@
-import { css } from 'glamor';
-import { filter, find, map, shuffle } from 'lodash';
-import * as React from 'react';
-import { Score } from './Score';
-import { Word } from './Word';
-import { WordList } from './WordList';
+import { css } from "glamor";
+import { filter, find, map, shuffle } from "lodash";
+import React from "react";
+import { Score } from "./Score";
+import { Word } from "./Word";
+import { WordList } from "./WordList";
 
 const containerStyles = css({
-  width: '370px',
-  height: '480px',
-  border: '1px solid #ccc',
-  position: 'relative',
-  backgroundColor: '#7080E6',
-  overflow: 'hidden',
+  width: "370px",
+  height: "480px",
+  border: "1px solid #ccc",
+  position: "relative",
+  backgroundColor: "#7080E6",
+  overflow: "hidden",
 });
 
 interface IWord {
@@ -68,8 +68,8 @@ export class Game extends React.Component<IGameProps, IGameState> {
     });
     const interferences = map(this.props.gameData.interferences, interference => {
       return {
-        id: '',
-        origin: '',
+        id: "",
+        origin: "",
         target: interference,
         top: 0,
         left: 0,
@@ -158,7 +158,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
 
   render() {
     return (
-      <div {...css({ width: '370px', position: 'relative' })}>
+      <div {...css({ width: "370px", position: "relative" })}>
         <Score scores={this.state.scores} />
         <div {...containerStyles}>
           {this.state.isStart

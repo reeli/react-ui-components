@@ -1,10 +1,10 @@
-import { css } from 'glamor';
-import * as React from 'react';
-import { Accordion } from '../Accordion';
-import { AccordionGroup } from '../AccordionGroup';
+import { css } from "glamor";
+import React from "react";
+import { Accordion } from "../Accordion";
+import { AccordionGroup } from "../AccordionGroup";
 
 const headerStyles = css({
-  background: '#ccc',
+  background: "#ccc",
 });
 
 export class AccordionDemo extends React.Component<any, any> {

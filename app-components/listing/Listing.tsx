@@ -1,5 +1,5 @@
-import { map } from 'lodash';
-import * as React from 'react';
+import { map } from "lodash";
+import React from "react";
 
 export interface IListingItem {
   display: string;

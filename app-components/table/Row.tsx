@@ -1,9 +1,9 @@
-import { css } from 'glamor';
-import { get, map } from 'lodash';
-import * as React from 'react';
-import { Component } from 'react';
-import { Cell } from './Cell';
-import { LabelCell } from './LabelCell';
+import { css } from "glamor";
+import { get, map } from "lodash";
+import React from "react";
+import { Component } from "react";
+import { Cell } from "./Cell";
+import { LabelCell } from "./LabelCell";
 
 export interface IColumn {
   fieldKey?: string;
@@ -19,8 +19,8 @@ interface IRowProps {
 }
 
 const rowStyles = css({
-  display: 'flex',
-  padding: '2rem 0',
+  display: "flex",
+  padding: "2rem 0",
 });
 
 export class Row extends Component<IRowProps, any> {

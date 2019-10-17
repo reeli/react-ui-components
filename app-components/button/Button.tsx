@@ -1,5 +1,4 @@
-import * as React from "react";
-import { forwardRef, ReactNode, Ref } from "react";
+import React, { forwardRef, ReactNode, Ref } from "react";
 import { css } from "glamor";
 
 const buttonStyles = css({

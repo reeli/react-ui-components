@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
-import { Input } from '../input/Input';
-import { IListingItem, IListingProps, Listing } from '../listing/Listing';
-import { IPortalPropsInnerProps } from '../portal/Portal';
+import React from "react";
+import { OverlayTrigger, Placement } from "../core/OverlayTrigger";
+import { Input } from "../input/Input";
+import { IListingItem, IListingProps, Listing } from "../listing/Listing";
+import { IPortalPropsInnerProps } from "../portal/Portal";
 
 export interface ISelectProps extends IListingProps {
   value: string;
@@ -14,7 +14,7 @@ interface ISelectState {
 }
 
 export class Select extends React.Component<ISelectProps, ISelectState> {
-  handleItemClick = (e: React.MouseEvent<any>, item: IListingItem, close: IPortalPropsInnerProps['close']) => {
+  handleItemClick = (e: React.MouseEvent<any>, item: IListingItem, close: IPortalPropsInnerProps["close"]) => {
     this.props.onItemClick(e, item);
     close();
   };

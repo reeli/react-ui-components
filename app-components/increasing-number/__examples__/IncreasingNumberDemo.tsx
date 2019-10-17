@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { IncreasingNumber } from '../index';
+import React from "react";
+import { IncreasingNumber } from "../index";
 
 export class IncreasingNumberDemo extends React.Component<any, any> {
   render() {

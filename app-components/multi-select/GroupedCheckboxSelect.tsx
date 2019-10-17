@@ -1,17 +1,17 @@
-import { filter, includes } from 'lodash';
-import * as React from 'react';
-import { OverlayTrigger, Placement } from '../core/OverlayTrigger';
-import { ICheckboxListingProps } from '../listing/CheckboxListing';
-import { GroupedCheckboxListing, IGroupedCheckboxListing } from '../listing/GroupedCheckboxListing';
-import { SelectWithTags } from './SelectWithTags';
-import {TSelectedValues, ISelectOption} from "../with-multi-select/interfaces";
+import { filter, includes } from "lodash";
+import React from "react";
+import { OverlayTrigger, Placement } from "../core/OverlayTrigger";
+import { ICheckboxListingProps } from "../listing/CheckboxListing";
+import { GroupedCheckboxListing, IGroupedCheckboxListing } from "../listing/GroupedCheckboxListing";
+import { SelectWithTags } from "./SelectWithTags";
+import { TSelectedValues, ISelectOption } from "../with-multi-select/interfaces";
 
 interface IGroupedCheckboxSelectProps {
   selectedValues?: TSelectedValues;
   placeholder?: string;
   options: ISelectOption[];
-  getGroupTitle: IGroupedCheckboxListing['getGroupTitle'];
-  onChange: ICheckboxListingProps['onChange'];
+  getGroupTitle: IGroupedCheckboxListing["getGroupTitle"];
+  onChange: ICheckboxListingProps["onChange"];
 }
 
 const pickSelectedOptionsByValue = (options: ISelectOption[], value: TSelectedValues = []) => {
@@ -27,12 +27,12 @@ export class GroupedCheckboxSelect extends React.Component<IGroupedCheckboxSelec
     return (
       <OverlayTrigger
         content={() => (
-            <GroupedCheckboxListing
-                selectedValues={selectedValues}
-                options={options}
-                onChange={onChange}
-                getGroupTitle={getGroupTitle}
-            />
+          <GroupedCheckboxListing
+            selectedValues={selectedValues}
+            options={options}
+            onChange={onChange}
+            getGroupTitle={getGroupTitle}
+          />
         )}
         placement={Placement.leftBottom}
         closeOnOutSide

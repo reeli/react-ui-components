@@ -1,6 +1,5 @@
-import { css } from 'glamor';
-import * as React from 'react';
-import { Component } from 'react';
+import { css } from "glamor";
+import React, { Component } from "react";
 
 interface ICell {
   label?: string | JSX.Element | null;
@@ -9,7 +8,7 @@ interface ICell {
 
 const cellValueStyles = css({
   flexShrink: 0,
-  wordWrap: 'break-word',
+  wordWrap: "break-word",
 });
 
 export class Cell extends Component<ICell, any> {

@@ -1,7 +1,7 @@
-import { css } from 'glamor';
-import { map } from 'lodash';
-import * as React from 'react';
-import { IColumn, Row } from './Row';
+import { css } from "glamor";
+import { map } from "lodash";
+import React from "react";
+import { IColumn, Row } from "./Row";
 
 interface ITable {
   dataSource: any[];
@@ -11,7 +11,7 @@ interface ITable {
 
 export class Table extends React.Component<ITable, any> {
   render() {
-    const { columns, dataSource, width = 'auto' } = this.props;
+    const { columns, dataSource, width = "auto" } = this.props;
     return (
       <div {...css({ width })}>
         {map(columns, (column: any, idx: number) => {

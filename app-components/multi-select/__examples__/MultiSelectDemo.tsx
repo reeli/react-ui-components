@@ -1,60 +1,60 @@
-import { css } from 'glamor';
-import { filter, find, includes } from 'lodash';
-import * as React from 'react';
-import { CheckboxSelect } from '../CheckboxSelect';
-import { GroupedCheckboxSelect } from '../GroupedCheckboxSelect';
-import {TSelectedValues, ISelectOption} from "../../with-multi-select/interfaces";
+import { css } from "glamor";
+import { filter, find, includes } from "lodash";
+import React from "react";
+import { CheckboxSelect } from "../CheckboxSelect";
+import { GroupedCheckboxSelect } from "../GroupedCheckboxSelect";
+import { TSelectedValues, ISelectOption } from "../../with-multi-select/interfaces";
 
 const provinces = [
   {
-    display: '四川省',
-    value: '1',
+    display: "四川省",
+    value: "1",
   },
   {
-    display: '河北省',
-    value: '2',
+    display: "河北省",
+    value: "2",
   },
   {
-    display: '海南省',
-    value: '3',
+    display: "海南省",
+    value: "3",
   },
 ];
 
 const cities = [
   {
-    value: '11',
-    display: '成都',
-    group: '1',
+    value: "11",
+    display: "成都",
+    group: "1",
   },
   {
-    value: '12',
-    display: '乐山',
-    group: '1',
+    value: "12",
+    display: "乐山",
+    group: "1",
   },
   {
-    value: '13',
-    display: '绵阳',
-    group: '1',
+    value: "13",
+    display: "绵阳",
+    group: "1",
   },
   {
-    value: '21',
-    display: '北京',
-    group: '2',
+    value: "21",
+    display: "北京",
+    group: "2",
   },
   {
-    value: '22',
-    display: '鞍山',
-    group: '2',
+    value: "22",
+    display: "鞍山",
+    group: "2",
   },
   {
-    value: '31',
-    display: '吉宁',
-    group: '3',
+    value: "31",
+    display: "吉宁",
+    group: "3",
   },
   {
-    value: '32',
-    display: '长春',
-    group: '3',
+    value: "32",
+    display: "长春",
+    group: "3",
   },
 ];
 
@@ -66,7 +66,7 @@ const getCitiesBySelectedProvinces = (data: ISelectOption[], provincesValue: any
 
 const getDisplayByValue = (value: string | number, options: ISelectOption[]) => {
   const result = find(options, (option: ISelectOption) => option.value === value);
-  return result ? result.display : '';
+  return result ? result.display : "";
 };
 
 export class MultiSelectDemo extends React.Component<any, any> {
@@ -77,14 +77,14 @@ export class MultiSelectDemo extends React.Component<any, any> {
   };
 
   handleCityChange = (selectedValues?: TSelectedValues) => {
-    console.log(this.state.cityValue, 'cityValue');
+    console.log(this.state.cityValue, "cityValue");
     this.setState({
       cityValue: selectedValues,
     });
   };
 
   handleProvinceChange = (selectedValues?: TSelectedValues) => {
-    console.log(this.state.provincesValue, 'provincesValue');
+    console.log(this.state.provincesValue, "provincesValue");
     this.setState(
       {
         provincesValue: selectedValues,
@@ -99,7 +99,7 @@ export class MultiSelectDemo extends React.Component<any, any> {
 
   render() {
     return (
-      <div {...css({ display: 'flex' })}>
+      <div {...css({ display: "flex" })}>
         <div {...css({ flex: 1 })}>
           <CheckboxSelect
             selectedValues={this.state.provincesValue}
