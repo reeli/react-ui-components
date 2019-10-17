@@ -1,11 +1,15 @@
 export enum Placement {
-  leftCenter,
-  rightCenter,
+  left,
+  leftTop,
+  leftBottom,
+  right,
+  rightTop,
+  rightBottom,
+  top,
   topLeft,
-  topCenter,
   topRight,
+  bottom,
   bottomLeft,
-  bottomCenter,
   bottomRight,
 }
 
@@ -26,21 +30,57 @@ const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | n
     left: document.documentElement.scrollLeft,
   } as IPosition;
   if (triggerRect && contentRect) {
-    const dWidth = (triggerRect.width - contentRect.width) / 2;
-    const contentTop = triggerRect.top + triggerRect.height;
+    const dWidth = triggerRect.width - contentRect.width;
+    const dHeight = triggerRect.height - contentRect.height;
 
     switch (placement) {
-      case Placement.bottomRight:
-        position.left += triggerRect.left + (triggerRect.width - contentRect.width);
-        position.top += contentTop;
+      case Placement.top:
+        position.left += triggerRect.left + dWidth / 2;
+        position.top += triggerRect.top - triggerRect.height;
         break;
-      case Placement.bottomCenter:
+      case Placement.topLeft:
+        position.left += triggerRect.left;
+        position.top += triggerRect.top - triggerRect.height;
+        break;
+      case Placement.topRight:
         position.left += triggerRect.left + dWidth;
-        position.top += contentTop;
+        position.top += triggerRect.top - triggerRect.height;
+        break;
+      case Placement.bottom:
+        position.left += triggerRect.left + dWidth / 2;
+        position.top += triggerRect.top + triggerRect.height;
         break;
       case Placement.bottomLeft:
         position.left += triggerRect.left;
-        position.top += contentTop;
+        position.top += triggerRect.top + triggerRect.height;
+        break;
+      case Placement.bottomRight:
+        position.left += triggerRect.left + dWidth;
+        position.top += triggerRect.top + triggerRect.height;
+        break;
+      case Placement.left:
+        position.left += triggerRect.left - contentRect.width;
+        position.top += triggerRect.top + dHeight / 2;
+        break;
+      case Placement.leftTop:
+        position.left += triggerRect.left - contentRect.width;
+        position.top += triggerRect.top;
+        break;
+      case Placement.leftBottom:
+        position.left += triggerRect.left - contentRect.width;
+        position.top += triggerRect.top + dHeight;
+        break;
+      case Placement.right:
+        position.left += triggerRect.left + triggerRect.width;
+        position.top += triggerRect.top + dHeight / 2;
+        break;
+      case Placement.rightTop:
+        position.left += triggerRect.left + triggerRect.width;
+        position.top += triggerRect.top;
+        break;
+      case Placement.rightBottom:
+        position.left += triggerRect.left + triggerRect.width;
+        position.top += triggerRect.top + dHeight;
         break;
     }
   }
