@@ -23,6 +23,7 @@ export function Popover(props: IPopoverProps) {
   const position = usePosition(triggerEl, contentEl, placement, [isOpen]);
 
   // click out side 绑定到每一个 Popover，因为每一个 Popover 判断 outside 的对象不同。who's outside?
+  // 只有当 isOpen = true 时，才绑定监听事件，否则什么也不做
   useOutSideClick([triggerEl, contentEl], hide, closeOnClickOutSide && isOpen);
 
   useEffect(() => {
