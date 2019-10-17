@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { Position } from "../core/Overlay";
 import { BasicPortal } from "../portal/BasicPortal";
 import { Calendar } from "./Calendar";
-import { Placement } from "../core/usePlacement";
+import { Placement } from "../core/getPlacement";
 import { useOutSideClick } from "../portal/useOutSideClick";
 import { Input } from "../input/Input";
 
@@ -15,7 +15,7 @@ export function DatePicker() {
     setOpen(false);
   }, []);
 
-  useOutSideClick(contentEl, startLeave);
+  useOutSideClick([contentEl], startLeave);
 
   const [value, setValue] = useState("");
 
