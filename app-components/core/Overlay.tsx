@@ -2,7 +2,7 @@ import * as React from "react";
 import { ReactNode, RefObject, useRef } from "react";
 import { useClientRect } from "./useClientRect";
 import { NPortal } from "../portal/NPortal";
-import { Placement, usePlacement } from "./usePlacement";
+import { Placement, getPlacement } from "./getPlacement";
 import { useToggle } from "../portal/useToggle";
 import { useScroll } from "./useScroll";
 import { useResize } from "./useResize";
@@ -49,7 +49,7 @@ export const Position = ({ triggerRef, placement = Placement.bottomRight, childr
   useResize(updateTriggerRect);
 
   // 根据触发元素和内容元素的 ClientRect，以及摆放位置，计算出内容元素的坐标
-  const position = usePlacement({ triggerRect, contentRect, placement });
+  const position = getPlacement({ triggerRect, contentRect, placement });
 
   return (
     <div

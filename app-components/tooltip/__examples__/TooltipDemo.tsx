@@ -1,7 +1,7 @@
 import { css } from "glamor";
 import * as React from "react";
 import { Tooltip } from "../Tooltip";
-import { Placement } from "../../core/usePlacement";
+import { Placement } from "../../core/getPlacement";
 import { Button } from "../../button/Button";
 import { IncreasingNumber } from "../../increasing-number";
 
@@ -78,7 +78,7 @@ export class TooltipDemo extends React.Component<any, any> {
           </Tooltip>
         </span>
         <span style={{ marginRight: 15 }}>
-          <Tooltip placement={Placement.bottomCenter} content={<TooltipContent placement={"center"} />}>
+          <Tooltip placement={Placement.bottom} content={<TooltipContent placement={"center"} />}>
             <Button>On Bottom Center</Button>
           </Tooltip>
         </span>

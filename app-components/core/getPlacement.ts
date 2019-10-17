@@ -87,7 +87,5 @@ const getPosition = (triggerRect: ClientRect | null, contentRect: ClientRect | n
   return position;
 };
 
-export const usePlacement = ({ triggerRect, contentRect, placement }: IUsePlacementProps): IPosition => {
-  // TODO: Add useMemo here
-  return getPosition(triggerRect, contentRect, placement);
-};
+export const getPlacement = ({ triggerRect, contentRect, placement }: IUsePlacementProps): IPosition =>
+  getPosition(triggerRect, contentRect, placement);

@@ -3,7 +3,7 @@ import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import { useToggle } from "../portal/useToggle";
 import { BasicPortal } from "../portal/BasicPortal";
 import { Position } from "../core/Overlay";
-import { Placement } from "../core/usePlacement";
+import { Placement } from "../core/getPlacement";
 import invariant from "invariant";
 
 interface ITooltipsProps {

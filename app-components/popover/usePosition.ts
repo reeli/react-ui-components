@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { Placement, usePlacement } from "../core/usePlacement";
+import { Placement, getPlacement } from "../core/getPlacement";
 import { useClientRect } from "../core/useClientRect";
 import { useScroll } from "../core/useScroll";
 import { useResize } from "../core/useResize";
@@ -21,5 +21,5 @@ export const usePosition = (
 
   // 根据触发元素和内容元素的 ClientRect，以及摆放位置，计算出内容元素的坐标
 
-  return usePlacement({ triggerRect, contentRect, placement });
+  return getPlacement({ triggerRect, contentRect, placement });
 };

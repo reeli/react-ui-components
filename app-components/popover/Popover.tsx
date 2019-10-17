@@ -3,7 +3,7 @@ import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import { useToggle } from "../portal/useToggle";
 import invariant from "invariant";
 import { BasicPortal } from "../portal/BasicPortal";
-import { Placement } from "../core/usePlacement";
+import { Placement } from "../core/getPlacement";
 import { useOutSideClick } from "../portal/useOutSideClick";
 import { usePosition } from "./usePosition";
 

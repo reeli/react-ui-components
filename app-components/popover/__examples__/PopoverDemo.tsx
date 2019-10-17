@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Popover } from "../Popover";
-import { Placement } from "../../core/usePlacement";
+import { Placement } from "../../core/getPlacement";
 
 export class PopoverDemo extends React.Component<any, any> {
   render() {
