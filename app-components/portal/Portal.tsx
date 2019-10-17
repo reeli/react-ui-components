@@ -1,146 +1,31 @@
-import * as React from "react";
-import { Component, ReactInstance } from "react";
-import * as ReactDOM from "react-dom";
-import { findDOMNode } from "react-dom";
-import { isFunction } from "lodash";
+import { ReactNode, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
-class BasePortal extends React.Component<{ children: JSX.Element | null }, any> {
-  node?: HTMLElement;
-
-  componentWillUnmount() {
-    if (this.node) {
-      document.body.removeChild(this.node);
-    }
-  }
-
-  render() {
-    if (!this.node) {
-      this.node = document.createElement("div");
-      document.body.appendChild(this.node);
-    }
-
-    return ReactDOM.createPortal(this.props.children, this.node);
-  }
+interface IPortalProps {
+  children: ReactNode;
 }
 
-export interface IPortalPropsInnerProps {
-  open: () => void;
-  close: () => void;
-  toggle: () => void;
-}
+export const Portal = (props: IPortalProps) => {
+  // 这里要用 "ref" 的 current 属性来保存 container 节点，否则每次 re-render 都会重新创建 container 节点。
+  // "ref" 的 current 类似于 class 组件上的 instance 属性。
 
-type TChildrenRender<T> = (innerProps: T) => React.ReactNode;
+  let containerRef = useRef<HTMLDivElement | null>(null);
 
-export interface IPortalProps {
-  content: TChildrenRender<IPortalPropsInnerProps>;
-  children: TChildrenRender<IPortalPropsInnerProps>;
-  isOpen?: boolean;
-  onOpenChanged?: (isOpen: boolean) => void;
-  beforeClose?: (resetPortal: () => void) => void;
-  closeOnOutSide?: boolean;
-}
-
-interface IPortalState {
-  isOpen: boolean;
-}
-
-export class Portal extends Component<IPortalProps, IPortalState> {
-  portal: ReactInstance | null = null;
-  state = {
-    isOpen: this.props.isOpen || false,
-  };
-
-  componentDidMount() {
-    if (this.props.closeOnOutSide) {
-      document.body.addEventListener("click", this.handleOutSideClick);
-    }
+  // 如果 container 节点不存在，创建一个 div 元素，保存到 "ref" 的 current 属性中，并且添加到 document.body。
+  if (!containerRef.current) {
+    containerRef.current = document.createElement("div");
+    containerRef.current.setAttribute("role", "portal");
+    document.body.appendChild(containerRef.current);
   }
 
-  componentWillUnmount() {
-    if (this.props.closeOnOutSide) {
-      document.body.removeEventListener("click", this.handleOutSideClick);
-    }
-  }
-
-  componentWillReceiveProps(nextProps: IPortalProps) {
-    if (typeof nextProps.isOpen !== "undefined") {
-      if (nextProps.isOpen && !this.state.isOpen) {
-        this.open();
-      } else if (!nextProps.isOpen && this.state.isOpen) {
-        this.close();
+  // 当组件销毁时，移除 container 节点。
+  useEffect(() => {
+    return function cleanup() {
+      if (containerRef.current) {
+        document.body.removeChild(containerRef.current);
       }
-    }
-  }
-
-  componentWillUpdate(nextProps: IPortalProps, nextState: IPortalState) {
-    if (nextState.isOpen !== nextProps.isOpen && nextProps.onOpenChanged) {
-      nextProps.onOpenChanged(nextState.isOpen);
-    }
-  }
-
-  handleOutSideClick = (evt: any) => {
-    if (this.portal) {
-      const node = findDOMNode(this.portal);
-      if (!node.contains(evt.target) && !findDOMNode(this).contains(evt.target)) {
-        this.close();
-      }
-    }
-  };
-
-  open = () => {
-    this.setState({
-      isOpen: true,
-    });
-  };
-
-  close = () => {
-    const resetPortal = () => {
-      this.setState({
-        isOpen: false,
-      });
     };
-    if (this.props.beforeClose && isFunction(this.props.beforeClose)) {
-      this.props.beforeClose(resetPortal);
-    } else {
-      resetPortal();
-    }
-  };
+  }, []);
 
-  toggle = () => {
-    this.state.isOpen ? this.close() : this.open();
-  };
-
-  renderPortal() {
-    if (this.state.isOpen) {
-      return (
-        <BasePortal
-          ref={portal => {
-            this.portal = portal;
-          }}
-        >
-          {this.props.content({
-            open: this.open,
-            close: this.close,
-            toggle: this.toggle,
-          })}
-        </BasePortal>
-      );
-    }
-    return null;
-  }
-
-  render() {
-    return (
-      <>
-        {this.props.children
-          ? this.props.children({
-              open: this.open,
-              close: this.close,
-              toggle: this.toggle,
-            })
-          : null}
-        {this.renderPortal()}
-      </>
-    );
-  }
-}
+  return createPortal(props.children, containerRef.current);
+};

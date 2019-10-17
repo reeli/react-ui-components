@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ReactElement, ReactNode, useEffect, useRef } from "react";
-import { useToggle } from "../portal/useToggle";
-import { BasicPortal } from "../portal/BasicPortal";
+import { useToggle } from "../core/useToggle";
+import { Portal } from "../portal/Portal";
 import { Position } from "../core/Overlay";
 import { Placement } from "../core/getPlacement";
 import invariant from "invariant";
@@ -32,11 +32,11 @@ export function Tooltip(props: ITooltipsProps) {
         onMouseLeave: hide,
       })}
       {isOpen && (
-        <BasicPortal>
+        <Portal>
           <Position triggerRef={triggerEl} placement={placement}>
             {content}
           </Position>
-        </BasicPortal>
+        </Portal>
       )}
     </>
   );

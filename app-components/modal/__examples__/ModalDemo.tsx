@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "../Modal";
-import { useToggle } from "../../portal/useToggle";
+import { useToggle } from "../../core/useToggle";
 import { Button } from "../../button/Button";
 
 const modalContentStyles = {

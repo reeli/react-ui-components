@@ -1,8 +1,8 @@
 import { css } from "glamor";
 import * as React from "react";
 import { useRef } from "react";
-import { useToggle } from "../../portal/useToggle";
-import { BasicPortal } from "../../portal/BasicPortal";
+import { useToggle } from "../useToggle";
+import { Portal } from "../../portal";
 import { Overlay, Position } from "../Overlay";
 
 export function CoreDemo() {
@@ -15,11 +15,11 @@ export function CoreDemo() {
         trigger
       </div>
       {isShow && (
-        <BasicPortal>
+        <Portal>
           <Position triggerRef={triggerRef}>
             <div onClick={hide}>content x</div>
           </Position>
-        </BasicPortal>
+        </Portal>
       )}
       ------------------------------------
       <Overlay

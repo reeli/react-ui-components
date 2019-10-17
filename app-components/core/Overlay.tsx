@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ReactNode, RefObject, useRef } from "react";
 import { useClientRect } from "./useClientRect";
-import { NPortal } from "../portal/NPortal";
-import { Placement, getPlacement } from "./getPlacement";
-import { useToggle } from "../portal/useToggle";
+import { getPlacement, Placement } from "./getPlacement";
+import { useToggle } from "./useToggle";
 import { useScroll } from "./useScroll";
 import { useResize } from "./useResize";
+import { Portal } from "../portal";
 
 interface IOverlayTriggerProps {
   placement?: Placement;
@@ -20,14 +20,15 @@ export const Overlay = ({ trigger, content, placement = Placement.bottomLeft }: 
   return (
     <>
       {trigger({ open, close, triggerEl })}
-      <NPortal
-        children={
-          <Position triggerRef={triggerEl} placement={placement}>
-            {content({ open, close })}
-          </Position>
-        }
-        isOpen={isOpen}
-      />
+      {isOpen ? (
+        <Portal
+          children={
+            <Position triggerRef={triggerEl} placement={placement}>
+              {content({ open, close })}
+            </Position>
+          }
+        />
+      ) : null}
     </>
   );
 };
@@ -53,7 +54,12 @@ export const Position = ({ triggerRef, placement = Placement.bottomRight, childr
 
   return (
     <div
-      style={{ position: "absolute", left: position.left, top: position.top, willChange: "transform" }}
+      style={{
+        position: "absolute",
+        left: position.left,
+        top: position.top,
+        willChange: "transform",
+      }}
       ref={contentEl}
     >
       {children}

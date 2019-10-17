@@ -1,5 +1,5 @@
 import React, { FunctionComponent, MouseEventHandler, ReactNode } from "react";
-import { BasicPortal } from "../portal/BasicPortal";
+import { Portal } from "../portal";
 
 interface IBackdropProps {
   onBackDropClick?: MouseEventHandler;
@@ -37,11 +37,11 @@ interface IModalProps extends IBackdropProps {
 
 export const Modal = ({ children, isOpen, onBackDropClick, BackdropComponent = Backdrop }: IModalProps) => {
   return isOpen ? (
-    <BasicPortal>
+    <Portal>
       <div style={modalStyles}>
         <BackdropComponent onBackDropClick={onBackDropClick} />
         {children}
       </div>
-    </BasicPortal>
+    </Portal>
   ) : null;
 };

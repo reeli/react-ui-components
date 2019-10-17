@@ -1,13 +1,13 @@
 import * as React from "react";
 import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import invariant from "invariant";
-import { BasicPortal } from "../portal/BasicPortal";
+import { Portal } from "../portal";
 import { Placement } from "../core/getPlacement";
-import { useOutSideClick } from "../portal/useOutSideClick";
-import { usePosition } from "./usePosition";
+import { useOutSideClick } from "../core/useOutSideClick";
+import { usePosition } from "../core/usePosition";
 import { isEqual } from "lodash";
 import { useRefValue } from "../core/useRefValue";
-import { useToggle } from "../portal/useToggle";
+import { useToggle } from "../core/useToggle";
 
 interface IPopoverProps {
   children: ReactElement<any>;
@@ -53,7 +53,7 @@ export function Popover(props: IPopoverProps) {
         onClick: show,
       })}
       {isOpen && (
-        <BasicPortal>
+        <Portal>
           <div
             style={{
               position: "absolute",
@@ -65,7 +65,7 @@ export function Popover(props: IPopoverProps) {
           >
             {content}
           </div>
-        </BasicPortal>
+        </Portal>
       )}
     </>
   );
