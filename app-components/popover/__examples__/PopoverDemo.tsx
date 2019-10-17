@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 import { useState } from "react";
 import { Popover } from "../Popover";
-import { Placement } from "../../core/getPlacement";
+import { Placement } from "../../core";
 
 export function PopoverDemo() {
   const [visible, setVisible] = useState(true);

@@ -1,5 +1,5 @@
 import { css } from "glamor";
-import * as React from "react";
+import React from "react";
 import { useRef } from "react";
 import { useToggle } from "../useToggle";
 import { Portal } from "../../portal";

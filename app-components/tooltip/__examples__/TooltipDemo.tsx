@@ -1,7 +1,7 @@
 import { css } from "glamor";
-import * as React from "react";
+import React from "react";
 import { Tooltip } from "../Tooltip";
-import { Placement } from "../../core/getPlacement";
+import { Placement } from "../../core";
 import { Button } from "../../button/Button";
 import { IncreasingNumber } from "../../increasing-number";
 

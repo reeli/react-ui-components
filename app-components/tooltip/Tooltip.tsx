@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { ReactNode, useEffect, useRef } from "react";
 import { Placement, useToggle } from "../core";
 import { Portal } from "../portal";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { ReactNode, RefObject, useRef } from "react";
 import { useClientRect } from "./useClientRect";
 import { getPlacement, Placement } from "./getPlacement";

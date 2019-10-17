@@ -1,7 +1,7 @@
 import { css } from "glamor";
 import createBrowserHistory from "history/createBrowserHistory";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import { render } from "react-dom";
 import { Router, Switch } from "react-router";
 import { Nav } from "./components/Nav";
 import { getRouterRoutes } from "./getRouterRoutes";
@@ -55,4 +55,4 @@ class App extends React.Component<any, any> {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+render(<App />, document.getElementById("app"));
