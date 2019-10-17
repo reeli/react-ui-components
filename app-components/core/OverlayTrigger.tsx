@@ -1,19 +1,52 @@
-import React, { useRef } from "react";
-import { Portal } from "app-components/portal";
-import { Placement } from "app-components/core/getPlacement";
-import { usePosition } from "app-components/core/usePosition";
-import { useToggle } from "app-components/core/useToggle";
+import React, { ReactElement, ReactNode, useEffect, useRef } from "react";
+import invariant from "invariant";
+import { Portal } from "../portal";
+import { Placement, useOutSideClick, usePosition, useRefValue, useToggle } from "../core";
+import { isEqual } from "lodash";
 
 interface IOverlayTriggerProps {
-  content: JSX.Element;
-  placement: Placement;
+  children: ReactElement<any>; // 不能是 undefined、boolean、null 或者 text，只能是一个 react element（不一定有 DOM，所以要用 invariant 来控制），但是可以把 ref 绑上去
+  content?: ReactNode;
+  placement?: Placement;
+  closeOnClickOutSide?: boolean;
+  visible?: boolean;
 }
 
-export const OverlayTrigger: React.FC<IOverlayTriggerProps> = ({ content, children, placement = Placement.bottom }) => {
+export const OverlayTrigger: React.FC<IOverlayTriggerProps> = ({
+  content,
+  children,
+  placement,
+  closeOnClickOutSide = true,
+  visible = false,
+}) => {
+  const [isOpen, show, hide, setIsOpen] = useToggle();
+  const isOpenRef = useRefValue(isOpen);
+
   const triggerEl = useRef<HTMLElement>(null);
   const contentEl = useRef<HTMLDivElement>(null);
-  const position = usePosition(triggerEl, contentEl, placement);
-  const [, show] = useToggle();
+
+  const position = usePosition(triggerEl, contentEl, placement, [isOpen]);
+
+  // 用 cloneElement(children) 有个问题，就是传进来的值必须是 HTMLElement，或者使用 forwardRef 的组件（将 ref forward 到一个 HTMLElement 上），否则在 getBondingClientRect 时就会出错
+  useEffect(() => {
+    invariant(
+      triggerEl.current instanceof HTMLElement,
+      "The children must be able to receive ref prop of HTMLElement.",
+    );
+  });
+
+  // click out side 绑定到每一个 Popover，因为每一个 Popover 判断 outside 的对象不同。who's outside?
+  // 只有当 isOpen = true 时，才绑定监听事件，否则什么也不做
+  useOutSideClick([triggerEl, contentEl], hide, closeOnClickOutSide && isOpen);
+
+  useEffect(
+    () => {
+      if (!isEqual(visible, isOpenRef.current)) {
+        setIsOpen(visible);
+      }
+    },
+    [visible],
+  );
 
   return (
     <>
@@ -21,18 +54,21 @@ export const OverlayTrigger: React.FC<IOverlayTriggerProps> = ({ content, childr
         ref: triggerEl,
         onClick: show,
       })}
-      <Portal>
-        <div
-          style={{
-            position: "absolute",
-            top: position.top,
-            left: position.left,
-          }}
-          ref={contentEl}
-        >
-          {content}
-        </div>
-      </Portal>
+      {isOpen && (
+        <Portal>
+          <div
+            style={{
+              position: "absolute",
+              left: position.left,
+              top: position.top,
+              willChange: "transform",
+            }}
+            ref={contentEl}
+          >
+            {content}
+          </div>
+        </Portal>
+      )}
     </>
   );
 };

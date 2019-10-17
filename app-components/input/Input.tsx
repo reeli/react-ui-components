@@ -1,5 +1,5 @@
 import { css } from "glamor";
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface IInputProps {
   value?: string;
@@ -23,32 +23,32 @@ const inputStyles = css({
   marginTop: "14px",
 });
 
-export class Input extends React.Component<IInputProps, any> {
-  handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (this.props.onChange) {
-      this.props.onChange(evt, evt.target.value);
-    }
-  };
+// 基础组件最好都加上 forwardRef，如果不加很可能出错。
+// Input 这里必须使用 forwardRef，是因为当用做 OverlayTrigger 的 children 时，需要通过 HTMLElement 去计算 clientRect。
+export const Input = forwardRef<HTMLInputElement, IInputProps>(
+  ({ type = "text", value, placeholder = "", onChange, onClick, readOnly = false }, ref) => {
+    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+      onChange && onChange(evt, evt.target.value);
+    };
 
-  handleClick = (evt: React.MouseEvent<HTMLInputElement>) => {
-    if (this.props.onClick) {
-      const value = (evt.target as HTMLInputElement).value;
-      this.props.onClick(evt, value);
-    }
-  };
+    const handleClick = (evt: React.MouseEvent<HTMLInputElement>) => {
+      if (onClick) {
+        const value = (evt.target as HTMLInputElement).value;
+        onClick(evt, value);
+      }
+    };
 
-  render() {
-    const { type = "text", value, placeholder = "", readOnly = false } = this.props;
     return (
       <input
         type={type}
         value={value}
-        onChange={this.handleChange}
-        onClick={this.handleClick}
+        onChange={handleChange}
+        onClick={handleClick}
         placeholder={placeholder}
         readOnly={readOnly}
+        ref={ref}
         {...css(inputStyles, { cursor: readOnly ? "pointer" : "default" })}
       />
     );
-  }
-}
+  },
+);

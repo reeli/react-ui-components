@@ -5,8 +5,8 @@ export const useClientRect = (ele: RefObject<HTMLElement | null>, deps: any[] = 
 
   // 更新元素的 ClientRect，使用 useMemo 确保只创建一次 updateClientRect 方法
   const updateClientRect = useCallback(() => {
-    if (ele.current) {
-      setClientRect(ele.current!.getBoundingClientRect());
+    if (ele.current && ele.current.getBoundingClientRect) {
+      setClientRect(ele.current.getBoundingClientRect());
     }
   }, []);
 
