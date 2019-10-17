@@ -1,24 +1,24 @@
 import * as React from "react";
-import { ReactElement, ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import invariant from "invariant";
 import { Portal } from "../portal";
-import { Placement } from "../core/getPlacement";
-import { useOutSideClick } from "../core/useOutSideClick";
-import { usePosition } from "../core/usePosition";
+import { Placement, useOutSideClick, usePosition, useRefValue, useToggle } from "../core";
 import { isEqual } from "lodash";
-import { useRefValue } from "../core/useRefValue";
-import { useToggle } from "../core/useToggle";
 
 interface IPopoverProps {
-  children: ReactElement<any>;
   content?: ReactNode;
   placement?: Placement;
   closeOnClickOutSide?: boolean;
   visible?: boolean;
 }
 
-export function Popover(props: IPopoverProps) {
-  const { content, children, placement, closeOnClickOutSide = true, visible = false } = props;
+export const Popover: React.FC<IPopoverProps> = ({
+  content,
+  children,
+  placement,
+  closeOnClickOutSide = true,
+  visible = false,
+}) => {
   const [isOpen, show, hide, setIsOpen] = useToggle();
   const isOpenRef = useRefValue(isOpen);
 
@@ -69,4 +69,4 @@ export function Popover(props: IPopoverProps) {
       )}
     </>
   );
-}
+};

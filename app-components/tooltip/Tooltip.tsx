@@ -1,19 +1,16 @@
 import * as React from "react";
-import { ReactElement, ReactNode, useEffect, useRef } from "react";
-import { useToggle } from "../core/useToggle";
-import { Portal } from "../portal/Portal";
+import { ReactNode, useEffect, useRef } from "react";
+import { Placement, useToggle } from "../core";
+import { Portal } from "../portal";
 import { Position } from "../core/Overlay";
-import { Placement } from "../core/getPlacement";
 import invariant from "invariant";
 
 interface ITooltipsProps {
-  children: ReactElement<any>;
   content?: ReactNode;
   placement?: Placement;
 }
 
-export function Tooltip(props: ITooltipsProps) {
-  const { content, children, placement } = props;
+export const Tooltip: React.FC<ITooltipsProps> = ({ content, placement, children }) => {
   const [isOpen, show, hide] = useToggle();
   const triggerEl = useRef<HTMLElement>(null);
 
@@ -40,4 +37,4 @@ export function Tooltip(props: ITooltipsProps) {
       )}
     </>
   );
-}
+};
