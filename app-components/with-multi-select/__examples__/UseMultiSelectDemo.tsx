@@ -1,31 +1,31 @@
-import { map } from 'lodash';
-import React from 'react';
-import { Checkbox } from '../../checkbox/Checkbox';
-import { useMultiSelect } from '../useMultiSelect';
+import { map } from "lodash";
+import React from "react";
+import { Checkbox } from "../../checkbox/Checkbox";
+import { useMultiSelect } from "../useMultiSelect";
 
 const options = [
   {
-    value: 'cat',
-    display: 'Cat',
+    value: "cat",
+    display: "Cat",
   },
   {
-    value: 'dog',
-    display: 'Dog',
+    value: "dog",
+    display: "Dog",
   },
   {
-    value: 'bird',
-    display: 'bird',
+    value: "bird",
+    display: "bird",
   },
 ];
 
-const initialValues = ['cat', 'dog'];
+const initialValues = ["cat", "dog"];
 
 export const UseMultiSelectDemo = () => {
   const { selectedState, toggle, selectAll, unselectAll } = useMultiSelect({
     options,
     selectedValues: initialValues,
     onSelectedValuesChange: values => {
-      console.log(values, 'onchange');
+      console.log(values, "onchange");
     },
   });
 
@@ -36,7 +36,7 @@ export const UseMultiSelectDemo = () => {
           <Checkbox
             key={option.value}
             value={selectedState[option.value]}
-            onValueChange={() => {
+            onChange={() => {
               toggle(option.value);
             }}
             label={option.display}
@@ -44,12 +44,7 @@ export const UseMultiSelectDemo = () => {
         );
       })}
       <div onClick={selectAll}>select all</div>
-      <Checkbox
-        onValueChange={value => {
-          console.log(value, '----------');
-        }}
-        label={'select all'}
-      />
+      <Checkbox onChange={selectAll} label={"select all"} />
       <div onClick={unselectAll}>unselect all</div>
     </div>
   );
