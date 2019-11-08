@@ -14,7 +14,7 @@ function getStyleComputedProperty(element: Element, property?: string) {
   return property ? (css as any)[property] : css;
 }
 
-export function getScrollParent(element: Element): Element {
+export function getScrollParent(element?: Element): Element {
   if (!element) {
     return document.body;
   }
