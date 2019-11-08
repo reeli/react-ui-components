@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --config=webpack.config.ts --port=9001 --compress --open --history-api-fallback",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "pretty": "prettier --write '{app-components,app-style-guide,__{tests,mocks}__}/**/*{.ts,tsx}'",
     "build": "webpack --config=webpack.config.ts",
     "watch": "tsc --watch"
@@ -13,6 +13,35 @@
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "testRegex": ".*/__tests__/.+\\.(generator|test|spec)\\.(ts|tsx)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
     }
   },
   "repository": {
@@ -36,8 +65,10 @@
     "@types/draft-js": "0.10.34",
     "@types/html-webpack-plugin": "3.2.0",
     "@types/invariant": "2.2.29",
+    "@types/jest": "24.0.22",
     "@types/lodash": "4.14.119",
     "@types/moment": "2.13.0",
+    "@types/node": "12.12.6",
     "@types/react": "16.7.18",
     "@types/react-dom": "16.0.11",
     "@types/react-router": "4.4.3",
@@ -47,9 +78,11 @@
     "babel-plugin-typescript-iife-enum": "0.1.0",
     "html-webpack-plugin": "4.0.0-alpha",
     "husky": "1.3.1",
+    "jest": "24.9.0",
     "prettier": "1.15.3",
     "pretty-quick": "1.8.0",
     "raw-loader": "1.0.0",
+    "ts-jest": "24.1.0",
     "ts-node": "8.0.3",
     "typescript": "3.3.3",
     "webpack": "4.28.3",

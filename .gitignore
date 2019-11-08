@@ -4,3 +4,4 @@ node_modules
 *.jsx
 public
 *.js.map
+coverage/
