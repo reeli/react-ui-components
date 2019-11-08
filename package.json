@@ -84,7 +84,7 @@
     "raw-loader": "1.0.0",
     "ts-jest": "24.1.0",
     "ts-node": "8.0.3",
-    "typescript": "3.3.3",
+    "typescript": "3.7.2",
     "webpack": "4.28.3",
     "webpack-cli": "3.2.0",
     "webpack-dev-server": "3.1.14"
