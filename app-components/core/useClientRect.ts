@@ -32,7 +32,10 @@ export const useClientRect = (ele: RefObject<HTMLElement | null>, deps: any[] = 
 
       updateClientRect();
     },
-    [ele.current, ...deps],
+    // 当 deps ([visible]) 发生变化时：
+    // 1. 自动 updateReact。但是 update 时 A 已经完成挂载。所以 deps 无须加上 ele.current
+    // 2. 创建并显示内容 A。
+    [deps],
   );
 
   return [clientRect, updateClientRect] as [typeof clientRect, typeof updateClientRect];
