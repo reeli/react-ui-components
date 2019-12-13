@@ -55,10 +55,10 @@
   },
   "homepage": "https://github.com/reeli/react-ui-components#readme",
   "devDependencies": {
-    "@babel/core": "7.4.3",
-    "@babel/plugin-proposal-class-properties": "7.4.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.4.3",
-    "@babel/plugin-transform-typescript": "7.4.0",
+    "@babel/core": "7.7.5",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.7.4",
+    "@babel/plugin-transform-typescript": "7.7.4",
     "@babel/preset-env": "7.4.3",
     "@emotion/babel-preset-css-prop": "10.0.9",
     "@types/d3-shape": "1.2.7",
@@ -74,7 +74,7 @@
     "@types/react-router": "4.4.3",
     "@types/react-router-dom": "4.3.1",
     "@types/webpack": "4.4.22",
-    "babel-loader": "8.0.5",
+    "babel-loader": "8.0.6",
     "babel-plugin-typescript-iife-enum": "0.1.0",
     "html-webpack-plugin": "4.0.0-alpha",
     "husky": "1.3.1",
@@ -91,6 +91,8 @@
   },
   "dependencies": {
     "@emotion/core": "10.0.10",
+    "@material-ui/core": "4.7.2",
+    "@material-ui/icons": "4.5.1",
     "d3-shape": "1.2.2",
     "draft-js": "0.10.5",
     "draft-js-mention-plugin": "3.1.3",
@@ -99,8 +101,8 @@
     "invariant": "2.2.4",
     "lodash": "4.17.11",
     "moment": "2.24.0",
-    "react": "16.7.0-alpha.2",
-    "react-dom": "16.7.0-alpha.2",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
     "react-router": "4.3.1",
     "react-router-dom": "4.3.1"
   }
