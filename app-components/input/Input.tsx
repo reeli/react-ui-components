@@ -8,6 +8,7 @@ interface IInputProps {
   onClick?: (evt: React.MouseEvent<HTMLInputElement>, value: any) => any;
   placeholder?: string;
   readOnly?: boolean;
+  autoFocus?: boolean;
 }
 
 const inputStyles = css({
@@ -26,7 +27,7 @@ const inputStyles = css({
 // 基础组件最好都加上 forwardRef，如果不加很可能出错。
 // Input 这里必须使用 forwardRef，是因为当用做 OverlayTrigger 的 children 时，需要通过 HTMLElement 去计算 clientRect。
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
-  ({ type = "text", value, placeholder = "", onChange, onClick, readOnly = false }, ref) => {
+  ({ type = "text", value, placeholder = "", onChange, onClick, readOnly = false, autoFocus = false }, ref) => {
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
       onChange && onChange(evt, evt.target.value);
     };
@@ -47,6 +48,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
         placeholder={placeholder}
         readOnly={readOnly}
         ref={ref}
+        autoFocus={autoFocus}
         {...css(inputStyles, { cursor: readOnly ? "pointer" : "default" })}
       />
     );
