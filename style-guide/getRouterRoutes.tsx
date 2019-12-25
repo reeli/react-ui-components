@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Route, RouteProps } from 'react-router';
+import * as React from "react";
+import { Route, RouteProps } from "react-router";
 
 export const getRouterRoutes = (routes: RouteProps[]) => {
   return routes.map((route: RouteProps, idx: number) => {

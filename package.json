@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --config=webpack.config.ts --port=9001 --compress --open --history-api-fallback",
     "test": "jest",
-    "pretty": "prettier --write '{src,app-style-guide,__{tests,mocks}__}/**/*{.ts,tsx}'",
+    "pretty": "prettier --write '{src,style-guide,__{tests,mocks}__}/**/*{.ts,tsx}'",
     "build": "webpack --config=webpack.config.ts",
     "watch": "tsc --watch"
   },

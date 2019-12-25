@@ -3,7 +3,7 @@ import * as path from "path";
 import * as webpack from "webpack";
 
 const webpackConfig: webpack.Configuration = {
-  context: path.resolve(__dirname, "./app-style-guide"),
+  context: path.resolve(__dirname, "./style-guide"),
   entry: "./index.tsx",
   output: {
     path: path.resolve(__dirname, "public"),
