@@ -5,7 +5,7 @@ import { ICheckboxListingProps } from "../listing/CheckboxListing";
 import { GroupedCheckboxListing, IGroupedCheckboxListing } from "../listing/GroupedCheckboxListing";
 import { SelectWithTags } from "./SelectWithTags";
 import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
-import { useToggle } from "app-components/core";
+import { useToggle } from "src/core";
 
 interface IGroupedCheckboxSelectProps {
   selectedValues?: TSelectedValues;

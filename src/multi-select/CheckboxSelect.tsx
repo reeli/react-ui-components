@@ -3,8 +3,8 @@ import React from "react";
 import { CheckboxListing, ICheckboxListingProps } from "../listing/CheckboxListing";
 import { SelectWithTags } from "./SelectWithTags";
 import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
-import { OverlayTrigger } from "app-components/core/OverlayTrigger";
-import { useToggle } from "app-components/core";
+import { OverlayTrigger } from "src/core/OverlayTrigger";
+import { useToggle } from "src/core";
 
 interface ICheckboxSelectProps {
   selectedValues?: TSelectedValues;

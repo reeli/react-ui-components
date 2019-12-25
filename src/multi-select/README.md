@@ -1,5 +1,5 @@
-* refs 是一个特殊的属性，可以让你直接去操作 DOM 或者 component instance
-* refs 应用场景
+- refs 是一个特殊的属性，可以让你直接去操作 DOM 或者 component instance
+- refs 应用场景
 
 1. 直接操作 DOM(或者 component instance) 或者快速定位 (或用 findDOMNode)
 2. 不期望组件被重新渲染的情况，比如 video，可以通过 refs 提供 play, pause 等接口对其直接进行操作

@@ -1,7 +1,7 @@
-import { clone, forEach, isEqual } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
-import { ISelectOption, TSelectedState, TSelectedValue, TSelectedValues } from './interfaces';
-import { toSelectedState, toSelectedValues } from './utils';
+import { clone, forEach, isEqual } from "lodash";
+import { useEffect, useRef, useState } from "react";
+import { ISelectOption, TSelectedState, TSelectedValue, TSelectedValues } from "./interfaces";
+import { toSelectedState, toSelectedValues } from "./utils";
 
 interface IUseMultiSelectProps {
   options: ISelectOption[];

@@ -2,7 +2,7 @@ import React from "react";
 import { OverlayTrigger } from "../core/OverlayTrigger";
 import { Input } from "../input/Input";
 import { IListingItem, IListingProps, Listing } from "../listing/Listing";
-import { Placement, useToggle } from "app-components/core";
+import { Placement, useToggle } from "src/core";
 
 export interface ISelectProps extends IListingProps {
   value: string;

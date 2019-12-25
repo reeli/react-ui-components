@@ -1,5 +1,5 @@
 import React from "react";
-import { IOverlayTriggerProps, OverlayTrigger } from "app-components/core/OverlayTrigger";
+import { IOverlayTriggerProps, OverlayTrigger } from "src/core/OverlayTrigger";
 import { css } from "glamor";
 
 interface IPopoverProps extends IOverlayTriggerProps {}
