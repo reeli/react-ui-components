@@ -18,6 +18,7 @@
     ]
   ],
   "plugins": [
+    "emotion",
     "babel-plugin-typescript-iife-enum",
     "@babel/plugin-transform-typescript",
     "@babel/plugin-proposal-class-properties",
