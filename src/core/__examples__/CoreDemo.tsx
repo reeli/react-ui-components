@@ -1,8 +1,8 @@
-import React from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useToggle } from "src/core/hooks/useToggle";
 import { Portal } from "../../portal";
-import { Overlay, Position } from "src/core/components/Overlay";
+import { Overlay } from "src/core/components/Overlay";
+import { Position } from "src/core/components/Position";
 
 export function CoreDemo() {
   const [isShow, show, hide] = useToggle();
