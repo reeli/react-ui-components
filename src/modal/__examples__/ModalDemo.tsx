@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Modal } from "../Modal";
-import { useToggle } from "../../core";
-import { Button } from "../../button/Button";
+import { useToggle } from "src/core";
+import { Button } from "src/button";
+import { ModalOverlay } from "src/modal/ModalOverlay";
+import { ModalContent } from "src/modal/ModalContent";
 
 const modalContentStyles = {
   background: "#fff",
@@ -13,8 +15,6 @@ const modalContentStyles = {
   left: "50%",
   transform: "translate3d(-50%,-50%,0)",
 } as any;
-
-const contentStyles = { marginBottom: 15 };
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -32,23 +32,53 @@ function getModalStyle() {
 }
 
 export function ModalDemo() {
-  const [state, setState] = useState(0);
-
   const [isOpen, open, close] = useToggle();
 
   return (
     <div>
+      <p>Simple Modal</p>
       <Button onClick={open}>Open Modal</Button>
-      <Modal isOpen={isOpen} onBackDropClick={close}>
+      <Modal isOpen={isOpen}>
+        <ModalOverlay onClick={close} />
+        <ModalContent>
+          <p>This is a simple modal</p>
+        </ModalContent>
+      </Modal>
+    </div>
+  );
+}
+
+export function ModalDemo2() {
+  const [isOpen, open, close] = useToggle();
+
+  return (
+    <div>
+      <p>Modal in Modal</p>
+      <Button onClick={open}>Open Modal</Button>
+      <Modal isOpen={isOpen}>
+        <ModalOverlay onClick={close} />
         <div style={{ ...modalContentStyles, ...getModalStyle() }}>
-          <h2>Modal Title</h2>
-          <div style={contentStyles}>
-            This is some content.
-            <Button onClick={() => setState(val => val + 1)}>{state}</Button>
-          </div>
-          <Button onClick={close}>Close</Button>
-          <ModalDemo />
+          <ModalDemo2 />
         </div>
+      </Modal>
+    </div>
+  );
+}
+
+export function ModalDemo3() {
+  const [state, setState] = useState(0);
+  const [isOpen, open, close] = useToggle();
+
+  return (
+    <div>
+      <p>State Change in Modal Content</p>
+      <Button onClick={open}>Open Modal</Button>
+      <Modal isOpen={isOpen}>
+        <ModalOverlay onClick={close} />
+        <ModalContent>
+          <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>
+          <p>{state}</p>
+        </ModalContent>
       </Modal>
     </div>
   );
