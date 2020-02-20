@@ -38,7 +38,7 @@ export function ModalDemo() {
     <div>
       <p>Simple Modal</p>
       <Button onClick={open}>Open Modal</Button>
-      <Modal isOpen={isOpen}>
+      <Modal visible={isOpen}>
         <ModalOverlay onClick={close} />
         <ModalContent>
           <p>This is a simple modal</p>
@@ -55,7 +55,7 @@ export function ModalDemo2() {
     <div>
       <p>Modal in Modal</p>
       <Button onClick={open}>Open Modal</Button>
-      <Modal isOpen={isOpen}>
+      <Modal visible={isOpen}>
         <ModalOverlay onClick={close} />
         <div style={{ ...modalContentStyles, ...getModalStyle() }}>
           <ModalDemo2 />
@@ -73,7 +73,7 @@ export function ModalDemo3() {
     <div>
       <p>State Change in Modal Content</p>
       <Button onClick={open}>Open Modal</Button>
-      <Modal isOpen={isOpen}>
+      <Modal visible={isOpen}>
         <ModalOverlay onClick={close} />
         <ModalContent>
           <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>

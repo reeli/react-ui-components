@@ -11,11 +11,11 @@ const modalStyles = {
 } as any;
 
 interface IModalProps {
-  isOpen: boolean;
+  visible: boolean;
 }
 
-export const Modal: React.FC<IModalProps> = ({ children, isOpen }) => {
-  return isOpen ? (
+export const Modal: React.FC<IModalProps> = ({ children, visible }) => {
+  return visible ? (
     <Portal>
       <div style={modalStyles}>{children}</div>
     </Portal>
