@@ -1,9 +1,9 @@
-import { css } from "glamor";
 import { get, map } from "lodash";
 import React from "react";
 import { Component } from "react";
 import { Cell } from "./Cell";
 import { LabelCell } from "./LabelCell";
+import { css } from "@emotion/core";
 
 export interface IColumn {
   fieldKey?: string;
@@ -27,7 +27,7 @@ export class Row extends Component<IRowProps, any> {
   render() {
     const { column, dataSource } = this.props;
     return (
-      <div {...rowStyles}>
+      <div css={rowStyles}>
         <Cell label={<LabelCell label={column.label} labelRender={column.labelRender} />} />
         {map(dataSource, (item: any, idx: number) => {
           if (column.cellRender) {

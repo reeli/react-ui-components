@@ -1,9 +1,9 @@
-import { css } from "glamor";
 import React from "react";
 import { Tooltip } from "../Tooltip";
 import { Placement } from "../../core";
 import { Button } from "../../button/Button";
 import { IncreasingNumber } from "../../increasing-number";
+import { css } from "@emotion/core";
 
 const tooltipsStyles = css({
   // position: "absolute", // can not set absolute here
@@ -47,15 +47,25 @@ const rightStyles = css({
   right: 20,
 });
 
-const TooltipContent = ({ placement = "left" }: { placement?: "center" | "left" | "right" }) => (
-  <div {...css(tooltipsStyles)} data-role="tooltip">
-    <div
-      {...arrowUp}
-      {...placement === "center" && centerStyles}
-      {...placement === "left" && leftStyels}
-      {...placement === "right" && rightStyles}
-    />
-    <div {...tooltipsInnerStyles}>
+type TPlacement = "center" | "left" | "right";
+
+const getStyles = (placement: TPlacement) => {
+  if (placement === "center") {
+    return centerStyles;
+  }
+  if (placement === "left") {
+    return leftStyels;
+  }
+  if (placement === "right") {
+    return rightStyles;
+  }
+  return leftStyels;
+};
+
+const TooltipContent = ({ placement = "left" }: { placement?: TPlacement }) => (
+  <div css={tooltipsStyles} data-role="tooltip">
+    <div css={[arrowUp, getStyles(placement)]} />
+    <div css={tooltipsInnerStyles}>
       <div>Prompt Text</div>
     </div>
   </div>
@@ -64,7 +74,7 @@ const TooltipContent = ({ placement = "left" }: { placement?: "center" | "left" 
 export class TooltipDemo extends React.Component<any, any> {
   render() {
     return (
-      <div {...css({ height: "1000px", marginTop: 200 })}>
+      <div css={{ height: "1000px", marginTop: 200 }}>
         <div style={{ position: "relative", height: "60px", overflow: "hidden", marginBottom: 50 }}>
           <Button>On Bottom Left</Button>
           <TooltipContent />

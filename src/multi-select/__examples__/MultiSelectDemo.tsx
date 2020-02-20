@@ -1,4 +1,3 @@
-import { css } from "glamor";
 import { filter, find, includes } from "lodash";
 import React from "react";
 import { CheckboxSelect } from "../CheckboxSelect";
@@ -103,8 +102,8 @@ export class MultiSelectDemo extends React.Component<any, any> {
 
   render() {
     return (
-      <div {...css({ display: "flex" })}>
-        <div {...css({ flex: 1 })}>
+      <div css={{ display: "flex" }}>
+        <div css={{ flex: 1 }}>
           <CheckboxSelect
             selectedValues={this.state.provincesValue}
             options={provinces}
@@ -112,7 +111,7 @@ export class MultiSelectDemo extends React.Component<any, any> {
             placeholder="选择省份..."
           />
         </div>
-        <div {...css({ flex: 1 })}>
+        <div css={{ flex: 1 }}>
           <GroupedCheckboxSelect
             selectedValues={this.state.cityValue}
             options={this.state.cities}

@@ -1,4 +1,3 @@
-import { css } from "glamor";
 import { map } from "lodash";
 import React from "react";
 import { IColumn, Row } from "./Row";
@@ -13,7 +12,7 @@ export class Table extends React.Component<ITable, any> {
   render() {
     const { columns, dataSource, width = "auto" } = this.props;
     return (
-      <div {...css({ width })}>
+      <div css={{ width }}>
         {map(columns, (column: any, idx: number) => {
           return <Row key={idx} dataSource={dataSource} column={column} />;
         })}

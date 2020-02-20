@@ -1,9 +1,9 @@
-import { css } from "glamor";
 import { map } from "lodash";
 import React from "react";
 import { Checkbox } from "../checkbox/Checkbox";
 import { useMultiSelect } from "../with-multi-select/useMultiSelect";
 import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
+import { css } from "@emotion/core";
 
 export interface ICheckboxListingProps {
   selectedValues?: TSelectedValues;
@@ -31,11 +31,11 @@ export function CheckboxListing(props: ICheckboxListingProps) {
     options,
   });
   return (
-    <div {...listStyles}>
+    <div css={listStyles}>
       <>
         {map(options, option => {
           return (
-            <div key={option.value} {...listItemStyles}>
+            <div key={option.value} css={listItemStyles}>
               <Checkbox
                 value={selectedState[option.value]}
                 onChange={() => {

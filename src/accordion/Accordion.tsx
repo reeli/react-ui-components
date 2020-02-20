@@ -1,4 +1,3 @@
-import { css } from "glamor";
 import React, { useState } from "react";
 
 export const Accordion: React.FC = ({ children }) => {
@@ -17,16 +16,16 @@ export const Accordion: React.FC = ({ children }) => {
               onClick={() => {
                 handleClick(index);
               }}
-              {...css({ cursor: "pointer" })}
+              css={{ cursor: "pointer" }}
             >
               {item.props.header}
             </div>
             <div
-              {...css({
+              css={{
                 display: expanded ? "block" : "none",
                 height: expanded ? "auto" : 0,
                 transition: "height .2s",
-              })}
+              }}
             >
               {item.props.children}
             </div>

@@ -1,7 +1,7 @@
-import { css } from "glamor";
 import React from "react";
 import { IconChecked } from "./assets/IconChecked";
 import { IconUnchecked } from "./assets/IconUnchecked";
+import { css } from "@emotion/core";
 
 interface ICheckboxProps {
   value?: boolean;
@@ -14,12 +14,12 @@ const defaultOnChange = (_: boolean) => {};
 export function Checkbox(props: ICheckboxProps) {
   const { value = false, label, onChange = defaultOnChange } = props;
   return (
-    <label {...checkboxWrapperStyles}>
-      <div {...inputWrapper}>
+    <label css={checkboxWrapperStyles}>
+      <div css={inputWrapper}>
         {value ? <IconChecked /> : <IconUnchecked />}
-        <input type="checkbox" checked={value} onChange={() => onChange(!value)} {...inputStyles} />
+        <input type="checkbox" checked={value} onChange={() => onChange(!value)} css={inputStyles} />
       </div>
-      {label && <span {...labelStyles}>{label}</span>}
+      {label && <span css={labelStyles}>{label}</span>}
     </label>
   );
 }

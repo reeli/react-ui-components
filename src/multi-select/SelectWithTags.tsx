@@ -1,9 +1,9 @@
-import { css } from "glamor";
 import { filter, isEmpty, map } from "lodash";
 import React from "react";
 import { Input } from "../input/Input";
 import { useMultiSelect } from "../with-multi-select/useMultiSelect";
 import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
+import { css } from "@emotion/core";
 
 const tagStyles = css({
   display: "inline-block",
@@ -50,12 +50,12 @@ export const SelectWithTags: React.FC<ISelectWithTagsProps> = ({
   });
 
   return (
-    <div {...triggerElementWrapperStyles}>
+    <div css={triggerElementWrapperStyles}>
       <Input placeholder={!isEmpty(selectedValues) ? "" : placeholder} onClick={onClick} readOnly />
-      <div {...tagsWrapperStyles}>
+      <div css={tagsWrapperStyles}>
         {map(options, (option: ISelectOption) => {
           return (
-            <div key={option.value} {...tagStyles}>
+            <div key={option.value} css={tagStyles}>
               <span>{option.display}</span>
               <span
                 onClick={() => {

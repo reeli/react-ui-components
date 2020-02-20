@@ -1,4 +1,3 @@
-import { css } from "glamor";
 import { map } from "lodash";
 import React from "react";
 import { IWordWithState } from "./Game";
@@ -28,13 +27,13 @@ export const WordList = ({ words, onWordClick }: IWordListProps) => (
         <div
           key={idx}
           onClick={() => onWordClick(word)}
-          {...css({
+          css={{
             display: "inline-block",
             border: "1px solid #ccc",
             margin: "0.5rem",
             padding: "0 0.5rem",
             color: getColor(word),
-          })}
+          }}
         >
           {word.target}
         </div>

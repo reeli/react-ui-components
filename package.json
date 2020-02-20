@@ -99,7 +99,6 @@
     "draft-js": "0.11.4",
     "draft-js-mention-plugin": "3.1.5",
     "draft-js-plugins-editor": "3.0.0",
-    "glamor": "2.20.40",
     "invariant": "2.2.4",
     "lodash": "4.17.15",
     "moment": "2.24.0",

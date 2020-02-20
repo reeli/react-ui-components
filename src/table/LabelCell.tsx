@@ -1,5 +1,5 @@
-import { css } from "glamor";
 import React from "react";
+import { css } from "@emotion/core";
 
 interface ILabelCell {
   label?: string;
@@ -15,5 +15,5 @@ const labelStyles = css({
 });
 
 export const LabelCell = ({ label, labelRender }: ILabelCell) => {
-  return labelRender ? <div {...labelStyles}>{labelRender()}</div> : <div {...labelStyles}>{label ? label : ""}</div>;
+  return labelRender ? <div css={labelStyles}>{labelRender()}</div> : <div css={labelStyles}>{label ? label : ""}</div>;
 };

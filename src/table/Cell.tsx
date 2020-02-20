@@ -1,5 +1,5 @@
-import { css } from "glamor";
 import React, { Component } from "react";
+import { css } from "@emotion/core";
 
 interface ICell {
   label?: string | JSX.Element | null;
@@ -15,7 +15,7 @@ export class Cell extends Component<ICell, any> {
   render() {
     const { value, label } = this.props;
     return (
-      <div {...cellValueStyles}>
+      <div css={cellValueStyles}>
         {label ? label : null}
         {value ? <div>{value}</div> : null}
       </div>

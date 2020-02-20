@@ -1,6 +1,6 @@
-import { css } from "glamor";
 import { isFunction } from "lodash";
 import React from "react";
+import { css } from "@emotion/core";
 
 interface ITabProps {
   activeIdx?: number;
@@ -60,12 +60,17 @@ export class Tab extends React.Component<ITabProps, any> {
     const { activeIdx } = this.state;
     return (
       <div>
-        <div {...tabHeadersStyles}>
+        <div css={tabHeadersStyles}>
           {React.Children.map(this.props.children, (child: React.ReactChild, index) => {
             return (
               <div
                 onClick={() => this.handleClick(index)}
-                {...css(headerStyles, { color: index === activeIdx ? "red" : "black" })}
+                css={[
+                  headerStyles,
+                  {
+                    color: index === activeIdx ? "red" : "black",
+                  },
+                ]}
               >
                 {React.isValidElement<ITabGroupProps>(child) && child.props.header}
               </div>

@@ -1,9 +1,9 @@
-import { css } from "glamor";
 import { filter, find, map, shuffle } from "lodash";
 import React from "react";
 import { Score } from "./Score";
 import { Word } from "./Word";
 import { WordList } from "./WordList";
+import { css } from "@emotion/core";
 
 const containerStyles = css({
   width: "370px",
@@ -158,9 +158,9 @@ export class Game extends React.Component<IGameProps, IGameState> {
 
   render() {
     return (
-      <div {...css({ width: "370px", position: "relative" })}>
+      <div css={{ width: "370px", position: "relative" }}>
         <Score scores={this.state.scores} />
-        <div {...containerStyles}>
+        <div css={containerStyles}>
           {this.state.isStart
             ? map(this.dropInterferences(this.state.words), (word, idx: number) => {
                 return word.isSelected ? null : (

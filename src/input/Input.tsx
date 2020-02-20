@@ -1,5 +1,5 @@
-import { css } from "glamor";
 import React, { forwardRef } from "react";
+import { css } from "@emotion/core";
 
 interface IInputProps {
   value?: string;
@@ -49,7 +49,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
         readOnly={readOnly}
         ref={ref}
         autoFocus={autoFocus}
-        {...css(inputStyles, { cursor: readOnly ? "pointer" : "default" })}
+        css={[inputStyles, { cursor: readOnly ? "pointer" : "default" }]}
       />
     );
   },

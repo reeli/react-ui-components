@@ -1,8 +1,8 @@
-import { css } from "glamor";
 import { map } from "lodash";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ThemeContext } from "../ThemeContext";
+import { css } from "@emotion/core";
 
 const navItemStyles = css({
   fontSize: "1rem",
@@ -14,28 +14,57 @@ const navItemStyles = css({
 
 const asideStyles = css({
   width: "240px",
-  background: "#000",
-  opacity: "0.7",
-  padding: "1rem",
+  opacity: 0.7,
   overflowY: "scroll",
 });
 
 const linkStyles = css({
   color: "#fff",
-  padding: "0.5rem 0",
+  padding: "0.5rem 1rem",
 });
 
-export const Nav = ({ routesConfig }: { routesConfig: any[] }) => (
-  <ThemeContext.Consumer>
-    {({ theme, toggleTheme }) => (
-      <aside {...asideStyles} {...css({ background: theme === "dark" ? "dark" : "red" })}>
-        <div onClick={() => toggleTheme()}>Toggle Theme</div>
-        {map(routesConfig, (routeConfig: any, idx: number) => (
-          <Link to={routeConfig.path} key={idx} {...navItemStyles} {...linkStyles}>
-            {routeConfig.path.split("/")[1]}
-          </Link>
-        ))}
-      </aside>
-    )}
-  </ThemeContext.Consumer>
-);
+const getActiveLinkStyles = (theme: string) => ({
+  background: theme === "dark" ? "#545659" : "#e07070",
+});
+
+export const Nav = ({ routesConfig }: { routesConfig: any[] }) => {
+  const location = useLocation();
+  return (
+    <ThemeContext.Consumer>
+      {({ theme, toggleTheme }) => (
+        <aside css={[{ background: theme === "dark" ? "#000" : "red" }, asideStyles]}>
+          <div
+            onClick={() => toggleTheme()}
+            css={[
+              navItemStyles,
+              {
+                color: "#fff",
+                cursor: "pointer",
+                textAlign: "right",
+                paddingRight: "1rem",
+              },
+            ]}
+          >
+            Toggle Theme
+          </div>
+          {map(routesConfig, (routeConfig: any, idx: number) => (
+            <Link
+              to={routeConfig.path}
+              key={idx}
+              css={[
+                navItemStyles,
+                linkStyles,
+                {
+                  ":hover,:focus": getActiveLinkStyles(theme),
+                },
+                routeConfig.path === location.pathname ? getActiveLinkStyles(theme) : {},
+              ]}
+            >
+              {routeConfig.path.split("/")[1]}
+            </Link>
+          ))}
+        </aside>
+      )}
+    </ThemeContext.Consumer>
+  );
+};

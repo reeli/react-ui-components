@@ -1,5 +1,5 @@
 import React, { forwardRef, ReactNode, Ref } from "react";
-import { css } from "glamor";
+import { css } from "@emotion/core";
 
 const buttonStyles = css({
   backgroundColor: "#fff",
@@ -13,7 +13,7 @@ const buttonStyles = css({
 export const Button = forwardRef(
   ({ children, ...others }: { children: ReactNode; onClick?: () => void }, ref: Ref<HTMLButtonElement>) => {
     return (
-      <button ref={ref} {...buttonStyles} {...others}>
+      <button ref={ref} css={buttonStyles} {...others}>
         {children}
       </button>
     );

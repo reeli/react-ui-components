@@ -1,5 +1,5 @@
-import { css } from "glamor";
 import React from "react";
+import { css } from "@emotion/core";
 
 interface IWordProps {
   text: string;
@@ -32,8 +32,8 @@ export class Word extends React.PureComponent<IWordProps, IWordState> {
   render() {
     const { visible = false, top, left, text } = this.props;
     return (
-      <div {...css(wordContainerStyles, { top, left, opacity: visible ? 1 : 0.5 })}>
-        <div {...wordStyles}>{text}</div>
+      <div css={[wordContainerStyles, { top, left, opacity: visible ? 1 : 0.5 }]}>
+        <div css={wordStyles}>{text}</div>
       </div>
     );
   }

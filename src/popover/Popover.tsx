@@ -1,6 +1,6 @@
 import React from "react";
 import { IOverlayTriggerProps, OverlayTrigger } from "src/core/OverlayTrigger";
-import { css } from "glamor";
+import { css } from "@emotion/core";
 
 interface IPopoverProps extends IOverlayTriggerProps {}
 
@@ -40,9 +40,9 @@ export const Popover: React.FC<IPopoverProps> = ({
   return (
     <OverlayTrigger
       content={
-        <div {...css(popoverStyles)}>
-          <div {...arrowUp} />
-          <div {...popoverInnerStyles}>{content}</div>
+        <div css={popoverStyles}>
+          <div css={arrowUp} />
+          <div css={popoverInnerStyles}>{content}</div>
         </div>
       }
       placement={placement}

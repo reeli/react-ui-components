@@ -1,4 +1,3 @@
-import { css } from "glamor";
 import React from "react";
 import { useRef } from "react";
 import { useToggle } from "../useToggle";
@@ -10,7 +9,7 @@ export function CoreDemo() {
   const triggerRef = useRef(null);
 
   return (
-    <div {...css({ padding: "0 10rem" })}>
+    <div css={{ padding: "0 10rem" }}>
       <div onClick={show} ref={triggerRef}>
         trigger
       </div>

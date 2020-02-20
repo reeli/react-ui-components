@@ -1,4 +1,3 @@
-import { css } from "glamor";
 import { createBrowserHistory } from "history";
 import React from "react";
 import { render } from "react-dom";
@@ -7,6 +6,7 @@ import { Nav } from "./components/Nav";
 import { getRouterRoutes } from "./getRouterRoutes";
 import { routesConfig } from "./getRoutesConfig";
 import { ThemeContext } from "./ThemeContext";
+import { css } from "@emotion/core";
 
 const browserHistory = createBrowserHistory();
 
@@ -33,7 +33,7 @@ class App extends React.Component<any, any> {
   render() {
     return (
       <Router history={browserHistory}>
-        <div {...containerStyles}>
+        <div css={containerStyles}>
           <ThemeContext.Provider
             value={{
               theme: this.state.theme,
@@ -46,7 +46,7 @@ class App extends React.Component<any, any> {
           >
             <Nav routesConfig={routesConfig} />
           </ThemeContext.Provider>
-          <main {...mainStyles}>
+          <main css={mainStyles}>
             <Switch>{getRouterRoutes(routesConfig)}</Switch>
           </main>
         </div>
