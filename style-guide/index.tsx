@@ -1,5 +1,5 @@
 import { css } from "glamor";
-import createBrowserHistory from "history/createBrowserHistory";
+import { createBrowserHistory } from "history";
 import React from "react";
 import { render } from "react-dom";
 import { Router, Switch } from "react-router";
