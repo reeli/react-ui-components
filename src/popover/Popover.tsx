@@ -1,5 +1,5 @@
 import React from "react";
-import { IOverlayTriggerProps, OverlayTrigger } from "src/core/OverlayTrigger";
+import { IOverlayTriggerProps, OverlayTrigger } from "src/core/components/OverlayTrigger";
 import { css } from "@emotion/core";
 
 interface IPopoverProps extends IOverlayTriggerProps {}

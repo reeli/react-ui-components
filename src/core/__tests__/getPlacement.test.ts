@@ -1,4 +1,4 @@
-import { getPlacement, Placement } from "../getPlacement";
+import { getPlacement, Placement } from "src/core/utils/getPlacement";
 
 describe("getPlacement", () => {
   const triggerRect = {

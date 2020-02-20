@@ -2,7 +2,7 @@ import React from "react";
 import { ReactNode, useEffect, useRef } from "react";
 import { Placement, useToggle } from "../core";
 import { Portal } from "../portal";
-import { Position } from "../core/Overlay";
+import { Position } from "src/core/components/Overlay";
 import invariant from "invariant";
 
 interface ITooltipsProps {

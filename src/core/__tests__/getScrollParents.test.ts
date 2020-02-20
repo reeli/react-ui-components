@@ -1,4 +1,4 @@
-import { getScrollParent } from "../getScrollParent";
+import { getScrollParent } from "src/core/utils/getScrollParent";
 
 describe("getScrollParents", () => {
   it("should get document.body as scroll parent if element not exist", () => {

@@ -1,8 +1,8 @@
 import { RefObject } from "react";
-import { getPlacement, Placement } from "./getPlacement";
-import { useClientRect } from "./useClientRect";
-import { useScroll } from "./useScroll";
-import { useResize } from "./useResize";
+import { getPlacement, Placement } from "src/core/utils/getPlacement";
+import { useClientRect } from "src/core/hooks/useClientRect";
+import { useScroll } from "src/core/hooks/useScroll";
+import { useResize } from "src/core/hooks/useResize";
 
 export const usePosition = (
   triggerEl: RefObject<HTMLElement | null>,

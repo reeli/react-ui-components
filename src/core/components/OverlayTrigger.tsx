@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useEffect, useRef } from "react";
 import invariant from "invariant";
-import { Portal } from "../portal";
-import { Placement, useOutSideClick, usePosition, useRefValue, useToggle } from "../core";
+import { Portal } from "src/portal";
+import { Placement, useOutSideClick, usePosition, useRefValue, useToggle } from "src/core/index";
 import { isEqual } from "lodash";
 
 export interface IOverlayTriggerProps {

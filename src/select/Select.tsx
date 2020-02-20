@@ -1,5 +1,5 @@
 import React from "react";
-import { OverlayTrigger } from "../core/OverlayTrigger";
+import { OverlayTrigger } from "src/core/components/OverlayTrigger";
 import { Input } from "../input/Input";
 import { IListingItem, IListingProps, Listing } from "../listing/Listing";
 import { Placement, useToggle } from "src/core";

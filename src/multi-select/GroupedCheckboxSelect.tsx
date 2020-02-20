@@ -1,6 +1,6 @@
 import { filter, includes } from "lodash";
 import React from "react";
-import { OverlayTrigger } from "../core/OverlayTrigger";
+import { OverlayTrigger } from "src/core/components/OverlayTrigger";
 import { ICheckboxListingProps } from "../listing/CheckboxListing";
 import { GroupedCheckboxListing, IGroupedCheckboxListing } from "../listing/GroupedCheckboxListing";
 import { SelectWithTags } from "./SelectWithTags";

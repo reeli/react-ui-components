@@ -1,5 +1,5 @@
 import { RefObject, useLayoutEffect } from "react";
-import { getScrollParents } from "./getScrollParent";
+import { getScrollParents } from "src/core/utils/getScrollParent";
 
 // Why pass ref object instead of HTMLElement?
 export const useScroll = (ele: RefObject<HTMLElement | null>, onScroll: (evt: Event) => void, deps: any[] = []) => {

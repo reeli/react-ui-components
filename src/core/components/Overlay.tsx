@@ -1,11 +1,11 @@
 import React from "react";
 import { ReactNode, RefObject, useRef } from "react";
-import { useClientRect } from "./useClientRect";
-import { getPlacement, Placement } from "./getPlacement";
-import { useToggle } from "./useToggle";
-import { useScroll } from "./useScroll";
-import { useResize } from "./useResize";
-import { Portal } from "../portal";
+import { useClientRect } from "src/core/hooks/useClientRect";
+import { getPlacement, Placement } from "src/core/utils/getPlacement";
+import { useToggle } from "src/core/hooks/useToggle";
+import { useScroll } from "src/core/hooks/useScroll";
+import { useResize } from "src/core/hooks/useResize";
+import { Portal } from "src/portal";
 
 interface IOverlayTriggerProps {
   placement?: Placement;

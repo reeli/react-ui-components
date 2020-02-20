@@ -1,9 +1,9 @@
 import React, { useCallback, useRef, useState } from "react";
-import { Position } from "../core/Overlay";
+import { Position } from "src/core/components/Overlay";
 import { Portal } from "../portal";
 import { Calendar } from "./Calendar";
-import { Placement } from "../core/getPlacement";
-import { useOutSideClick } from "../core/useOutSideClick";
+import { Placement } from "src/core/utils/getPlacement";
+import { useOutSideClick } from "src/core/hooks/useOutSideClick";
 import { Input } from "../input/Input";
 
 export function DatePicker() {

@@ -18,6 +18,6 @@ export const useToggle = (defaultVisible: boolean = false) => {
     typeof show,
     typeof hide,
     typeof toggle,
-    typeof setVisible
+    typeof setVisible,
   ];
 };

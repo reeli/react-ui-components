@@ -1,6 +1,6 @@
 import React, { RefObject, useCallback, useRef } from "react";
-import { useToggle } from "../../core/useToggle";
-import { useOutSideClick } from "../../core/useOutSideClick";
+import { useToggle } from "src/core/hooks/useToggle";
+import { useOutSideClick } from "src/core/hooks/useOutSideClick";
 import { Portal } from "../Portal";
 
 export function PortalDemo() {
