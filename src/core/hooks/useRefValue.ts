@@ -7,5 +7,6 @@ export const useRefValue = <T>(value: T) => {
     ref.current = value;
   });
 
+  // 外部通过 ref 去获取最新的 value
   return ref;
 };
