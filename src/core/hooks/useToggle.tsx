@@ -13,11 +13,5 @@ export const useToggle = (defaultVisible: boolean = false) => {
     };
   }, []);
 
-  return [visible, show, hide, toggle, setVisible] as [
-    typeof visible,
-    typeof show,
-    typeof hide,
-    typeof toggle,
-    typeof setVisible,
-  ];
+  return [visible, show, hide, toggle, setVisible] as const;
 };
