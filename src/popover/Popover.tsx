@@ -1,8 +1,13 @@
-import React from "react";
-import { IOverlayTriggerProps, OverlayTrigger } from "src/core/components/OverlayTrigger";
+import React, { useRef } from "react";
+import { IOverlayTriggerProps } from "src/core/components/OverlayTrigger";
 import { css } from "@emotion/core";
+import { usePortal } from "src/portal/usePortal";
+import { Position } from "src/core/components/Position";
+import { ClickAwayListener } from "src/core/components/ClickAwayListener";
 
-interface IPopoverProps extends IOverlayTriggerProps {}
+interface IPopoverProps extends IOverlayTriggerProps {
+  defaultVisible?: boolean;
+}
 
 const popoverStyles = css({
   position: "absolute",
@@ -30,26 +35,23 @@ const arrowUp = css({
   height: 0,
 });
 
-export const Popover: React.FC<IPopoverProps> = ({
-  content,
-  children,
-  placement,
-  closeOnClickOutSide = true,
-  visible = false,
-}) => {
+export const Popover: React.FC<IPopoverProps> = ({ content, children, placement, defaultVisible = false }) => {
+  const triggerEl = useRef<HTMLElement>(null);
+  const [renderPortal, show, hide] = usePortal(defaultVisible);
+
   return (
-    <OverlayTrigger
-      content={
-        <div css={popoverStyles}>
-          <div css={arrowUp} />
-          <div css={popoverInnerStyles}>{content}</div>
-        </div>
-      }
-      placement={placement}
-      closeOnClickOutSide={closeOnClickOutSide}
-      visible={visible}
-    >
-      {children}
-    </OverlayTrigger>
+    <>
+      {renderPortal(
+        <Position triggerRef={triggerEl} placement={placement}>
+          <ClickAwayListener onClickAway={hide}>
+            <div css={popoverStyles}>
+              <div css={arrowUp} />
+              <div css={popoverInnerStyles}>{content}</div>
+            </div>
+          </ClickAwayListener>
+        </Position>,
+      )}
+      {React.cloneElement(children, { ref: triggerEl, onClick: show })}
+    </>
   );
 };
