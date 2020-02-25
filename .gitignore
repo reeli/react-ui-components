@@ -5,3 +5,4 @@ node_modules
 public
 *.js.map
 coverage/
+.tmp
