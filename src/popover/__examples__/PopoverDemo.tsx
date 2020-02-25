@@ -1,22 +1,35 @@
 import React from "react";
-import { useState } from "react";
 import { Popover } from "../Popover";
-import { Placement } from "../../core";
+import { Placement } from "src/core";
+import { usePopover } from "src/popover/usePopover";
+
+const Child = ({ text }: { text: string }) => {
+  const [renderPopoverContent, renderPopoverTrigger, show] = usePopover();
+  return (
+    <>
+      {renderPopoverContent(<div>{text}</div>)}
+      {renderPopoverTrigger(<div onClick={show}>trigger: {text}</div>)}
+    </>
+  );
+};
 
 export function PopoverDemo() {
-  const [visible, setVisible] = useState(true);
+  const [renderPopoverContent, renderPopoverTrigger, show, hide] = usePopover();
   return (
     <>
       <div>
-        <Popover
-          content="Purchase or reload your card, get ¥10 extra!"
-          placement={Placement.top}
-          closeOnClickOutSide={false}
-          visible={visible}
-        >
-          <button>top</button>
-        </Popover>
-        <button onClick={() => setVisible(!visible)}>hide popover button</button>
+        <div>
+          {renderPopoverTrigger(<button onClick={show}>top</button>)}
+          {renderPopoverContent(<div>Purchase or reload your card, get ¥10 extra!</div>, Placement.top)}
+          <div>
+            <button onClick={hide}>hide popover button</button>
+          </div>
+        </div>
+
+        {["test1", "test2", "test3"].map((text, idx) => {
+          return <Child key={idx} text={text} />;
+        })}
+
         <Popover content="Purchase or reload your card, get ¥10 extra!" placement={Placement.topLeft}>
           <button>top left</button>
         </Popover>
