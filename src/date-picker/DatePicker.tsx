@@ -1,10 +1,10 @@
 import React, { useCallback, useRef, useState } from "react";
-import { Position } from "src/core/components/Overlay";
 import { Portal } from "../portal";
 import { Calendar } from "./Calendar";
 import { Placement } from "src/core/utils/getPlacement";
 import { useOutSideClick } from "src/core/hooks/useOutSideClick";
 import { Input } from "../input/Input";
+import { Position } from "src/core/components/Position";
 
 export function DatePicker() {
   const triggerEl = useRef(null);

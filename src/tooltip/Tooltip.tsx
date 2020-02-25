@@ -1,13 +1,13 @@
-import React from "react";
-import { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import { Placement, useToggle } from "../core";
 import { Portal } from "../portal";
-import { Position } from "src/core/components/Overlay";
 import invariant from "invariant";
+import { Position } from "../core/components/Position";
 
 interface ITooltipsProps {
   content?: ReactNode;
   placement?: Placement;
+  children: React.ReactElement;
 }
 
 export const Tooltip: React.FC<ITooltipsProps> = ({ content, placement, children }) => {

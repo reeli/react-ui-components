@@ -15,7 +15,7 @@ export function SmartCheckbox(props: ISmartCheckboxProps) {
   return (
     <Checkbox
       value={value}
-      onValueChange={val => {
+      onChange={val => {
         setValue(val);
 
         if (props.onValueChange) {

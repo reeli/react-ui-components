@@ -8,7 +8,7 @@ export const Accordion: React.FC = ({ children }) => {
 
   return (
     <div>
-      {React.Children.map(children, (item, index) => {
+      {React.Children.map(children, (item: any, index) => {
         const expanded = currentIdx === index;
         return (
           <div>
@@ -18,7 +18,7 @@ export const Accordion: React.FC = ({ children }) => {
               }}
               css={{ cursor: "pointer" }}
             >
-              {item.props.header}
+              {item?.props?.header}
             </div>
             <div
               css={{
@@ -27,7 +27,7 @@ export const Accordion: React.FC = ({ children }) => {
                 transition: "height .2s",
               }}
             >
-              {item.props.children}
+              {item?.props?.children}
             </div>
           </div>
         );

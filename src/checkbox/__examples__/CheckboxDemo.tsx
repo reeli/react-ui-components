@@ -15,7 +15,7 @@ export class CheckboxDemo extends React.Component<any, any> {
         <Checkbox />
         <Checkbox
           value={this.state.checked1}
-          onValueChange={() => {
+          onChange={() => {
             this.setState({
               checked1: !this.state.checked1,
             });

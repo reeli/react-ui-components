@@ -1,11 +1,12 @@
 import { isFunction } from "lodash";
-import React from "react";
+import React, { ReactElement } from "react";
 import { css } from "@emotion/core";
 
 interface ITabProps {
   activeIdx?: number;
   getActiveIdx?: (activeIdx?: number) => void;
   toggleable?: boolean;
+  children: ReactElement[];
 }
 
 interface ITabGroupProps {
