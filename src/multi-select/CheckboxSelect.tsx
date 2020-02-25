@@ -14,11 +14,14 @@ interface ICheckboxSelectProps {
 }
 
 export const CheckboxSelect: React.FC<ICheckboxSelectProps> = ({ placeholder, options, onChange, selectedValues }) => {
-  const [, , , toggle] = useToggle();
+  const [visible, , , toggle] = useToggle();
   const selectedOptions = filter(options, (opt: ISelectOption) => includes(selectedValues, opt.value));
 
   return (
-    <OverlayTrigger content={<CheckboxListing selectedValues={selectedValues} options={options} onChange={onChange} />}>
+    <OverlayTrigger
+      visible={visible}
+      content={<CheckboxListing selectedValues={selectedValues} options={options} onChange={onChange} />}
+    >
       <div>
         <SelectWithTags
           selectedValues={selectedValues}

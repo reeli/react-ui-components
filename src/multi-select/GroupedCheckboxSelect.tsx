@@ -28,9 +28,10 @@ export const GroupedCheckboxSelect: React.FC<IGroupedCheckboxSelectProps> = ({
   onChange,
   selectedValues,
 }) => {
-  const [, , , toggle] = useToggle();
+  const [visible, , , toggle] = useToggle();
   return (
     <OverlayTrigger
+      visible={visible}
       content={
         <GroupedCheckboxListing
           selectedValues={selectedValues}
