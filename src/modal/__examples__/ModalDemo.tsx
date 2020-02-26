@@ -6,6 +6,23 @@ import { ModalOverlay } from "src/modal/ModalOverlay";
 import { ModalContent } from "src/modal/ModalContent";
 import { css } from "@emotion/core";
 import { animated, useTransition } from "react-spring";
+import { Demo } from "style-guide/components/Demo";
+
+export function ModalDemo() {
+  const [isOpen, open, close] = useToggle();
+
+  return (
+    <Demo title={"Simple Modal"}>
+      <Button onClick={open}>Open Modal</Button>
+      <Modal visible={isOpen}>
+        <ModalOverlay onClick={close} />
+        <ModalContent>
+          <p>This is a simple modal</p>
+        </ModalContent>
+      </Modal>
+    </Demo>
+  );
+}
 
 const modalContentStyles = css({
   background: "#fff",
@@ -33,29 +50,11 @@ function getModalStyle() {
   };
 }
 
-export function ModalDemo() {
-  const [isOpen, open, close] = useToggle();
-
-  return (
-    <div>
-      <p>Simple Modal</p>
-      <Button onClick={open}>Open Modal</Button>
-      <Modal visible={isOpen}>
-        <ModalOverlay onClick={close} />
-        <ModalContent>
-          <p>This is a simple modal</p>
-        </ModalContent>
-      </Modal>
-    </div>
-  );
-}
-
 export function ModalDemo2() {
   const [isOpen, open, close] = useToggle();
 
   return (
-    <div>
-      <p>Modal in Modal</p>
+    <Demo title={"Modal in Modal"}>
       <Button onClick={open}>Open Modal</Button>
       <Modal visible={isOpen}>
         <ModalOverlay onClick={close} />
@@ -63,7 +62,7 @@ export function ModalDemo2() {
           <ModalDemo2 />
         </div>
       </Modal>
-    </div>
+    </Demo>
   );
 }
 
@@ -72,8 +71,7 @@ export function ModalDemo3() {
   const [isOpen, open, close] = useToggle();
 
   return (
-    <div>
-      <p>State Change in Modal Content</p>
+    <Demo title={"State Change in Modal Content"}>
       <Button onClick={open}>Open Modal</Button>
       <Modal visible={isOpen}>
         <ModalOverlay onClick={close} />
@@ -82,7 +80,7 @@ export function ModalDemo3() {
           <p>{state}</p>
         </ModalContent>
       </Modal>
-    </div>
+    </Demo>
   );
 }
 
@@ -95,8 +93,7 @@ export function ModalDemo4() {
   });
 
   return (
-    <div>
-      <p>Modal with Animation</p>
+    <Demo title={"Modal with Animation"}>
       <Button onClick={open}>Open Modal</Button>
       {transitions.map(
         ({ item, key, props }) =>
@@ -111,6 +108,6 @@ export function ModalDemo4() {
             </Modal>
           ),
       )}
-    </div>
+    </Demo>
   );
 }
