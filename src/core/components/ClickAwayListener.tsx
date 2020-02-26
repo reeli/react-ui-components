@@ -22,10 +22,11 @@ export const ClickAwayListener: React.FC<IClickAwayListenerProps> = ({ children,
   useEffect(() => {
     const handleOutSideClick = (evt: Event) => {
       const node = childrenEl.current!;
-
-      if (!(node && node.contains(evt.target as HTMLElement) && container.contains(evt.target as HTMLElement))) {
-        onClickAway(evt);
+      if ((node && node.contains(evt.target as HTMLElement)) || container.contains(evt.target as HTMLElement)) {
+        return;
       }
+
+      onClickAway(evt);
     };
 
     document.body.addEventListener("click", handleOutSideClick);
