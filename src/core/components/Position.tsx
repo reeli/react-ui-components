@@ -7,7 +7,7 @@ interface IPositionProps {
   placement?: Placement;
 }
 
-export const Position = ({ triggerRef, placement = Placement.bottomRight, children }: IPositionProps) => {
+export const Position = ({ triggerRef, placement = Placement.bottomLeft, children }: IPositionProps) => {
   const contentEl = useRef<HTMLDivElement>(null);
   const [triggerRect, updateTriggerRect] = useClientRect(triggerRef);
   const [contentRect] = useClientRect(contentEl);
