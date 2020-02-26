@@ -1,14 +1,15 @@
 import React from "react";
-import { Portal } from "../portal";
+import { Portal } from "src/portal";
+import { css } from "@emotion/core";
 
-const modalStyles = {
+const modalStyles = css({
   position: "absolute",
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
   zIndex: 999,
-} as any;
+});
 
 interface IModalProps {
   visible: boolean;
@@ -17,7 +18,7 @@ interface IModalProps {
 export const Modal: React.FC<IModalProps> = ({ children, visible }) => {
   return visible ? (
     <Portal>
-      <div style={modalStyles}>{children}</div>
+      <div css={modalStyles}>{children}</div>
     </Portal>
   ) : null;
 };

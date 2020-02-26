@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Modal } from "../Modal";
+import { Modal } from "src/modal/Modal";
 import { useToggle } from "src/core";
 import { Button } from "src/button";
 import { ModalOverlay } from "src/modal/ModalOverlay";
 import { ModalContent } from "src/modal/ModalContent";
+import { css } from "@emotion/core";
 
-const modalContentStyles = {
+const modalContentStyles = css({
   background: "#fff",
   padding: 25,
   borderRadius: 4,
@@ -14,7 +15,7 @@ const modalContentStyles = {
   top: "50%",
   left: "50%",
   transform: "translate3d(-50%,-50%,0)",
-} as any;
+});
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -57,7 +58,7 @@ export function ModalDemo2() {
       <Button onClick={open}>Open Modal</Button>
       <Modal visible={isOpen}>
         <ModalOverlay onClick={close} />
-        <div style={{ ...modalContentStyles, ...getModalStyle() }}>
+        <div css={[modalContentStyles, getModalStyle()]}>
           <ModalDemo2 />
         </div>
       </Modal>
