@@ -5,6 +5,7 @@ import { Button } from "src/button";
 import { ModalOverlay } from "src/modal/ModalOverlay";
 import { ModalContent } from "src/modal/ModalContent";
 import { css } from "@emotion/core";
+import { animated, useTransition } from "react-spring";
 
 const modalContentStyles = css({
   background: "#fff",
@@ -81,6 +82,35 @@ export function ModalDemo3() {
           <p>{state}</p>
         </ModalContent>
       </Modal>
+    </div>
+  );
+}
+
+export function ModalDemo4() {
+  const [isOpen, open, close] = useToggle();
+  const transitions = useTransition(isOpen, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
+  return (
+    <div>
+      <p>Modal with Animation</p>
+      <Button onClick={open}>Open Modal</Button>
+      {transitions.map(
+        ({ item, key, props }) =>
+          item && (
+            <Modal visible key={key}>
+              <animated.div style={props}>
+                <ModalOverlay onClick={close} />
+                <ModalContent>
+                  <p>This is a modal</p>
+                </ModalContent>
+              </animated.div>
+            </Modal>
+          ),
+      )}
     </div>
   );
 }
