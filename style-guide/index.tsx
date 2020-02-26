@@ -6,7 +6,7 @@ import { Nav } from "./components/Nav";
 import { getRouterRoutes } from "./getRouterRoutes";
 import { routesConfig } from "./getRoutesConfig";
 import { ThemeContext } from "./ThemeContext";
-import { css } from "@emotion/core";
+import { css, Global } from "@emotion/core";
 
 const browserHistory = createBrowserHistory();
 
@@ -27,13 +27,20 @@ const mainStyles = css({
 
 class App extends React.Component<any, any> {
   state = {
-    theme: "light",
+    theme: "dark",
   };
 
   render() {
     return (
       <Router history={browserHistory}>
         <div css={containerStyles}>
+          <Global
+            styles={css`
+              body {
+                font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+              }
+            `}
+          />
           <ThemeContext.Provider
             value={{
               theme: this.state.theme,

@@ -1,6 +1,6 @@
 import { map } from "lodash";
 import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, RouteProps, useLocation } from "react-router-dom";
 import { ThemeContext } from "../ThemeContext";
 import { css } from "@emotion/core";
 
@@ -9,7 +9,6 @@ const navItemStyles = css({
   color: "#222",
   display: "block",
   margin: "0.5rem 0",
-  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
 });
 
 const asideStyles = css({
@@ -27,8 +26,35 @@ const getActiveLinkStyles = (theme: string) => ({
   background: theme === "dark" ? "#545659" : "#e07070",
 });
 
-export const Nav = ({ routesConfig }: { routesConfig: any[] }) => {
+const group1 = ["/modal", "/popover", "/tooltip", "/portal"];
+const group2 = ["/checkbox", "/autocomplete", "/select", "/input", "/with-multi-select"];
+
+const pickGroupFromRouteConfig = (routesConfig: RouteProps[], groupList: string[]) =>
+  routesConfig.filter(i => groupList.includes(i?.path as string));
+
+const pickOtherGroupFromRouteConfig = (routesConfig: RouteProps[], groupList: string[]) =>
+  routesConfig.filter(i => !groupList.includes(i?.path as string));
+
+export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
   const location = useLocation();
+  const groups = [
+    {
+      name: "overlay",
+      display: "Overlays",
+      routes: pickGroupFromRouteConfig(routesConfig, group1),
+    },
+    {
+      names: "inputs",
+      display: "Inputs",
+      routes: pickGroupFromRouteConfig(routesConfig, group2),
+    },
+    {
+      name: "others",
+      display: "Others",
+      routes: pickOtherGroupFromRouteConfig(routesConfig, [...group1, ...group2]),
+    },
+  ];
+
   return (
     <ThemeContext.Consumer>
       {({ theme, toggleTheme }) => (
@@ -47,21 +73,33 @@ export const Nav = ({ routesConfig }: { routesConfig: any[] }) => {
           >
             Toggle Theme
           </div>
-          {map(routesConfig, (routeConfig: any, idx: number) => (
-            <Link
-              to={routeConfig.path}
-              key={idx}
-              css={[
-                navItemStyles,
-                linkStyles,
-                {
-                  ":hover,:focus": getActiveLinkStyles(theme),
-                },
-                routeConfig.path === location.pathname ? getActiveLinkStyles(theme) : {},
-              ]}
-            >
-              {routeConfig.path.split("/")[1]}
-            </Link>
+          {map(groups, (group, idx) => (
+            <section key={idx}>
+              <p
+                css={{
+                  color: "#fff",
+                  paddingLeft: "0.5rem",
+                }}
+              >
+                {group.display}
+              </p>
+              {map(group.routes, (routeConfig: any, key: number) => (
+                <Link
+                  to={routeConfig.path}
+                  key={key}
+                  css={[
+                    navItemStyles,
+                    linkStyles,
+                    {
+                      ":hover,:focus": getActiveLinkStyles(theme),
+                    },
+                    routeConfig.path === location.pathname ? getActiveLinkStyles(theme) : {},
+                  ]}
+                >
+                  {routeConfig.path.split("/")[1]}
+                </Link>
+              ))}
+            </section>
           ))}
         </aside>
       )}
