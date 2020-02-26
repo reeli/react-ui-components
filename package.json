@@ -88,22 +88,26 @@
     "typescript": "3.8.2",
     "webpack": "4.41.6",
     "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.10.3"
-  },
-  "dependencies": {
-    "@emotion/core": "10.0.27",
+    "webpack-dev-server": "3.10.3",
     "@material-ui/core": "4.9.4",
     "@material-ui/icons": "4.9.1",
     "d3-shape": "1.3.7",
     "draft-js": "0.11.4",
     "draft-js-mention-plugin": "3.1.5",
     "draft-js-plugins-editor": "3.0.0",
-    "invariant": "2.2.4",
-    "lodash": "4.17.15",
-    "moment": "2.24.0",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
     "react-router": "5.1.2",
-    "react-router-dom": "5.1.2"
+    "react-router-dom": "5.1.2",
+    "react": "16.12.x",
+    "react-dom": "16.12.x"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.27",
+    "invariant": "^2.2.4",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
   }
 }
