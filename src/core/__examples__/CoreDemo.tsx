@@ -55,12 +55,14 @@ const Content = ({ hide }: { hide: () => void }) => {
           <div onClick={hide}>close me</div>
         </div>
       </ClickAwayListener>
-      <Modal visible={isOpen}>
-        <ModalOverlay onClick={close} />
-        <ModalContent>
-          <p>This is a simple modal</p>
-        </ModalContent>
-      </Modal>
+      {isOpen && (
+        <Modal>
+          <ModalOverlay onClick={close} />
+          <ModalContent>
+            <p>This is a simple modal</p>
+          </ModalContent>
+        </Modal>
+      )}
     </div>
   );
 };

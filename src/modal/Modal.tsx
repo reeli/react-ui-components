@@ -11,14 +11,8 @@ const modalStyles = css({
   zIndex: 999,
 });
 
-interface IModalProps {
-  visible: boolean;
-}
-
-export const Modal: React.FC<IModalProps> = ({ children, visible }) => {
-  return visible ? (
-    <Portal>
-      <div css={modalStyles}>{children}</div>
-    </Portal>
-  ) : null;
-};
+export const Modal: React.FC = ({ children }) => (
+  <Portal>
+    <div css={modalStyles}>{children}</div>
+  </Portal>
+);

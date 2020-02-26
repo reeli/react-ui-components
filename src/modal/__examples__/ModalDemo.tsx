@@ -14,12 +14,14 @@ export function ModalDemo() {
   return (
     <Demo title={"Simple Modal"}>
       <Button onClick={open}>Open Modal</Button>
-      <Modal visible={isOpen}>
-        <ModalOverlay onClick={close} />
-        <ModalContent>
-          <p>This is a simple modal</p>
-        </ModalContent>
-      </Modal>
+      {isOpen && (
+        <Modal>
+          <ModalOverlay onClick={close} />
+          <ModalContent>
+            <p>This is a simple modal</p>
+          </ModalContent>
+        </Modal>
+      )}
     </Demo>
   );
 }
@@ -56,12 +58,14 @@ export function ModalDemo2() {
   return (
     <Demo title={"Modal in Modal"}>
       <Button onClick={open}>Open Modal</Button>
-      <Modal visible={isOpen}>
-        <ModalOverlay onClick={close} />
-        <div css={[modalContentStyles, getModalStyle()]}>
-          <ModalDemo2 />
-        </div>
-      </Modal>
+      {isOpen && (
+        <Modal>
+          <ModalOverlay onClick={close} />
+          <div css={[modalContentStyles, getModalStyle()]}>
+            <ModalDemo2 />
+          </div>
+        </Modal>
+      )}
     </Demo>
   );
 }
@@ -73,13 +77,15 @@ export function ModalDemo3() {
   return (
     <Demo title={"State Change in Modal Content"}>
       <Button onClick={open}>Open Modal</Button>
-      <Modal visible={isOpen}>
-        <ModalOverlay onClick={close} />
-        <ModalContent>
-          <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>
-          <p>{state}</p>
-        </ModalContent>
-      </Modal>
+      {isOpen && (
+        <Modal>
+          <ModalOverlay onClick={close} />
+          <ModalContent>
+            <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>
+            <p>{state}</p>
+          </ModalContent>
+        </Modal>
+      )}
     </Demo>
   );
 }
@@ -92,13 +98,17 @@ export function ModalDemo4() {
     leave: { opacity: 0 },
   });
 
+  // 需要等动画结束之后才能关闭弹出窗，为什么 react spring 能够在动画关闭之后才销毁弹出窗？
+  // 因为最终 modal 的显示与否不是直接通过 `isOpen` 状态来决定，而是通过 react spring 提供的 `item` 状态来决定
+  // 当 isOpen=false 时，useTransition 会重新执行，然后执行 leave 动画，动画执行完成之后将更新的 `item` 提供下来，从而让 Modal 关闭
+
   return (
     <Demo title={"Modal with Animation"}>
       <Button onClick={open}>Open Modal</Button>
       {transitions.map(
         ({ item, key, props }) =>
           item && (
-            <Modal visible key={key}>
+            <Modal key={key}>
               <animated.div style={props}>
                 <ModalOverlay onClick={close} />
                 <ModalContent>
