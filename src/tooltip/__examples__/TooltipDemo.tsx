@@ -1,9 +1,88 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import { Tooltip } from "../Tooltip";
-import { Placement } from "../../core";
-import { Button } from "../../button/Button";
-import { IncreasingNumber } from "../../increasing-number";
+import { Placement } from "src/core";
+import { Button } from "src/button";
 import { css } from "@emotion/core";
+import { Demo } from "style-guide/components/Demo";
+import { animated, useTransition } from "react-spring";
+import { useTooltip } from "src/tooltip/useTooltip";
+
+export function TooltipDemo() {
+  return (
+    <Demo title={"Simple Tooltip"}>
+      <Tooltip placement={Placement.bottomLeft} content={<div>Some Hint</div>}>
+        <Button>Hover me</Button>
+      </Tooltip>
+    </Demo>
+  );
+}
+
+export function TooltipDemo2() {
+  return (
+    <Demo title={"Customize Tooltip"}>
+      <Tooltip placement={Placement.bottomLeft} content={<TooltipContent placement={"left"} />}>
+        <Button>Hover me</Button>
+      </Tooltip>
+    </Demo>
+  );
+}
+
+export function TooltipDemo3() {
+  const [Trigger, Content, , , isOpen] = useTooltip();
+  const transitions = useTransition(isOpen, null, {
+    from: { opacity: 0, transform: "scale(0)" },
+    enter: { opacity: 1, transform: "scale(1)" },
+    leave: { opacity: 0, transform: "scale(0)" },
+  });
+
+  return (
+    <Demo title={"Tooltip with Animation"}>
+      <Trigger>
+        <Button>Hover me</Button>
+      </Trigger>
+      {transitions.map(
+        ({ item, key, props: styles }) =>
+          item && (
+            <Content key={key}>
+              <TooltipContent style={styles} placement={"right"} />
+            </Content>
+          ),
+      )}
+    </Demo>
+  );
+}
+
+export function TooltipDemo4() {
+  const [Trigger, Content, , , visible] = useTooltip();
+  return (
+    <Demo title={"Tooltip with Multiple Triggers"}>
+      <Trigger>
+        <div>
+          <p>trigger1</p>
+          <p>trigger2</p>
+          <p>trigger3</p>
+        </div>
+      </Trigger>
+      {visible && (
+        <Content>
+          <TooltipContent placement={"right"} />
+        </Content>
+      )}
+    </Demo>
+  );
+}
+
+export function TooltipDemo5() {
+  return (
+    <Demo title={"Tooltip with Scroll"}>
+      <div style={{ height: 800, background: "#fcfcfc", overflow: "scroll" }}>
+        <Tooltip placement={Placement.bottomLeft} content={<TooltipContent placement={"right"} />}>
+          <Button>Hover me</Button>
+        </Tooltip>
+      </div>
+    </Demo>
+  );
+}
 
 const tooltipsStyles = css({
   // position: "absolute", // can not set absolute here
@@ -39,7 +118,7 @@ const centerStyles = css({
   left: "50%",
 });
 
-const leftStyels = css({
+const leftStyles = css({
   left: 20,
 });
 
@@ -54,60 +133,19 @@ const getStyles = (placement: TPlacement) => {
     return centerStyles;
   }
   if (placement === "left") {
-    return leftStyels;
+    return leftStyles;
   }
   if (placement === "right") {
     return rightStyles;
   }
-  return leftStyels;
+  return leftStyles;
 };
 
-const TooltipContent = ({ placement = "left" }: { placement?: TPlacement }) => (
-  <div css={tooltipsStyles} data-role="tooltip">
+const TooltipContent = ({ placement = "left", ...otherProps }: { placement?: TPlacement } & HTMLAttributes<any>) => (
+  <animated.div css={tooltipsStyles} data-role="tooltip" {...otherProps}>
     <div css={[arrowUp, getStyles(placement)]} />
     <div css={tooltipsInnerStyles}>
-      <div>Prompt Text</div>
+      <div>Some Hint</div>
     </div>
-  </div>
+  </animated.div>
 );
-
-export class TooltipDemo extends React.Component<any, any> {
-  render() {
-    return (
-      <div css={{ height: "1000px", marginTop: 200 }}>
-        <div style={{ position: "relative", height: "60px", overflow: "hidden", marginBottom: 50 }}>
-          <Button>On Bottom Left</Button>
-          <TooltipContent />
-        </div>
-        <IncreasingNumber totalNumber={100} totalTime={10000}>
-          {({ increasingNumber }) => <div>{increasingNumber}</div>}
-        </IncreasingNumber>
-        <span style={{ marginRight: 15 }}>
-          <Tooltip placement={Placement.bottomLeft} content={<TooltipContent placement={"left"} />}>
-            <Button>On Bottom Left</Button>
-          </Tooltip>
-        </span>
-        <span style={{ marginRight: 15 }}>
-          <Tooltip placement={Placement.bottom} content={<TooltipContent placement={"center"} />}>
-            <Button>On Bottom Center</Button>
-          </Tooltip>
-        </span>
-        <div style={{ height: 200, background: "pink", overflow: "scroll" }}>
-          <span style={{ marginRight: 15 }}>
-            <Tooltip placement={Placement.bottomRight} content={<TooltipContent placement={"right"} />}>
-              <Button>On Bottom Right</Button>
-            </Tooltip>
-          </span>
-        </div>
-        <div>111</div>
-        <div>111</div>
-        <div>111</div>
-        <div>111</div>
-        <div>111</div>
-        <div>111</div>
-        <div>111</div>
-        <div>111</div>
-      </div>
-    );
-  }
-}
