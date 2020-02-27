@@ -7,9 +7,10 @@ const modalContentStyles = css({
   borderRadius: 4,
   position: "absolute",
   zIndex: 1000,
-  top: "50%",
-  left: "50%",
-  transform: "translate3d(-50%,-50%,0)",
 });
 
-export const ModalContent: React.FC = ({ children }) => <div css={modalContentStyles}>{children}</div>;
+export const ModalContent: React.FC<React.HTMLAttributes<any>> = ({ children, ...otherProps }) => (
+  <div css={modalContentStyles} {...otherProps}>
+    {children}
+  </div>
+);
