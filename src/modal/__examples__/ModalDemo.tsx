@@ -90,12 +90,29 @@ export function ModalDemo3() {
   );
 }
 
+const modalOverlayStyles = css({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+  background: "rgba(0,0,0,0.65)",
+});
+
+const modalContentStyles2 = css({
+  background: "#fff",
+  padding: 25,
+  borderRadius: 4,
+  position: "absolute",
+  zIndex: 1000,
+});
+
 export function ModalDemo4() {
   const [isOpen, open, close] = useToggle();
   const transitions = useTransition(isOpen, null, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
+    from: { opacity: 0, transform: "scale(0)" },
+    enter: { opacity: 1, transform: "scale(1)" },
+    leave: { opacity: 0, transform: "scale(0)" },
   });
 
   // 需要等动画结束之后才能关闭弹出窗，为什么 react spring 能够在动画关闭之后才销毁弹出窗？
@@ -106,14 +123,12 @@ export function ModalDemo4() {
     <Demo title={"Modal with Animation"}>
       <Button onClick={open}>Open Modal</Button>
       {transitions.map(
-        ({ item, key, props }) =>
+        ({ item, key, props: styles }) =>
           item && (
             <Modal key={key}>
-              <animated.div style={props}>
-                <ModalOverlay onClick={close} />
-                <ModalContent>
-                  <p>This is a modal</p>
-                </ModalContent>
+              <animated.div css={modalOverlayStyles} style={{ opacity: styles.opacity }} onClick={close} />
+              <animated.div css={modalContentStyles2} style={{ transform: styles.transform }}>
+                <p>This is a modal</p>
               </animated.div>
             </Modal>
           ),
