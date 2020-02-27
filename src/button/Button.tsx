@@ -8,6 +8,7 @@ const buttonStyles = css({
   border: "1px solid #ccc",
   fontSize: 14,
   outline: "none",
+  cursor: "pointer",
 });
 
 export const Button = forwardRef<HTMLButtonElement, HTMLAttributes<any>>(
