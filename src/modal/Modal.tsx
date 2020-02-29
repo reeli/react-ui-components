@@ -9,9 +9,6 @@ const modalStyles = css({
   right: 0,
   bottom: 0,
   zIndex: 1000,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
 });
 
 export const Modal: React.FC = ({ children }) => (
