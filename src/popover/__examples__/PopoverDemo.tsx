@@ -65,28 +65,28 @@ export function PopoverDemo2() {
 }
 
 export function PopoverDemo3() {
-  const [renderPopoverContent, renderPopoverTrigger, show] = usePopover();
+  const [renderPopoverContent, renderPopoverTrigger, show, , visible] = usePopover();
 
   return (
     <Demo title={"usePopover Hook"}>
       <div>
         {renderPopoverTrigger(<Button onClick={show}>Open Popover</Button>)}
-        {renderPopoverContent(<div>This is popover content!</div>)}
+        {visible && renderPopoverContent(<div>This is popover content!</div>)}
       </div>
     </Demo>
   );
 }
 
 const ListItem = ({ text }: { text: string }) => {
-  const [renderPopoverContent, renderPopoverTrigger, show] = usePopover();
+  const [renderPopoverContent, renderPopoverTrigger, show, , visible] = usePopover();
   return (
     <>
-      {renderPopoverContent(<div>{text}</div>, Placement.right)}
       {renderPopoverTrigger(
         <div onClick={show} css={{ width: 200 }}>
           Open: {text}
         </div>,
       )}
+      {visible && renderPopoverContent(<div>{text}</div>, Placement.right)}
     </>
   );
 };

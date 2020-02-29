@@ -4,7 +4,6 @@ import { Portal } from "../Portal";
 import { Demo } from "style-guide/components/Demo";
 import { Button } from "src/button";
 import { PortalProvider } from "src/portal/PortalContext";
-import { usePortal } from "src/portal/usePortal";
 import { useOutSideClick } from "src/core";
 
 export function PortalDemo() {
@@ -54,20 +53,7 @@ export function PortalDemo2() {
 }
 
 export function PortalDemo3() {
-  const [renderPortal, open, close, visible] = usePortal();
-
-  return (
-    <Demo title={"usePortal Hook"}>
-      <div>
-        <Button onClick={visible ? close : open}>Mount/Unmount Portal</Button>
-        {renderPortal(<p css={{ textAlign: "center" }}>This dom element will be transfer to document.body! 002</p>)}
-      </div>
-    </Demo>
-  );
-}
-
-export function PortalDemo4() {
-  const [renderPortal, open, close, isOpen] = usePortal();
+  const [isOpen, open, close] = useToggle();
   const contentEl = useRef<HTMLParagraphElement>(null);
   const triggerEl = useRef<HTMLButtonElement>(null);
   const startLeave = useCallback(() => {
@@ -81,16 +67,18 @@ export function PortalDemo4() {
       <Button onClick={isOpen ? close : open} ref={triggerEl}>
         Mount/Unmount Portal
       </Button>
-      {renderPortal(
-        <p css={{ textAlign: "center" }} ref={contentEl}>
-          This dom element will be transfer to document.body! 003
-        </p>,
+      {isOpen && (
+        <Portal>
+          <p css={{ textAlign: "center" }} ref={contentEl}>
+            This dom element will be transfer to document.body! 003
+          </p>
+        </Portal>
       )}
     </Demo>
   );
 }
 
-export function PortalDemo5() {
+export function PortalDemo4() {
   const [isOpen, open, close] = useToggle();
 
   return (
