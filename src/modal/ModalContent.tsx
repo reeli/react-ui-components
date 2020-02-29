@@ -7,15 +7,20 @@ const containerStyles = css({
   justifyContent: "center",
   position: "absolute",
   zIndex: 1000,
-  top: "100px",
+  top: "3.75rem",
 });
 
 const modalContentStyles = css({
   background: "#fff",
+  width: "100%",
 });
 
-export const ModalContent: React.FC<React.HTMLAttributes<any>> = ({ children, ...otherProps }) => (
+interface IModalContentProps extends React.HTMLAttributes<any> {
+  size?: string;
+}
+
+export const ModalContent: React.FC<IModalContentProps> = ({ children, size = "38rem", ...otherProps }) => (
   <div css={containerStyles} {...otherProps}>
-    <div css={modalContentStyles}>{children}</div>
+    <div css={[modalContentStyles, { maxWidth: size }]}>{children}</div>
   </div>
 );
