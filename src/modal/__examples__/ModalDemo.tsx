@@ -90,22 +90,8 @@ export function ModalDemo3() {
   );
 }
 
-const modalOverlayStyles = css({
-  position: "absolute",
-  top: 0,
-  left: 0,
-  bottom: 0,
-  right: 0,
-  background: "rgba(0,0,0,0.65)",
-});
-
-const modalContentStyles2 = css({
-  background: "#fff",
-  padding: 25,
-  borderRadius: 4,
-  position: "absolute",
-  zIndex: 1000,
-});
+const AnimatedModalOverlay = animated(ModalOverlay);
+const AnimatedModalContent = animated(ModalContent);
 
 export function ModalDemo4() {
   const [isOpen, open, close] = useToggle();
@@ -126,10 +112,10 @@ export function ModalDemo4() {
         ({ item, key, props: styles }) =>
           item && (
             <Modal key={key}>
-              <animated.div css={modalOverlayStyles} style={{ opacity: styles.opacity }} onClick={close} />
-              <animated.div css={modalContentStyles2} style={{ transform: styles.transform }}>
+              <AnimatedModalOverlay style={{ opacity: styles.opacity }} onClick={close} />
+              <AnimatedModalContent style={{ transform: styles.transform }}>
                 <p>This is a modal</p>
-              </animated.div>
+              </AnimatedModalContent>
             </Modal>
           ),
       )}
