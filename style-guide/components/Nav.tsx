@@ -5,7 +5,7 @@ import { ThemeContext } from "../ThemeContext";
 import { css } from "@emotion/core";
 
 const navItemStyles = css({
-  fontSize: "1rem",
+  fontSize: "1.4rem",
   color: "#222",
   display: "block",
   margin: "0.5rem 0",

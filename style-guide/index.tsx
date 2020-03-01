@@ -36,8 +36,12 @@ class App extends React.Component<any, any> {
         <div css={containerStyles}>
           <Global
             styles={css`
+              html {
+                font-size: 10px;
+              }
               body {
                 font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+                font-size: 1.4rem;
               }
             `}
           />
