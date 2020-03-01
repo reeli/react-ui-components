@@ -7,6 +7,9 @@ import { ModalContent } from "src/modal/ModalContent";
 import { css } from "@emotion/core";
 import { animated, useTransition } from "react-spring";
 import { Demo } from "style-guide/components/Demo";
+import { ModalHeader } from "src/modal/ModalHeader";
+import { ModalBody } from "src/modal/ModalBody";
+import { ModalFooter } from "src/modal/ModalFooter";
 
 export function ModalDemo() {
   const [isOpen, open, close] = useToggle();
@@ -18,7 +21,7 @@ export function ModalDemo() {
         <Modal>
           <ModalOverlay onClick={close} />
           <ModalContent>
-            <p>This is a simple modal</p>
+            <p css={{ padding: "1rem" }}>This is a simple modal</p>
           </ModalContent>
         </Modal>
       )}
@@ -81,8 +84,10 @@ export function ModalDemo3() {
         <Modal>
           <ModalOverlay onClick={close} />
           <ModalContent>
-            <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>
-            <p>{state}</p>
+            <div css={{ padding: "1rem" }}>
+              <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>
+              <p>{state}</p>
+            </div>
           </ModalContent>
         </Modal>
       )}
@@ -114,10 +119,45 @@ export function ModalDemo4() {
             <Modal key={key}>
               <AnimatedModalOverlay style={{ opacity: styles.opacity }} onClick={close} />
               <AnimatedModalContent style={{ transform: styles.transform }}>
-                <p>This is a modal</p>
+                <p css={{ padding: "1rem" }}>This is a modal</p>
               </AnimatedModalContent>
             </Modal>
           ),
+      )}
+    </Demo>
+  );
+}
+
+export function ModalDemo5() {
+  const [isOpen, open, close] = useToggle();
+  const [disabled, setDisabled] = useState(false);
+
+  return (
+    <Demo title={"Modal with Async Logic"}>
+      <Button onClick={open}>Open Modal</Button>
+      {isOpen && (
+        <Modal>
+          <ModalOverlay onClick={close} />
+          <ModalContent>
+            <ModalHeader>Modal Title</ModalHeader>
+            <ModalBody>Some text is here</ModalBody>
+            <ModalFooter>
+              <Button
+                onClick={() => {
+                  console.log("on click");
+                  setDisabled(true);
+                  setTimeout(() => {
+                    setDisabled(false);
+                    close();
+                  }, 1500);
+                }}
+                disabled={disabled}
+              >
+                {disabled ? "Loading..." : "Confirm"}
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       )}
     </Demo>
   );

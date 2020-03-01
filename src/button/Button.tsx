@@ -11,10 +11,14 @@ const buttonStyles = css({
   cursor: "pointer",
 });
 
-export const Button = forwardRef<HTMLButtonElement, HTMLAttributes<any>>(
-  ({ children, ...others }, ref: Ref<HTMLButtonElement>) => {
+interface IButtonProps extends HTMLAttributes<any> {
+  disabled?: boolean;
+}
+
+export const Button = forwardRef<HTMLButtonElement, IButtonProps>(
+  ({ children, disabled, ...others }, ref: Ref<HTMLButtonElement>) => {
     return (
-      <button ref={ref} css={buttonStyles} {...others}>
+      <button ref={ref} css={buttonStyles} disabled={disabled} {...others}>
         {children}
       </button>
     );
