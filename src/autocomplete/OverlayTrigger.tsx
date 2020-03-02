@@ -1,8 +1,7 @@
-import { Portal } from "./Portal";
 import React, { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
-import { usePosition } from "./hooks/usePosition";
-import { Placement } from "./utils/getPlacement";
 import { isEqual } from "lodash";
+import { Portal } from "src/portal";
+import { Placement, usePosition } from "src/core";
 
 interface IOverlayTriggerProps {
   children: ReactElement<any>;
@@ -23,14 +22,11 @@ export const OverlayTrigger = ({ children, content, visible = false }: IOverlayT
     isOpenRef.current = isOpen;
   });
 
-  useEffect(
-    () => {
-      if (!isEqual(visible, isOpenRef.current)) {
-        setIsOpen(visible);
-      }
-    },
-    [visible],
-  );
+  useEffect(() => {
+    if (!isEqual(visible, isOpenRef.current)) {
+      setIsOpen(visible);
+    }
+  }, [visible]);
 
   return (
     <>
