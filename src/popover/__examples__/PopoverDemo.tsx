@@ -110,7 +110,7 @@ export function PopoverDemo5() {
         content={
           <div
             css={{
-              padding: "1rem",
+              padding: "1.7rem",
               background: "#fff",
               boxShadow:
                 "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
@@ -120,7 +120,9 @@ export function PopoverDemo5() {
             {modalVisible && (
               <Modal>
                 <ModalOverlay onClick={hideModal} />
-                <ModalContent>This is Modal Content</ModalContent>
+                <ModalContent>
+                  <div css={{ padding: "3rem" }}>This is Modal Content</div>
+                </ModalContent>
               </Modal>
             )}
           </div>

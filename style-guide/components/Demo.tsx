@@ -5,7 +5,7 @@ interface IDemoProps {
 }
 
 export const Demo: React.FC<IDemoProps> = ({ title, children }) => (
-  <section css={{ marginBottom: "3rem", marginLeft: "2rem" }}>
+  <section css={{ marginBottom: "4rem", marginLeft: "3rem" }}>
     <h3 css={{ fontWeight: "normal" }}>{title}</h3>
     {children}
   </section>
