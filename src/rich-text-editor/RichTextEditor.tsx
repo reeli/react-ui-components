@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { convertFromRaw, EditorState, RawDraftContentState } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import createMentionPlugin, { defaultSuggestionsFilter } from "draft-js-mention-plugin";

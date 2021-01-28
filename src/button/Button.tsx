@@ -1,5 +1,5 @@
-import React, { forwardRef, HTMLAttributes, Ref } from "react";
-import { css } from "@emotion/core";
+import { forwardRef, HTMLAttributes, Ref } from "react";
+import { css } from "@emotion/react";
 
 const buttonStyles = css({
   backgroundColor: "#fff",

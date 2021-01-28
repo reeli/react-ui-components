@@ -4,7 +4,7 @@ import { useToggle } from "src/core";
 import { Button } from "src/button";
 import { ModalOverlay } from "src/modal/ModalOverlay";
 import { ModalContent } from "src/modal/ModalContent";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { animated, useTransition } from "react-spring";
 import { Demo } from "style-guide/components/Demo";
 import { ModalHeader } from "src/modal/ModalHeader";
@@ -85,7 +85,7 @@ export function ModalDemo3() {
           <ModalOverlay onClick={close} />
           <ModalContent>
             <div css={{ padding: "1rem" }}>
-              <Button onClick={() => setState(val => val + 1)}>Click to increase number</Button>
+              <Button onClick={() => setState((val) => val + 1)}>Click to increase number</Button>
               <p>{state}</p>
             </div>
           </ModalContent>

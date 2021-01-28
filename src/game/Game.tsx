@@ -1,9 +1,9 @@
 import { filter, find, map, shuffle } from "lodash";
-import React from "react";
 import { Score } from "./Score";
 import { Word } from "./Word";
 import { WordList } from "./WordList";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
+import { Component } from "react";
 
 const containerStyles = css({
   width: "370px",
@@ -46,7 +46,7 @@ interface IGameState {
   isStart: boolean;
 }
 
-export class Game extends React.Component<IGameProps, IGameState> {
+export class Game extends Component<IGameProps, IGameState> {
   state = {
     isStart: false,
     scores: 0,
@@ -58,7 +58,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
       isOutOfStage: true,
       isSelected: false,
     };
-    const initWords = map(this.props.gameData.words, word => {
+    const initWords = map(this.props.gameData.words, (word) => {
       return {
         top: 0,
         left: 0,
@@ -66,7 +66,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
         ...initWordState,
       };
     });
-    const interferences = map(this.props.gameData.interferences, interference => {
+    const interferences = map(this.props.gameData.interferences, (interference) => {
       return {
         id: "",
         origin: "",
@@ -86,7 +86,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
   }
 
   initWords() {
-    const interference = filter(this.state.words, item => {
+    const interference = filter(this.state.words, (item) => {
       return !item.origin;
     });
     const originWords = this.getWordsWithPositions(this.dropInterferences(this.state.words), true);
@@ -115,7 +115,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
   setMove() {
     const { timeSpace = 1000 } = this.props;
     setTimeout(() => {
-      const interference = filter(this.state.words, item => {
+      const interference = filter(this.state.words, (item) => {
         return !item.origin;
       });
       const originWords = this.getWordsWithPositions(this.dropInterferences(this.state.words), false);
@@ -133,10 +133,10 @@ export class Game extends React.Component<IGameProps, IGameState> {
   }
 
   handleClick = (word: string) => {
-    const current = find(this.state.words, item => item.target === word) as IWordWithState;
+    const current = find(this.state.words, (item) => item.target === word) as IWordWithState;
     if (current && (!current.isOutOfStage || !current.origin) && !current.isSelected) {
       this.setState({
-        words: map(this.state.words, item => {
+        words: map(this.state.words, (item) => {
           if (item.target === word) {
             return {
               ...item,
@@ -151,7 +151,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
   };
 
   dropInterferences(words: IWordWithState[]) {
-    return filter(words, item => {
+    return filter(words, (item) => {
       return !!item.origin;
     });
   }
@@ -169,7 +169,7 @@ export class Game extends React.Component<IGameProps, IGameState> {
               })
             : null}
         </div>
-        <WordList words={this.state.words} onWordClick={word => this.handleClick(word.target)} />
+        <WordList words={this.state.words} onWordClick={(word) => this.handleClick(word.target)} />
         <button
           onClick={() => {
             this.setState({

@@ -1,5 +1,5 @@
-import React, { MouseEventHandler } from "react";
-import { css } from "@emotion/core";
+import { MouseEventHandler } from "react";
+import { css } from "@emotion/react";
 
 interface IModalOverlayProps {
   onClick?: MouseEventHandler;

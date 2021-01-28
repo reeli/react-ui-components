@@ -1,6 +1,6 @@
 import React from "react";
 import { Portal } from "src/portal";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const modalStyles = css({
   position: "absolute",

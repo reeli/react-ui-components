@@ -15,7 +15,7 @@ export function PortalDemo() {
         <Button onClick={isOpen ? close : open}>Mount/Unmount Portal</Button>
         {isOpen && (
           <Portal>
-            <p css={{ textAlign: "center" }}>This dom element will be transfer to document.body! 001</p>
+            <p>This dom element will be transfer to document.body! 001</p>
           </Portal>
         )}
       </div>
@@ -69,9 +69,7 @@ export function PortalDemo3() {
       </Button>
       {isOpen && (
         <Portal>
-          <p css={{ textAlign: "center" }} ref={contentEl}>
-            This dom element will be transfer to document.body! 003
-          </p>
+          <p ref={contentEl}>This dom element will be transfer to document.body! 003</p>
         </Portal>
       )}
     </Demo>
@@ -87,7 +85,7 @@ export function PortalDemo4() {
         <Button onClick={isOpen ? close : open}>Mount/Unmount Portal</Button>
         {isOpen && (
           <Portal>
-            <p css={{ textAlign: "center" }}>This dom element will be transfer to document.body! 004</p>
+            <p>This dom element will be transfer to document.body! 004</p>
           </Portal>
         )}
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { IconChecked } from "./assets/IconChecked";
 import { IconUnchecked } from "./assets/IconUnchecked";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 interface ICheckboxProps {
   value?: boolean;

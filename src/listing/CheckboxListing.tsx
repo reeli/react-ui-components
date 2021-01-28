@@ -3,7 +3,7 @@ import React from "react";
 import { Checkbox } from "../checkbox/Checkbox";
 import { useMultiSelect } from "../with-multi-select/useMultiSelect";
 import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 export interface ICheckboxListingProps {
   selectedValues?: TSelectedValues;
@@ -33,7 +33,7 @@ export function CheckboxListing(props: ICheckboxListingProps) {
   return (
     <div css={listStyles}>
       <>
-        {map(options, option => {
+        {map(options, (option) => {
           return (
             <div key={option.value} css={listItemStyles}>
               <Checkbox

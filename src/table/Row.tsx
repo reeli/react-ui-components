@@ -3,7 +3,7 @@ import React from "react";
 import { Component } from "react";
 import { Cell } from "./Cell";
 import { LabelCell } from "./LabelCell";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 export interface IColumn {
   fieldKey?: string;

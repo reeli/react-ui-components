@@ -1,6 +1,6 @@
 import { isFunction } from "lodash";
 import React, { ReactElement } from "react";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 interface ITabProps {
   activeIdx?: number;

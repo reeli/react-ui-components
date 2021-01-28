@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from "react";
 import { Tooltip } from "../Tooltip";
 import { Placement } from "src/core";
 import { Button } from "src/button";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Demo } from "style-guide/components/Demo";
 import { animated, useTransition } from "react-spring";
 import { useTooltip } from "src/tooltip/useTooltip";

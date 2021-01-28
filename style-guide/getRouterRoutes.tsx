@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Route, RouteProps } from "react-router";
 
 export const getRouterRoutes = (routes: RouteProps[]) => {

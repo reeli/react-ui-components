@@ -2,10 +2,11 @@ import { useState } from "react";
 import { dropRight, filter, isEmpty, isEqual } from "lodash";
 
 export const useMultiSelect = <T extends any>(defaultValue?: T) => {
-  const [selectedValues, setSelectedValues] = useState<T[]>(defaultValue || []);
+  const [selectedValues, setSelectedValues] = useState<T[]>(defaultValue || ([] as any));
 
   const addValue = (val: T) => setSelectedValues([...selectedValues, val]);
-  const removeValue = (val: T) => setSelectedValues(filter(selectedValues, selectedVal => !isEqual(selectedVal, val)));
+  const removeValue = (val: T) =>
+    setSelectedValues(filter(selectedValues, (selectedVal) => !isEqual(selectedVal, val)));
 
   const removeLastSelectedValue = () => {
     if (!isEmpty(selectedValues)) {

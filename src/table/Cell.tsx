@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { css } from "@emotion/core";
+import { Component } from "react";
+import { css } from "@emotion/react";
 
 interface ICell {
   label?: string | JSX.Element | null;

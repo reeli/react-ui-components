@@ -2,7 +2,7 @@ import { map } from "lodash";
 import * as React from "react";
 import { Link, RouteProps, useLocation } from "react-router-dom";
 import { ThemeContext } from "../ThemeContext";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const navItemStyles = css({
   fontSize: "1.4rem",
@@ -30,10 +30,10 @@ const group1 = ["/modal", "/popover", "/tooltip", "/portal"];
 const group2 = ["/checkbox", "/autocomplete", "/select", "/input", "/with-multi-select"];
 
 const pickGroupFromRouteConfig = (routesConfig: RouteProps[], groupList: string[]) =>
-  routesConfig.filter(i => groupList.includes(i?.path as string));
+  routesConfig.filter((i) => groupList.includes(i?.path as string));
 
 const pickOtherGroupFromRouteConfig = (routesConfig: RouteProps[], groupList: string[]) =>
-  routesConfig.filter(i => !groupList.includes(i?.path as string));
+  routesConfig.filter((i) => !groupList.includes(i?.path as string));
 
 export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
   const location = useLocation();
@@ -61,7 +61,7 @@ export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
         <aside css={[{ background: theme === "dark" ? "#000" : "red" }, asideStyles]}>
           <div
             onClick={() => toggleTheme()}
-            css={[
+            css={css([
               navItemStyles,
               {
                 color: "#fff",
@@ -69,7 +69,7 @@ export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
                 textAlign: "right",
                 paddingRight: "1rem",
               },
-            ]}
+            ])}
           >
             Toggle Theme
           </div>

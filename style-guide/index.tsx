@@ -6,7 +6,7 @@ import { Nav } from "./components/Nav";
 import { getRouterRoutes } from "./getRouterRoutes";
 import { routesConfig } from "./getRoutesConfig";
 import { ThemeContext } from "./ThemeContext";
-import { css, Global } from "@emotion/core";
+import { css, Global } from "@emotion/react";
 
 const browserHistory = createBrowserHistory();
 

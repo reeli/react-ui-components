@@ -3,7 +3,7 @@ import React from "react";
 import { Input } from "../input/Input";
 import { useMultiSelect } from "../with-multi-select/useMultiSelect";
 import { ISelectOption, TSelectedValues } from "../with-multi-select/interfaces";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const tagStyles = css({
   display: "inline-block",

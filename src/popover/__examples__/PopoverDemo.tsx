@@ -3,7 +3,7 @@ import { Popover } from "../Popover";
 import { Placement, useToggle } from "src/core";
 import { usePopover } from "src/popover/usePopover";
 import { Button } from "src/button";
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 import { Demo } from "style-guide/components/Demo";
 import { Modal, ModalContent, ModalOverlay } from "src/modal";
 

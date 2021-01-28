@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../Button";
-import { keyframes } from "@emotion/core";
+import { keyframes } from "@emotion/react";
 
 const move = keyframes`
    from {
