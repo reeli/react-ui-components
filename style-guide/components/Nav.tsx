@@ -61,7 +61,7 @@ export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
         <aside css={[{ background: theme === "dark" ? "#000" : "red" }, asideStyles]}>
           <div
             onClick={() => toggleTheme()}
-            css={css([
+            css={[
               navItemStyles,
               {
                 color: "#fff",
@@ -69,7 +69,7 @@ export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
                 textAlign: "right",
                 paddingRight: "1rem",
               },
-            ])}
+            ]}
           >
             Toggle Theme
           </div>
@@ -87,14 +87,14 @@ export const Nav = ({ routesConfig }: { routesConfig: RouteProps[] }) => {
                 <Link
                   to={routeConfig.path}
                   key={key}
-                  css={[
+                  css={css([
                     navItemStyles,
                     linkStyles,
                     {
                       ":hover,:focus": getActiveLinkStyles(theme),
                     },
                     routeConfig.path === location.pathname ? getActiveLinkStyles(theme) : {},
-                  ]}
+                  ])}
                 >
                   {routeConfig.path.split("/")[1]}
                 </Link>

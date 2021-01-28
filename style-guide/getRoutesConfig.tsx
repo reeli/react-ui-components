@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { map, startsWith } from "lodash";
 import * as React from "react";
 
 const req = (require as any).context("../src", true, /\/__examples__\/.*.tsx$/);
@@ -17,7 +17,9 @@ const filterDemosByKeys = (keys: string[]) => {
   });
 };
 
-export const routesConfig = filterDemosByKeys(req.keys()).map((key: string) => {
+const paths = req.keys().filter((key: string) => !startsWith(key, "src/"));
+
+export const routesConfig = filterDemosByKeys(paths).map((key: string) => {
   return {
     path: `/${key.split("/").reverse()[2]}`,
     component: renderComponent(req(key)),
