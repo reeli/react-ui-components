@@ -3,7 +3,9 @@ import React, { useRef, useState } from "react";
 // 1. css() 方法会创建一个 className， append 到 style 里面，因此对于动态计算的样式，最好放到 inline style 属性上，避免频繁的创建 css class（每当属性发生变化都会创建新的 class？如果样式属性不变，那么 re-render 时应该不会重新创建新的 class?）
 // 2. css point-event: none 表示鼠标事件“穿透”该元素并且指定该元素“下面”的任何东西
 
-export const Slider = ({ children, disabled, ...others }) => {
+// TODO: 增大 click 进度条时候的点击区域(增加一个透明背景层)
+
+export const Slider = ({ step = 5 }) => {
   const [startX, setStartX] = useState<number | null>(null);
   const [deltaX, setDeltaX] = useState(0);
   const totalWidth = 100;
@@ -13,7 +15,8 @@ export const Slider = ({ children, disabled, ...others }) => {
   const containerRef = useRef();
 
   const handleMove = (clientX: number) => {
-    const dx = Math.floor(clientX - startX);
+    const dx = Math.ceil(Math.floor(clientX - startX) / step) * step;
+
     if (dx <= 0) {
       setDeltaX(0);
       return;
@@ -61,7 +64,7 @@ export const Slider = ({ children, disabled, ...others }) => {
           }}
           onClick={(e) => {
             const containerRect = (containerRef.current as HTMLDivElement).getBoundingClientRect();
-            const dx = Math.floor(e.clientX - containerRect.left);
+            const dx = Math.ceil((e.clientX - containerRect.left) / step) * step;
 
             if (dx <= 0) {
               setDeltaX(0);
