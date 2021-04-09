@@ -4,7 +4,7 @@
   "description": "react ui components",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --config=webpack.config.ts --port=9001 --compress --open --history-api-fallback",
+    "start": "NODE_ENV=development webpack serve --config=webpack.config.ts --port=9001 --host=0.0.0.0 --compress --open --history-api-fallback",
     "test": "jest",
     "build": "webpack --config=webpack.config.ts",
     "watch": "tsc --watch"
