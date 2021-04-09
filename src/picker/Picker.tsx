@@ -5,8 +5,9 @@ interface Option {
   value: string;
 }
 
-interface MobileSelectProps {
+interface PickerProps {
   options: Option[];
+  onChange: (value?: string) => void;
 }
 
 // 注意：
@@ -14,12 +15,17 @@ interface MobileSelectProps {
 // 2. deltaY 需要加上上一次的偏移量，比如第一次滑动了 40px，第二次滑动时 deltaY 需要加上上一次的 40px，否则可能出现滑不动的情况
 // 3. setState deltaY 时需要更新 offsetYStartRef
 
-
-export const MobileSelect: React.FC<MobileSelectProps> = ({ options }) => {
+export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
   const itemHeight = 40;
   const containerHeight = 400;
   const offsetYStartRef = useRef<number>(0);
   const [deltaY, setDeltaY] = useState(0);
+
+  // const [index, setIndex] = useState(0);
+
+  const getValueByIdx = (index: number) => {
+    return options.find((_, idx) => index === idx)?.value;
+  };
 
   return (
     <div
@@ -45,6 +51,9 @@ export const MobileSelect: React.FC<MobileSelectProps> = ({ options }) => {
           offsetYStartRef.current = Math.floor(e.touches[0].clientY);
         }}
         onTouchMove={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // console.log(e.touches[0],'e.touches[0]')
           const currentY = Math.floor(e.touches[0].clientY);
           setDeltaY((prevDeltaY) => {
             const dY = prevDeltaY + (currentY - offsetYStartRef.current);
@@ -59,7 +68,27 @@ export const MobileSelect: React.FC<MobileSelectProps> = ({ options }) => {
             return dY;
           });
         }}
-        onTouchEnd={() => {}}
+        onTouchEnd={() => {
+          if (deltaY >= 0) {
+            setDeltaY(0);
+            // setIndex(0);
+            onChange(getValueByIdx(0));
+
+            return;
+          }
+          if (deltaY <= -(options.length - 1) * itemHeight) {
+            setDeltaY(-(options.length - 1) * itemHeight);
+            const idx = options.length - 1;
+            // setIndex(options.length - 1);
+            onChange(getValueByIdx(idx));
+            return;
+          }
+
+          const index = Math.round(deltaY / itemHeight);
+          setDeltaY(index * itemHeight);
+          // setIndex(Math.abs(index));
+          onChange(getValueByIdx(Math.abs(index)));
+        }}
       />
       <div
         className={"indicator"}
