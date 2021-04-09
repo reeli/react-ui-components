@@ -29,7 +29,7 @@ const webpackConfig: webpack.Configuration = {
     new HtmlWebpackPlugin({
       title: "React UI Components",
       template: "./index.html",
-    }),
+    }) as any,
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],

@@ -13,18 +13,17 @@ export class PickerDemo extends React.Component<any, any> {
     });
   };
 
+  list = new Array(20).fill("").map((_s, idx) => {
+    return {
+      label: `test value${idx}`,
+      value: idx,
+    };
+  });
+
   render() {
     return (
       <Picker
-        options={[
-          { label: "test value1", value: "0" },
-          { label: "bbb 1", value: "1" },
-          { label: "test value 2", value: "2" },
-          { label: "test value 3", value: "3" },
-          { label: "test value 4", value: "4" },
-          { label: "test value 5", value: "5" },
-          { label: "test value 6", value: "6" },
-        ]}
+        options={this.list as any}
         onChange={(v) => {
           console.log(v, "v");
         }}
