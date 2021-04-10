@@ -2,7 +2,7 @@ import { useToggle } from "src/core";
 import { animated, useTransition } from "react-spring";
 import { Button } from "src/button";
 import { Modal, ModalContent, ModalOverlay } from "src/modal";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Option, Picker } from "src/picker/Picker";
 import { range } from "lodash";
 
@@ -29,21 +29,28 @@ const toOptions = (data: number[], unit: string): Option[] => {
     };
   });
 };
-const getDateRange = (minDate: Date, maxDate: Date) => {
-  const getRealMonth = (date: Date) => date.getMonth() + 1;
 
+const getDateRange = (minDate: Date, maxDate: Date) => {
   return {
     years: toOptions(range(minDate.getFullYear(), maxDate.getFullYear() + 1), "年"),
-    months: toOptions(range(getRealMonth(minDate), getRealMonth(maxDate) + 1), "月"),
-    days: toOptions(range(minDate.getDate(), maxDate.getDate() + 1), "日"),
+    months: toOptions(range(1, 12 + 1), "月"),
+    days: toOptions(range(1, 31), "日"),
   };
 };
 
-type PickerValue = string | number | undefined;
+// const getDaysByYearMonth = (year: PickerValue, month: PickerValue) => {
+//   if (!year || !month) {
+//     return [];
+//   }
+//   const days = range(1, new Date(Number(year), Number(month), 0).getDate() + 1);
+//   return toOptions(days, "日");
+// };
+
+type PickerValue = string | undefined;
 
 export const DatePickerView: FC<PickerViewProps> = ({
   onChange,
-  value,
+  value = "",
   minDate = new Date("2000-01-01"),
   maxDate = new Date(),
 }) => {
@@ -56,7 +63,12 @@ export const DatePickerView: FC<PickerViewProps> = ({
   const [year, setYear] = useState<PickerValue>();
   const [month, setMonth] = useState<PickerValue>();
   const [day, setDay] = useState<PickerValue>();
-  const { years, months, days } = getDateRange(minDate, maxDate);
+  const dateRange = getDateRange(minDate, maxDate);
+  const [days] = useState(dateRange.days);
+
+  useEffect(() => {
+    // setDays(getDaysByYearMonth(year, month));
+  }, [year, month]);
 
   return (
     <div>
@@ -81,7 +93,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
                 </div>
                 <div css={{ display: "flex" }}>
                   <Picker
-                    options={years}
+                    options={dateRange.years}
                     onChange={(year) => {
                       setYear(year);
                     }}
@@ -89,7 +101,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
                     containerHeight={containerHeight}
                   />
                   <Picker
-                    options={months}
+                    options={dateRange.months}
                     onChange={(month) => {
                       setMonth(month);
                     }}
