@@ -100,7 +100,7 @@ const AnimatedModalContent = animated(ModalContent);
 
 export function ModalDemo4() {
   const [isOpen, open, close] = useToggle();
-  const transitions = useTransition(isOpen, null, {
+  const transitions = useTransition(isOpen, {
     from: { opacity: 0, transform: "scale(0)" },
     enter: { opacity: 1, transform: "scale(1)" },
     leave: { opacity: 0, transform: "scale(0)" },
@@ -113,8 +113,8 @@ export function ModalDemo4() {
   return (
     <Demo title={"Modal with Animation"}>
       <Button onClick={open}>Open Modal</Button>
-      {transitions.map(
-        ({ item, key, props: styles }) =>
+      {transitions(
+        (styles, item, _, key) =>
           item && (
             <Modal key={key}>
               <AnimatedModalOverlay style={{ opacity: styles.opacity }} onClick={close} />
