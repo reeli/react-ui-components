@@ -90,7 +90,7 @@ const PickerContent: FC<PickerViewProps & { close: () => void }> = ({
 
   return (
     <>
-      <div css={{ display: "flex", justifyContent: "space-between" }}>
+      <div css={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #ccc" }}>
         <div onClick={close} css={{ padding: 15, cursor: "pointer" }}>
           {CONSTANTS.cancel}
         </div>
@@ -143,9 +143,10 @@ export const DatePickerView: FC<PickerViewProps> = ({
 }) => {
   const [isOpen, open, close] = useToggle();
   const transitions = useTransition(isOpen, {
-    from: { opacity: 0, y: -containerHeight },
-    enter: { opacity: 1, y: 0 },
-    leave: { opacity: 0, y: -containerHeight },
+    from: { opacity: 0, transform: "translate3d(0, 100%, 0)" },
+    enter: { opacity: 1, transform: "translate3d(0, 0%, 0)" },
+    leave: { opacity: 0, transform: "translate3d(0, 100%, 0)" },
+    config: { mass: 1, tension: 320, friction: 35 },
   });
 
   return (
@@ -157,7 +158,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
           item && (
             <Modal key={key}>
               <AnimatedModalOverlay style={{ opacity: styles.opacity }} />
-              <AnimatedModalContent style={{ bottom: styles.y }}>
+              <AnimatedModalContent style={{ bottom: 0, transform: styles.transform }}>
                 <PickerContent value={value} onChange={onChange} minDate={minDate} maxDate={maxDate} close={close} />
               </AnimatedModalContent>
             </Modal>
