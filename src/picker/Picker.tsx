@@ -8,10 +8,10 @@ export interface Option {
   value: string;
 }
 
-export interface PickerProps {
+export interface PickerProps<TValue = string> {
   options: Option[];
-  onChange: (value?: string | number) => void;
-  value?: string | number;
+  onChange: (value?: TValue) => void;
+  value?: TValue;
   itemHeight?: number;
   containerHeight?: number;
   offsetItemCount?: number;

@@ -6,7 +6,7 @@ import { DatePickerView } from "src/picker/DatePickerView";
 const list = new Array(20).fill("").map((_s, idx) => {
   return {
     label: `test value${idx}`,
-    value: idx,
+    value: `${idx}`,
   };
 });
 
