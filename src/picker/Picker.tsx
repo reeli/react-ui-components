@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import { findIndex } from "lodash";
@@ -10,8 +10,8 @@ interface Option {
 
 interface PickerProps {
   options: Option[];
-  onChange: (value?: string) => void;
-  defaultValue?: string;
+  onChange: (value?: string | number) => void;
+  value?: string | number;
 }
 
 // 注意：
@@ -23,23 +23,17 @@ const getValueByIdx = (options: Option[], index: number) => {
   return options.find((_, idx) => index === idx)?.value;
 };
 
-const getIdxByValue = (options: Option[], val: string) => {
+const getIdxByValue = (options: Option[], val?: string | number) => {
   return findIndex(options, (op) => op.value === val);
 };
 
-export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue = options[0]?.value }) => {
+export const Picker: React.FC<PickerProps> = ({ options, onChange, value }) => {
   const itemHeight = 40;
   const containerWidth = 400;
   const containerHeight = 300;
   const offsetItemCount = 2;
-  const [{ y }, set] = useSpring(() => ({ y: -getIdxByValue(options, defaultValue) * itemHeight }));
+  const [{ y }, set] = useSpring(() => ({ y: -getIdxByValue(options, value) * itemHeight }));
   const offsetYRef = useRef(0);
-
-  const [value, setValue] = useState<string | undefined>(defaultValue);
-
-  useEffect(() => {
-    onChange(value);
-  }, [value]);
 
   const bind = useGesture({
     onDragStart: () => {
@@ -69,7 +63,7 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue 
 
       if (nextY >= 0) {
         set({ y: 0 });
-        setValue(getValueByIdx(options, 0));
+        onChange(getValueByIdx(options, 0));
 
         return;
       }
@@ -77,14 +71,14 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue 
         const idx = options.length - 1;
         set({ y: -(options.length - 1) * itemHeight });
 
-        setValue(getValueByIdx(options, idx));
+        onChange(getValueByIdx(options, idx));
         return;
       }
 
       const index = Math.round(nextY / itemHeight);
       set({ y: index * itemHeight });
 
-      setValue(getValueByIdx(options, Math.abs(index)));
+      onChange(getValueByIdx(options, Math.abs(index)));
     },
   });
 
