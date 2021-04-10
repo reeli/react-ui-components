@@ -50,6 +50,7 @@ export class PickerDemo1 extends React.Component<any, any> {
       <PickerView
         options={list as any}
         onChange={(v) => {
+          console.log(v, "v");
           this.setState({ value: v });
         }}
         value={this.state.value}
