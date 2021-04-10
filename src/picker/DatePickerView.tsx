@@ -48,6 +48,9 @@ const CONSTANTS = {
   year: "年",
   month: "月",
   day: "日",
+  cancel: "取消",
+  confirm: "确定",
+  title: "出生日期",
 };
 
 const formatDateYYYYMMDD = (date: Date) => {
@@ -84,16 +87,20 @@ const PickerContent: FC<PickerViewProps & { close: () => void }> = ({
 
   return (
     <>
-      <div>
-        <Button onClick={close}>cancel</Button>
-        <Button
+      <div css={{ display: "flex", justifyContent: "space-between" }}>
+        <div onClick={close} css={{ padding: 15, cursor: "pointer" }}>
+          {CONSTANTS.cancel}
+        </div>
+        <div css={{ padding: 15 }}>{CONSTANTS.title}</div>
+        <div
           onClick={() => {
             onChange && onChange(new Date([year, month, day] as any));
             close();
           }}
+          css={{ color: "#429DFE", padding: 15, cursor: "pointer" }}
         >
-          confirm
-        </Button>
+          {CONSTANTS.confirm}
+        </div>
       </div>
       <div css={{ display: "flex" }}>
         <Picker

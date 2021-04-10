@@ -11,7 +11,7 @@ const modalOverlayStyles = css({
   left: 0,
   bottom: 0,
   right: 0,
-  background: "rgba(0,0,0,0.65)",
+  background: "rgba(0,0,0,0.35)",
 });
 
 export const ModalOverlay = ({ onClick, ...otherProps }: IModalOverlayProps & React.HTMLAttributes<any>) => (
