@@ -57,7 +57,6 @@ export class PickerDemo2 extends React.Component<any, any> {
       <DatePickerView
         value={this.state.value}
         onChange={(value) => {
-          alert(value);
           console.log(value, "selected date");
           this.setState({
             value,
