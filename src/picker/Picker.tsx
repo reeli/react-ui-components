@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
 
@@ -10,6 +10,7 @@ interface Option {
 interface PickerProps {
   options: Option[];
   onChange: (value?: string) => void;
+  defaultValue?: string;
 }
 
 // 注意：
@@ -17,12 +18,19 @@ interface PickerProps {
 // 2. deltaY 需要加上上一次的偏移量，比如第一次滑动了 40px，第二次滑动时 deltaY 需要加上上一次的 40px，否则可能出现滑不动的情况
 // 3. setState deltaY 时需要更新 offsetYStartRef
 
-export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
+export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue = options[0]?.value }) => {
   const itemHeight = 40;
-  const containerHeight = 400;
+  const containerWidth = 400;
+  const containerHeight = 300;
   const offsetItemCount = 2;
   const [{ y }, set] = useSpring(() => ({ y: 0 }));
   const offsetYRef = useRef(0);
+
+  const [value, setValue] = useState<string | undefined>(defaultValue);
+
+  useEffect(() => {
+    onChange(value);
+  }, [value]);
 
   const bind = useGesture({
     onDragStart: () => {
@@ -44,8 +52,6 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
       let nextY = offsetYRef.current + movement[1];
 
       if (elapsedTime < 200) {
-        console.log(movement[1] / elapsedTime, "v");
-
         // 惯性 v = s/t
         // https://github.com/Tencent/weui.js/blob/master/src/picker/scroll.js#L176
         // 要实现惯性效果，需要计算出到达指定 item 之后额外运行的距离 d, d = v* 150(magic number)
@@ -54,7 +60,7 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
 
       if (nextY >= 0) {
         set({ y: 0 });
-        onChange(getValueByIdx(0));
+        setValue(getValueByIdx(0));
 
         return;
       }
@@ -62,14 +68,14 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
         const idx = options.length - 1;
         set({ y: -(options.length - 1) * itemHeight });
 
-        onChange(getValueByIdx(idx));
+        setValue(getValueByIdx(idx));
         return;
       }
 
       const index = Math.round(nextY / itemHeight);
       set({ y: index * itemHeight });
 
-      onChange(getValueByIdx(Math.abs(index)));
+      setValue(getValueByIdx(Math.abs(index)));
     },
   });
 
@@ -83,9 +89,9 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
     <div
       css={{
         position: "relative",
-        width: 500,
+        width: containerWidth,
         height: containerHeight,
-        border: "1px solid blue",
+        border: "1px solid #ccc",
         overflow: "hidden",
         touchAction: "none",
       }}
@@ -98,8 +104,13 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
           height: "100%",
           left: 0,
           zIndex: 3,
-          backgroundColor: "rgba(0,0,0,0.3)",
+          // backgroundColor: "rgba(0,0,0,0.3)",
+          backgroundImage:
+            "linear-gradient(180deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),linear-gradient(0deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6))",
+          backgroundPosition: "top,bottom",
+          backgroundRepeat: "no-repeat",
         }}
+        style={{ backgroundSize: `100% ${containerHeight / 2 - itemHeight / 2}px` }}
         {...bind()}
       />
       <div
@@ -110,8 +121,10 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
           transform: "translateY(-50%)",
           width: "100%",
           height: itemHeight,
-          border: "1px solid red",
-          zIndex: 2,
+          borderTop: "1px solid #ccc",
+          borderBottom: "1px solid #ccc",
+          zIndex: 3,
+          pointerEvents: "none",
         }}
       />
       <animated.div
@@ -122,17 +135,23 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange }) => {
           top: containerHeight / 2 - itemHeight / 2,
           left: 0,
           zIndex: 1,
-          backgroundColor: "pink",
+          // backgroundColor: "pink",
         }}
         style={{ y }}
       >
-        {options.map((option, index) => {
-          return (
-            <div css={{ height: itemHeight, lineHeight: `${itemHeight}px` }} key={index}>
-              {option.label}
-            </div>
-          );
-        })}
+        {options.map((option, index) => (
+          <div
+            css={{
+              height: itemHeight,
+              lineHeight: `${itemHeight}px`,
+              textAlign: "center",
+            }}
+            key={index}
+            style={{ fontSize: option.value === value ? "17px" : "16px" }}
+          >
+            {option.label}
+          </div>
+        ))}
       </animated.div>
     </div>
   );
