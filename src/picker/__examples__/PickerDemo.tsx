@@ -58,6 +58,7 @@ export class PickerDemo2 extends React.Component<any, any> {
         value={this.state.value}
         onChange={(value) => {
           alert(value);
+          console.log(value, "selected date");
           this.setState({
             value,
           });
