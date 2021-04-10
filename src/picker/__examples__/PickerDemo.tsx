@@ -27,6 +27,7 @@ export class PickerDemo extends React.Component<any, any> {
         onChange={(v) => {
           console.log(v, "v");
         }}
+        defaultValue={this.list[5].value as any}
       />
     );
   }

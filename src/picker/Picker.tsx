@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
+import { findIndex } from "lodash";
 
 interface Option {
   label: string;
@@ -18,12 +19,20 @@ interface PickerProps {
 // 2. deltaY 需要加上上一次的偏移量，比如第一次滑动了 40px，第二次滑动时 deltaY 需要加上上一次的 40px，否则可能出现滑不动的情况
 // 3. setState deltaY 时需要更新 offsetYStartRef
 
+const getValueByIdx = (options: Option[], index: number) => {
+  return options.find((_, idx) => index === idx)?.value;
+};
+
+const getIdxByValue = (options: Option[], val: string) => {
+  return findIndex(options, (op) => op.value === val);
+};
+
 export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue = options[0]?.value }) => {
   const itemHeight = 40;
   const containerWidth = 400;
   const containerHeight = 300;
   const offsetItemCount = 2;
-  const [{ y }, set] = useSpring(() => ({ y: 0 }));
+  const [{ y }, set] = useSpring(() => ({ y: -getIdxByValue(options, defaultValue) * itemHeight }));
   const offsetYRef = useRef(0);
 
   const [value, setValue] = useState<string | undefined>(defaultValue);
@@ -60,7 +69,7 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue 
 
       if (nextY >= 0) {
         set({ y: 0 });
-        setValue(getValueByIdx(0));
+        setValue(getValueByIdx(options, 0));
 
         return;
       }
@@ -68,22 +77,18 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange, defaultValue 
         const idx = options.length - 1;
         set({ y: -(options.length - 1) * itemHeight });
 
-        setValue(getValueByIdx(idx));
+        setValue(getValueByIdx(options, idx));
         return;
       }
 
       const index = Math.round(nextY / itemHeight);
       set({ y: index * itemHeight });
 
-      setValue(getValueByIdx(Math.abs(index)));
+      setValue(getValueByIdx(options, Math.abs(index)));
     },
   });
 
   // const [index, setIndex] = useState(0);
-
-  const getValueByIdx = (index: number) => {
-    return options.find((_, idx) => index === idx)?.value;
-  };
 
   return (
     <div
