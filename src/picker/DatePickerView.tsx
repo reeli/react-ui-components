@@ -57,19 +57,13 @@ const formatDateYYYYMMDD = (date: Date) => {
   return [date.getFullYear(), (mm > 9 ? "" : "0") + mm, (dd > 9 ? "" : "0") + dd].join("-");
 };
 
-export const DatePickerView: FC<PickerViewProps> = ({
+const PickerContent: FC<PickerViewProps & { close: () => void }> = ({
   onChange,
   value = new Date(),
   minDate = new Date("2000-01-01"),
   maxDate = new Date(),
+  close,
 }) => {
-  const [isOpen, open, close] = useToggle();
-  const transitions = useTransition(isOpen, {
-    from: { opacity: 0, y: -containerHeight },
-    enter: { opacity: 1, y: 0 },
-    leave: { opacity: 0, y: -containerHeight },
-  });
-
   const [year, setYear] = useState<PickerValue>(`${value?.getFullYear()}`);
   const correctMonth = value.getMonth() + 1;
   const [month, setMonth] = useState<PickerValue>(`${correctMonth}`);
@@ -89,6 +83,62 @@ export const DatePickerView: FC<PickerViewProps> = ({
   }, [year, month]);
 
   return (
+    <>
+      <div>
+        <Button onClick={close}>cancel</Button>
+        <Button
+          onClick={() => {
+            onChange && onChange(new Date([year, month, day] as any));
+            close();
+          }}
+        >
+          confirm
+        </Button>
+      </div>
+      <div css={{ display: "flex" }}>
+        <Picker
+          options={getYearRange(minDate, maxDate, CONSTANTS.year)}
+          onChange={(year) => {
+            setYear(year);
+          }}
+          value={year}
+          containerHeight={containerHeight}
+        />
+        <Picker
+          options={getMonths(12, CONSTANTS.month)}
+          onChange={(month) => {
+            setMonth(month);
+          }}
+          value={month}
+          containerHeight={containerHeight}
+        />
+        <Picker
+          options={days}
+          onChange={(day) => {
+            setDay(day);
+          }}
+          value={day}
+          containerHeight={containerHeight}
+        />
+      </div>
+    </>
+  );
+};
+
+export const DatePickerView: FC<PickerViewProps> = ({
+  onChange,
+  value = new Date(),
+  minDate = new Date("2000-01-01"),
+  maxDate = new Date(),
+}) => {
+  const [isOpen, open, close] = useToggle();
+  const transitions = useTransition(isOpen, {
+    from: { opacity: 0, y: -containerHeight },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: -containerHeight },
+  });
+
+  return (
     <div>
       <Button onClick={open}>Date Picker</Button>
       <div>{formatDateYYYYMMDD(value)}</div>
@@ -98,43 +148,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
             <Modal key={key}>
               <AnimatedModalOverlay style={{ opacity: styles.opacity }} />
               <AnimatedModalContent style={{ bottom: styles.y }}>
-                <div>
-                  <Button onClick={close}>cancel</Button>
-                  <Button
-                    onClick={() => {
-                      onChange && onChange(new Date([year, month, day] as any));
-                      close();
-                    }}
-                  >
-                    confirm
-                  </Button>
-                </div>
-                <div css={{ display: "flex" }}>
-                  <Picker
-                    options={getYearRange(minDate, maxDate, CONSTANTS.year)}
-                    onChange={(year) => {
-                      setYear(year);
-                    }}
-                    value={year}
-                    containerHeight={containerHeight}
-                  />
-                  <Picker
-                    options={getMonths(12, CONSTANTS.month)}
-                    onChange={(month) => {
-                      setMonth(month);
-                    }}
-                    value={month}
-                    containerHeight={containerHeight}
-                  />
-                  <Picker
-                    options={days}
-                    onChange={(day) => {
-                      setDay(day);
-                    }}
-                    value={day}
-                    containerHeight={containerHeight}
-                  />
-                </div>
+                <PickerContent value={value} onChange={onChange} minDate={minDate} maxDate={maxDate} close={close} />
               </AnimatedModalContent>
             </Modal>
           ),
