@@ -73,15 +73,18 @@ const PickerContent: FC<PickerViewProps & { close: () => void }> = ({
   const prevMonth = usePrevious(month);
   const prevYear = usePrevious(year);
 
-  const startOfDay = `1`;
   const [day, setDay] = useState<PickerValue>(`${value?.getDate()}`);
   const [days, setDays] = useState(getDays(value.getFullYear(), correctMonth));
 
   useEffect(() => {
     if (prevMonth && prevYear && (prevMonth !== month || prevYear !== year)) {
       // TODO: resolve type issue
+      const nextDays = getDays(year as any, month as any);
       setDays(getDays(year as any, month as any));
-      setDay(startOfDay);
+      const maxDay = Number(nextDays[nextDays.length - 1].value);
+      if (Number(day) > maxDay) {
+        setDay(`${maxDay}`);
+      }
     }
   }, [year, month]);
 
