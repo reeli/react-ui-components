@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import { findIndex } from "lodash";
@@ -40,6 +40,10 @@ export const Picker: React.FC<PickerProps> = ({
 }) => {
   const [{ y }, set] = useSpring(() => ({ y: -getIdxByValue(options, value) * itemHeight }));
   const offsetYRef = useRef(0);
+
+  useEffect(() => {
+    set({ y: -getIdxByValue(options, value) * itemHeight });
+  }, [value]);
 
   const bind = useGesture({
     onDragStart: () => {
