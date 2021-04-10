@@ -1,4 +1,4 @@
-import { useToggle } from "src/core";
+import { usePrevious, useToggle } from "src/core";
 import { animated, useTransition } from "react-spring";
 import { Button } from "src/button";
 import { Modal, ModalContent, ModalOverlay } from "src/modal";
@@ -50,6 +50,13 @@ const CONSTANTS = {
   day: "日",
 };
 
+const formatDateYYYYMMDD = (date: Date) => {
+  const mm = date.getMonth() + 1; // getMonth() is zero-based
+  const dd = date.getDate();
+
+  return [date.getFullYear(), (mm > 9 ? "" : "0") + mm, (dd > 9 ? "" : "0") + dd].join("-");
+};
+
 export const DatePickerView: FC<PickerViewProps> = ({
   onChange,
   value = new Date(),
@@ -64,15 +71,19 @@ export const DatePickerView: FC<PickerViewProps> = ({
   });
 
   const [year, setYear] = useState<PickerValue>(`${value?.getFullYear()}`);
-  const correctMonth = value.getMonth() - 1;
+  const correctMonth = value.getMonth() + 1;
   const [month, setMonth] = useState<PickerValue>(`${correctMonth}`);
+  const prevMonth = usePrevious(month);
+  const prevYear = usePrevious(year);
+
   const startOfDay = `1`;
   const [day, setDay] = useState<PickerValue>(`${value?.getDate()}`);
   const [days, setDays] = useState(getDays(value.getFullYear(), correctMonth));
 
   useEffect(() => {
-    if (year !== undefined && month !== undefined) {
-      setDays(getDays(year, month));
+    if (prevMonth && prevYear && (prevMonth !== month || prevYear !== year)) {
+      // TODO: resolve type issue
+      setDays(getDays(year as any, month as any));
       setDay(startOfDay);
     }
   }, [year, month]);
@@ -80,11 +91,12 @@ export const DatePickerView: FC<PickerViewProps> = ({
   return (
     <div>
       <Button onClick={open}>Date Picker</Button>
+      <div>{formatDateYYYYMMDD(value)}</div>
       {transitions(
         (styles, item, _, key) =>
           item && (
             <Modal key={key}>
-              <AnimatedModalOverlay style={{ opacity: styles.opacity }} onClick={close} />
+              <AnimatedModalOverlay style={{ opacity: styles.opacity }} />
               <AnimatedModalContent style={{ bottom: styles.y }}>
                 <div>
                   <Button onClick={close}>cancel</Button>
