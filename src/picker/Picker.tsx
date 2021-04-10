@@ -8,10 +8,13 @@ interface Option {
   value: string;
 }
 
-interface PickerProps {
+export interface PickerProps {
   options: Option[];
   onChange: (value?: string | number) => void;
   value?: string | number;
+  itemHeight?: number;
+  containerHeight?: number;
+  offsetItemCount?: number;
 }
 
 // 注意：
@@ -27,11 +30,14 @@ const getIdxByValue = (options: Option[], val?: string | number) => {
   return findIndex(options, (op) => op.value === val);
 };
 
-export const Picker: React.FC<PickerProps> = ({ options, onChange, value }) => {
-  const itemHeight = 40;
-  const containerWidth = 400;
-  const containerHeight = 300;
-  const offsetItemCount = 2;
+export const Picker: React.FC<PickerProps> = ({
+  options,
+  onChange,
+  value,
+  itemHeight = 40,
+  containerHeight = 300,
+  offsetItemCount = 3,
+}) => {
   const [{ y }, set] = useSpring(() => ({ y: -getIdxByValue(options, value) * itemHeight }));
   const offsetYRef = useRef(0);
 
@@ -88,7 +94,7 @@ export const Picker: React.FC<PickerProps> = ({ options, onChange, value }) => {
     <div
       css={{
         position: "relative",
-        width: containerWidth,
+        width: "100%",
         height: containerHeight,
         border: "1px solid #ccc",
         overflow: "hidden",
