@@ -49,7 +49,7 @@ export class PickerDemo1 extends React.Component<any, any> {
 
 export class PickerDemo2 extends React.Component<any, any> {
   state = {
-    value: new Date(2012, 1, 20),
+    value: new Date(2012, 0, 20),
   };
 
   render() {
