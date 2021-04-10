@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from "react";
+import React from "react";
 import { Tooltip } from "../Tooltip";
 import { Placement } from "src/core";
 import { Button } from "src/button";
@@ -29,7 +29,7 @@ export function TooltipDemo2() {
 
 export function TooltipDemo3() {
   const [Trigger, Content, , , isOpen] = useTooltip();
-  const transitions = useTransition(isOpen, null, {
+  const transitions = useTransition(isOpen, {
     from: { opacity: 0, transform: "scale(0)" },
     enter: { opacity: 1, transform: "scale(1)" },
     leave: { opacity: 0, transform: "scale(0)" },
@@ -40,8 +40,8 @@ export function TooltipDemo3() {
       <Trigger>
         <Button>Hover me</Button>
       </Trigger>
-      {transitions.map(
-        ({ item, key, props: styles }) =>
+      {transitions(
+        (styles, item, _, key) =>
           item && (
             <Content key={key}>
               <TooltipContent style={styles} placement={"right"} />
@@ -141,8 +141,8 @@ const getStyles = (placement: TPlacement) => {
   return leftStyles;
 };
 
-const TooltipContent = ({ placement = "left", ...otherProps }: { placement?: TPlacement } & HTMLAttributes<any>) => (
-  <animated.div css={tooltipsStyles} data-role="tooltip" {...otherProps}>
+const TooltipContent = ({ placement = "left", style, ...otherProps }: { style?: any; placement?: TPlacement }) => (
+  <animated.div css={tooltipsStyles} data-role="tooltip" style={style} {...otherProps}>
     <div css={[arrowUp, getStyles(placement)]} />
     <div css={tooltipsInnerStyles}>
       <div>Some Hint</div>
