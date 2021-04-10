@@ -30,27 +30,29 @@ const toOptions = (data: number[], unit: string): Option[] => {
   });
 };
 
-const getDateRange = (minDate: Date, maxDate: Date) => {
-  return {
-    years: toOptions(range(minDate.getFullYear(), maxDate.getFullYear() + 1), "年"),
-    months: toOptions(range(1, 12 + 1), "月"),
-    days: toOptions(range(1, 31), "日"),
-  };
+const getYearRange = (minDate: Date, maxDate: Date, unit: string) =>
+  toOptions(range(minDate.getFullYear(), maxDate.getFullYear() + 1), unit);
+
+const getDays = (year: string | number, month: string | number) => {
+  const days = range(1, new Date(Number(year), Number(month), 0).getDate() + 1);
+  return toOptions(days, "日");
 };
 
-// const getDaysByYearMonth = (year: PickerValue, month: PickerValue) => {
-//   if (!year || !month) {
-//     return [];
-//   }
-//   const days = range(1, new Date(Number(year), Number(month), 0).getDate() + 1);
-//   return toOptions(days, "日");
-// };
+const getMonths = (maxMonth = 12, unit: string) => {
+  return toOptions(range(1, maxMonth + 1), unit);
+};
 
 type PickerValue = string | undefined;
 
+const CONSTANTS = {
+  year: "年",
+  month: "月",
+  day: "日",
+};
+
 export const DatePickerView: FC<PickerViewProps> = ({
   onChange,
-  value = "",
+  value = new Date(),
   minDate = new Date("2000-01-01"),
   maxDate = new Date(),
 }) => {
@@ -60,20 +62,24 @@ export const DatePickerView: FC<PickerViewProps> = ({
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: -containerHeight },
   });
-  const [year, setYear] = useState<PickerValue>();
-  const [month, setMonth] = useState<PickerValue>();
-  const [day, setDay] = useState<PickerValue>();
-  const dateRange = getDateRange(minDate, maxDate);
-  const [days] = useState(dateRange.days);
+
+  const [year, setYear] = useState<PickerValue>(`${value?.getFullYear()}`);
+  const correctMonth = value.getMonth() - 1;
+  const [month, setMonth] = useState<PickerValue>(`${correctMonth}`);
+  const startOfDay = `1`;
+  const [day, setDay] = useState<PickerValue>(`${value?.getDate()}`);
+  const [days, setDays] = useState(getDays(value.getFullYear(), correctMonth));
 
   useEffect(() => {
-    // setDays(getDaysByYearMonth(year, month));
+    if (year !== undefined && month !== undefined) {
+      setDays(getDays(year, month));
+      setDay(startOfDay);
+    }
   }, [year, month]);
 
   return (
     <div>
       <Button onClick={open}>Date Picker</Button>
-      <div>{value}</div>
       {transitions(
         (styles, item, _, key) =>
           item && (
@@ -84,7 +90,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
                   <Button onClick={close}>cancel</Button>
                   <Button
                     onClick={() => {
-                      onChange && onChange();
+                      onChange && onChange(new Date([year, month, day] as any));
                       close();
                     }}
                   >
@@ -93,7 +99,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
                 </div>
                 <div css={{ display: "flex" }}>
                   <Picker
-                    options={dateRange.years}
+                    options={getYearRange(minDate, maxDate, CONSTANTS.year)}
                     onChange={(year) => {
                       setYear(year);
                     }}
@@ -101,7 +107,7 @@ export const DatePickerView: FC<PickerViewProps> = ({
                     containerHeight={containerHeight}
                   />
                   <Picker
-                    options={dateRange.months}
+                    options={getMonths(12, CONSTANTS.month)}
                     onChange={(month) => {
                       setMonth(month);
                     }}
