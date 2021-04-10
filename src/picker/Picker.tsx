@@ -3,7 +3,7 @@ import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import { findIndex } from "lodash";
 
-interface Option {
+export interface Option {
   label: string;
   value: string;
 }
@@ -33,7 +33,7 @@ const getIdxByValue = (options: Option[], val?: string | number) => {
 export const Picker: React.FC<PickerProps> = ({
   options,
   onChange,
-  value,
+  value = options[0].value,
   itemHeight = 40,
   containerHeight = 300,
   offsetItemCount = 3,
@@ -96,7 +96,7 @@ export const Picker: React.FC<PickerProps> = ({
         position: "relative",
         width: "100%",
         height: containerHeight,
-        border: "1px solid #ccc",
+        // border: "1px solid #ccc",
         overflow: "hidden",
         touchAction: "none",
       }}

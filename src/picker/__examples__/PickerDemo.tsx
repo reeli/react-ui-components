@@ -1,7 +1,7 @@
 import React from "react";
-import { IListingItem } from "../../listing/Listing";
 import { Picker } from "src/picker/Picker";
 import { PickerView } from "src/picker/PickerView";
+import { DatePickerView } from "src/picker/DatePickerView";
 
 const list = new Array(20).fill("").map((_s, idx) => {
   return {
@@ -13,12 +13,6 @@ const list = new Array(20).fill("").map((_s, idx) => {
 export class PickerDemo extends React.Component<any, any> {
   state = {
     value: list[0].value,
-  };
-
-  handleItemClick = (_: any, item: IListingItem) => {
-    this.setState({
-      value: item.value ? item.display : "",
-    });
   };
 
   render() {
@@ -39,12 +33,6 @@ export class PickerDemo1 extends React.Component<any, any> {
     value: list[0].value,
   };
 
-  handleItemClick = (_: any, item: IListingItem) => {
-    this.setState({
-      value: item.value ? item.display : "",
-    });
-  };
-
   render() {
     return (
       <PickerView
@@ -56,5 +44,11 @@ export class PickerDemo1 extends React.Component<any, any> {
         value={this.state.value}
       />
     );
+  }
+}
+
+export class PickerDemo2 extends React.Component<any, any> {
+  render() {
+    return <DatePickerView />;
   }
 }
