@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../Button";
 import { keyframes } from "@emotion/react";
+import { sendMessage } from "src/notification/Message";
 
 const move = keyframes`
    from {
@@ -28,7 +29,13 @@ export class ButtonDemo extends React.Component<any, any> {
             }}
           />
         </svg>
-        <Button>button1</Button>
+        <Button
+          onClick={() => {
+            sendMessage("click me!");
+          }}
+        >
+          button1
+        </Button>
       </div>
     );
   }
