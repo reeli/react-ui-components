@@ -4,6 +4,7 @@ import { useGesture } from "react-use-gesture";
 import { findIndex } from "lodash";
 
 export interface Option {
+  id?: string;
   label: string;
   value: string;
 }

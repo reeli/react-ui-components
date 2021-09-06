@@ -2,8 +2,10 @@ import React, { forwardRef } from "react";
 import { css } from "@emotion/react";
 
 interface IInputProps {
+  name: string;
   value?: string;
   onChange?: (evt: React.ChangeEvent<HTMLInputElement>, value: any) => any;
+  onBlur?: (evt: React.FocusEvent<HTMLInputElement>, value: any) => any;
   type?: "text" | "number" | "checkbox" | "radio";
   onClick?: (evt: React.MouseEvent<HTMLInputElement>, value: any) => any;
   placeholder?: string;
@@ -27,7 +29,10 @@ const inputStyles = css({
 // 基础组件最好都加上 forwardRef，如果不加很可能出错。
 // Input 这里必须使用 forwardRef，是因为当用做 OverlayTrigger 的 children 时，需要通过 HTMLElement 去计算 clientRect。
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
-  ({ type = "text", value, placeholder = "", onChange, onClick, readOnly = false, autoFocus = false }, ref) => {
+  (
+    { name, type = "text", value, placeholder = "", onChange, onBlur, onClick, readOnly = false, autoFocus = false },
+    ref,
+  ) => {
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
       onChange && onChange(evt, evt.target.value);
     };
@@ -39,16 +44,23 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
       }
     };
 
+    const handleBlur = (evt: React.FocusEvent<HTMLInputElement>) => {
+      onBlur && onBlur(evt, evt.target.value);
+    };
+
     return (
       <input
+        name={name}
         type={type}
         value={value}
         onChange={handleChange}
+        onBlur={handleBlur}
         onClick={handleClick}
         placeholder={placeholder}
         readOnly={readOnly}
         ref={ref}
         autoFocus={autoFocus}
+        autoComplete={"off"}
         css={[inputStyles, { cursor: readOnly ? "pointer" : "default" }]}
       />
     );

@@ -22,7 +22,7 @@ export function DatePicker() {
   return (
     <>
       <div ref={triggerEl}>
-        <Input value={value} onClick={() => setOpen(!open)} placeholder={"Choose a date..."} />
+        <Input value={value} onClick={() => setOpen(!open)} placeholder={"Choose a date..."} name={""} />
       </div>
       {open && (
         <Portal>
@@ -30,7 +30,7 @@ export function DatePicker() {
             <div ref={contentEl}>
               <Calendar
                 selectedValue={value}
-                onSelect={val => {
+                onSelect={(val) => {
                   setValue(val);
                   return setOpen(false);
                 }}

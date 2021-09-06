@@ -51,7 +51,7 @@ export const SelectWithTags: React.FC<ISelectWithTagsProps> = ({
 
   return (
     <div css={triggerElementWrapperStyles}>
-      <Input placeholder={!isEmpty(selectedValues) ? "" : placeholder} onClick={onClick} readOnly />
+      <Input placeholder={!isEmpty(selectedValues) ? "" : placeholder} onClick={onClick} readOnly name={""} />
       <div css={tagsWrapperStyles}>
         {map(options, (option: ISelectOption) => {
           return (

@@ -34,7 +34,7 @@ export const Select: React.FC<ISelectProps> = ({ placeholder, data, value, onIte
       placement={Placement.bottomLeft}
       visible={visible}
     >
-      <Input value={value} placeholder={placeholder} onClick={open} readOnly={true} />
+      <Input value={value} placeholder={placeholder} onClick={open} readOnly={true} name={""} />
     </OverlayTrigger>
   );
 };

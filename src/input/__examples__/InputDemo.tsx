@@ -13,6 +13,8 @@ export class InputDemo extends React.Component<any, any> {
   };
 
   render() {
-    return <Input value={this.state.value} placeholder="placeholder..." onChange={this.handleChange} />;
+    return (
+      <Input name={"demoInput"} value={this.state.value} placeholder="placeholder..." onChange={this.handleChange} />
+    );
   }
 }
