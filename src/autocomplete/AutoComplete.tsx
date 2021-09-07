@@ -12,44 +12,62 @@ interface AutoCompleteProps {
   options: Option[];
 }
 
-export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options, placeholder }) => {
+export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options, onChange, placeholder }) => {
   const inputEl = useRef(null);
   const contentEl = useRef(null);
   const [isOpen, open, close] = useToggle();
   const position = usePosition(inputEl, contentEl, Placement.bottomLeft, [isOpen]);
   const [inputValue, setInputValue] = useState<string>(value);
+  const inputValueRef = useRef(inputValue);
   const [matchedOptions, setMatchedOptions] = useState(options);
+  const optionsRef = useRef(options);
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      console.log("on blur");
+      const matchedItem = optionsRef.current.find((v) => v.label === inputValueRef.current);
+      if (matchedItem) {
+        console.log("should notify");
+        onChange(matchedItem.value);
+        close();
+      } else {
+        setInputValue("");
+        close();
+      }
+    }, 100);
+  };
+
+  const handleInputChange = (_: unknown, value: string) => {
+    setInputValue(value);
+    inputValueRef.current = value;
+    const nextOptions = options.filter((v) => v.label.includes(value));
+    setMatchedOptions(nextOptions);
+  };
+
+  const handleInputClick = () => {
+    if (isOpen) {
+      return;
+    }
+    open();
+    setMatchedOptions(options);
+  };
+
+  const handleItemClick = (option: Option) => {
+    console.log("on clicked");
+    inputValueRef.current = option.label;
+    setInputValue(option.label);
+  };
 
   return (
-    <div>
+    <>
       <Input
+        ref={inputEl}
         name={name}
         placeholder={placeholder}
         value={inputValue}
-        onChange={(_, value) => {
-          setInputValue(value);
-          const nextOptions = options.filter((v) => v.label.includes(value));
-          setMatchedOptions(nextOptions);
-        }}
-        onBlur={() => {
-          console.log("onBlur");
-          const matchedItem = options.find((v) => v.label === inputValue);
-          if (matchedItem) {
-            // onChange(matchedItem.value);
-            // close();
-          } else {
-            // setInputValue("");
-            // close();
-          }
-        }}
-        ref={inputEl}
-        onClick={() => {
-          if (isOpen) {
-            return;
-          }
-          open();
-          setMatchedOptions(options);
-        }}
+        onChange={handleInputChange}
+        onBlur={handleBlur}
+        onClick={handleInputClick}
       />
       {isOpen && (
         <Portal>
@@ -63,13 +81,7 @@ export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options,
           >
             <div>
               {matchedOptions.map((option, idx) => (
-                <div
-                  onClick={() => {
-                    setInputValue(option.label);
-                    close();
-                  }}
-                  key={option.id || idx}
-                >
+                <div key={option.id || idx} onClick={() => handleItemClick(option)}>
                   {option.label}
                 </div>
               ))}
@@ -78,6 +90,6 @@ export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options,
           </div>
         </Portal>
       )}
-    </div>
+    </>
   );
 };
