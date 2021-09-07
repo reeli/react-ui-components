@@ -32,23 +32,23 @@ export function AutocompleteDemo() {
 const options = [
   {
     label: "rui",
-    value: "111",
+    value: "rui",
   },
   {
     label: "rui1",
-    value: "111",
+    value: "rui1",
   },
   {
     label: "rui2",
-    value: "111",
+    value: "rui2",
   },
   {
     label: "tony",
-    value: "222",
+    value: "tony",
   },
   {
     label: "tony2",
-    value: "222",
+    value: "tony2",
   },
 ];
 
@@ -59,7 +59,7 @@ export function AutocompleteDemo1() {
       options={options}
       placeholder={"Please type some text..."}
       onChange={(value) => {
-        console.log(value);
+        console.log(value, "value in onchange");
       }}
     />
   );
