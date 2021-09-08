@@ -50,6 +50,14 @@ const options = [
     label: "tony2",
     value: "tony2",
   },
+  {
+    label: "tony3",
+    value: "tony3",
+  },
+  {
+    label: "tony4",
+    value: "tony4",
+  },
 ];
 
 export function AutocompleteDemo1() {
