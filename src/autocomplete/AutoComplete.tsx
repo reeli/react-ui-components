@@ -27,7 +27,7 @@ interface AutoCompleteProps {
 // ref: https://github.com/mui-org/material-ui/blob/next/packages/mui-core/src/AutocompleteUnstyled/useAutocomplete.js#L914
 
 export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options, onChange, placeholder }) => {
-  const inputEl = useRef(null);
+  const inputEl = useRef<HTMLInputElement>(null);
   const contentEl = useRef(null);
   const [isOpen, open, close] = useToggle();
   const position = usePosition(inputEl, contentEl, Placement.bottomLeft, [isOpen]);
@@ -85,11 +85,11 @@ export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options,
     setMatchedOptions(options);
   };
 
-  const handleItemClick = (evt: MouseEvent<HTMLDivElement>, option: Option) => {
+  const handleItemClick = (_: MouseEvent<HTMLDivElement>, option: Option) => {
     // console.log("on click");
     // inputValueRef.current = option.label;
     setInputValue(option.label);
-    (evt.target as HTMLDivElement).focus();
+    inputEl.current && (inputEl.current as HTMLInputElement).blur();
     // close();
   };
 
@@ -110,6 +110,10 @@ export const AutoComplete: FC<AutoCompleteProps> = ({ name, value = "", options,
         onChange={handleInputChange}
         onBlur={handleBlur}
         onClick={handleInputClick}
+        onEnter={(evt) => {
+          console.log(evt.key, "evt.key");
+          inputEl.current && inputEl.current.blur();
+        }}
       />
       {isOpen && (
         <Portal>
