@@ -105,6 +105,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.1.4",
+    "date-fns": "^2.23.0",
     "invariant": "^2.2.4",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
