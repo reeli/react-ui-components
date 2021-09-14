@@ -4,6 +4,7 @@ import { Calendar } from "./Calendar";
 import { Placement } from "src/core/utils/getPlacement";
 import { Input } from "../input/Input";
 import { Position } from "src/core/components/Position";
+import { useOutSideClick, useRefValue } from "../core";
 
 export function DatePicker() {
   const triggerEl = useRef(null);
@@ -14,8 +15,6 @@ export function DatePicker() {
   //   setOpen(false);
   // }, []);
 
-  // useOutSideClick([contentEl], startLeave);
-
   useEffect(() => {
     setOpen(true);
 
@@ -24,7 +23,19 @@ export function DatePicker() {
     };
   }, []);
 
-  const [value, setValue] = useState("");
+  const [startVal, setStartVal] = useState<Date | null>(null);
+  const [endVal, setEndVal] = useState<Date | null>(null);
+  const endValRef = useRefValue(endVal);
+
+  useOutSideClick(
+    [contentEl],
+    () => {
+      if (!endValRef.current) {
+        setStartVal(null);
+      }
+    },
+    open,
+  );
 
   return (
     <>
@@ -37,10 +48,26 @@ export function DatePicker() {
           <Position triggerRef={triggerEl} placement={Placement.bottomLeft}>
             <div ref={contentEl}>
               <Calendar
-                selectedValue={value}
-                onSelect={(val) => {
-                  setValue(val);
-                  return setOpen(false);
+                startDate={startVal}
+                endDate={endVal}
+                onClick={(val) => {
+                  if (!val) {
+                    return;
+                  }
+
+                  if (!startVal) {
+                    setStartVal(val);
+                    return;
+                  }
+
+                  if (!endVal) {
+                    setEndVal(val);
+                  }
+
+                  if (startVal && endVal) {
+                    setEndVal(null);
+                    setStartVal(val);
+                  }
                 }}
               />
             </div>

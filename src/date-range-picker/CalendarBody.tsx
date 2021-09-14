@@ -4,29 +4,31 @@ import { Month } from "./Month";
 export function CalendarBody({
   month,
   year,
-  onSelect,
-  selectedValue,
+  onClick,
+  startDate,
+  endDate,
 }: {
   month: number;
   year: number;
-  onSelect: (value: string | number) => void;
-  selectedValue?: string | null;
+  onClick: (value?: Date) => void;
+  startDate: Date | null;
+  endDate: Date | null;
 }) {
   return (
-    <table>
+    <table css={{ border: "1px solid #ccc" }}>
       <thead>
         <tr>
-          <th>日</th>
-          <th>一</th>
-          <th>二</th>
-          <th>三</th>
-          <th>四</th>
-          <th>五</th>
-          <th>六</th>
+          <th>Su</th>
+          <th>Mo</th>
+          <th>Tu</th>
+          <th>We</th>
+          <th>Th</th>
+          <th>Fr</th>
+          <th>Sa</th>
         </tr>
       </thead>
       <tbody>
-        <Month month={month} year={year} onSelect={onSelect} selectedValue={selectedValue} />
+        <Month month={month} year={year} onClick={onClick} startDate={startDate} endDate={endDate} />
       </tbody>
     </table>
   );

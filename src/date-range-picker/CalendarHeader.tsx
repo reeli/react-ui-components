@@ -1,13 +1,24 @@
-import { useState } from "react";
-import moment, { Moment } from "moment";
+import { useState, useEffect } from "react";
+import { subMonths, addMonths, format } from "date-fns";
+import { usePrevious } from "../core";
 
 interface ICalendarHeaderProps {
-  date?: Moment;
-  onDateChange: (date: Moment) => void;
+  date?: Date;
+  onDateChange: (date: Date) => void;
 }
 
+const formatDate = (val: Date) => format(val, "MMMM yyyy");
+
 export function CalendarHeader({ date, onDateChange }: ICalendarHeaderProps) {
-  const [dateValue, setDate] = useState(date || moment());
+  const [dateValue, setDate] = useState(date || new Date());
+  const prevDateValue = usePrevious(dateValue);
+
+  useEffect(() => {
+    if (prevDateValue !== dateValue) {
+      onDateChange(dateValue);
+    }
+  }, [dateValue]);
+
   return (
     <div
       css={{
@@ -17,46 +28,9 @@ export function CalendarHeader({ date, onDateChange }: ICalendarHeaderProps) {
       }}
     >
       <div>
-        <button
-          onClick={() => {
-            const value = dateValue.clone().subtract(1, "year");
-            onDateChange(value);
-            setDate(value);
-          }}
-        >
-          {"<<"}
-        </button>
-        <button
-          onClick={() => {
-            const value = dateValue.clone().subtract(1, "month");
-            onDateChange(value);
-            setDate(value);
-          }}
-        >
-          {"<"}
-        </button>
-      </div>
-      <div>{dateValue.format("YYYY MM")} 月</div>
-
-      <div>
-        <button
-          onClick={() => {
-            const date = dateValue.clone().add(1, "month");
-            onDateChange(date);
-            setDate(date);
-          }}
-        >
-          {">"}
-        </button>
-        <button
-          onClick={() => {
-            const value = dateValue.clone().add(1, "year");
-            onDateChange(value);
-            setDate(value);
-          }}
-        >
-          {">>"}
-        </button>
+        <button onClick={() => setDate(subMonths(dateValue, 1))}>{"<"}</button>
+        <div>{formatDate(dateValue)}</div>
+        <button onClick={() => setDate(addMonths(dateValue, 1))}>{">"}</button>
       </div>
     </div>
   );

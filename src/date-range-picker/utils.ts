@@ -4,7 +4,7 @@ import { range } from "lodash";
 const totalDaysCount = 7 * 6;
 
 interface Day {
-  date: Date;
+  date?: Date;
   isActive: boolean;
 }
 

@@ -1,16 +1,16 @@
-import React from "react";
+import { FC } from "react";
 
-interface IDayProps {
+interface DayProps {
   isActive: boolean;
-  selected: boolean;
-  onSelect: (value: any) => void;
-  value: any;
-  children: React.ReactChild;
+  onClick: (value?: Date) => void;
+  value?: Date;
+  isSelected?: boolean;
+  isHighlight?: boolean;
 }
 
-export function Day({ selected, isActive, value, onSelect, children }: IDayProps) {
+export const Day: FC<DayProps> = ({ isActive, value, onClick, isSelected, isHighlight, children }) => {
   const handleClick = () => {
-    onSelect(value);
+    onClick(value);
   };
 
   return (
@@ -19,13 +19,10 @@ export function Day({ selected, isActive, value, onSelect, children }: IDayProps
       style={{
         padding: 10,
         color: isActive ? "black" : "#ccc",
-        background: selected ? "orange" : "#fff",
-        borderStyle: "solid",
-        // borderColor: current ? "blue" : "pink",
-        // opacity: disabled ? 0 : 1,
+        background: isSelected ? "red" : isHighlight ? "pink" : "#fff",
       }}
     >
       {children}
     </td>
   );
-}
+};
