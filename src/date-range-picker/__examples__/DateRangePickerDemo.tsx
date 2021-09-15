@@ -1,8 +1,14 @@
 import React from "react";
-import { DatePicker } from "../DatePicker";
+import { DateRangePicker } from "../DateRangePicker";
 
 export class DateRangePickerDemo extends React.Component<any, any> {
   render() {
-    return <DatePicker />;
+    return (
+      <DateRangePicker
+        onChange={(value) => {
+          console.log(value);
+        }}
+      />
+    );
   }
 }

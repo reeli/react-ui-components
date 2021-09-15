@@ -1,4 +1,16 @@
-import { addDays, endOfMonth, getDaysInMonth, startOfMonth, subDays } from "date-fns";
+import {
+  addDays,
+  compareDesc,
+  endOfMonth,
+  getDate,
+  getDaysInMonth,
+  getMonth,
+  getTime,
+  getYear,
+  isEqual,
+  startOfMonth,
+  subDays,
+} from "date-fns";
 import { range } from "lodash";
 
 const totalDaysCount = 7 * 6;
@@ -45,4 +57,41 @@ const genDays = ({ date, isHead, isTail }: { date: Date; isHead: boolean; isTail
     date: addDays(startDayOfMonth, idx),
     isActive: true,
   }));
+};
+
+export const isTwoDateEqual = (dateA?: Date | null, dateB?: Date | null) => {
+  if (!dateA || !dateB) {
+    return false;
+  }
+
+  return isEqual(
+    new Date(getYear(dateA), getMonth(dateA), getDate(dateA)),
+    new Date(getYear(dateB), getMonth(dateB), getDate(dateB)),
+  );
+};
+
+export const isDateABeforeDateB = (dateA?: Date | null, dateB?: Date | null) => {
+  if (!dateA || !dateB) {
+    return false;
+  }
+
+  return (
+    compareDesc(
+      new Date(getYear(dateA), getMonth(dateA), getDate(dateA)),
+      new Date(getYear(dateB), getMonth(dateB), getDate(dateB)),
+    ) > 0
+  );
+};
+
+export const isDateBetweenStarDateAndEndDate = (date?: Date, startDate?: Date | null, endDate?: Date | null) => {
+  if (!date || !startDate || !endDate) {
+    return false;
+  }
+  //TODO: refactor this code later
+
+  if (startDate > endDate) {
+    return getTime(date) > getTime(endDate) && getTime(date) < getTime(startDate);
+  }
+
+  return getTime(date) > getTime(startDate) && getTime(date) < getTime(endDate);
 };

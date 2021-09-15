@@ -1,12 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Portal } from "../portal";
 import { Calendar } from "./Calendar";
 import { Placement } from "src/core/utils/getPlacement";
 import { Input } from "../input/Input";
 import { Position } from "src/core/components/Position";
 import { useOutSideClick, useRefValue } from "../core";
+import { formatISO, format } from "date-fns";
+import { isDateABeforeDateB } from "src/date-range-picker/utils";
 
-export function DatePicker() {
+type DateRangeValue = [startValue: string | null, endValue: string | null];
+
+interface DateRangePickerProps {
+  onChange?: (value: DateRangeValue) => void;
+}
+
+// TODO: refactor this code
+const getInputValue = (startVal: Date | null, endVal: Date | null) => {
+  if (startVal && endVal && isDateABeforeDateB(endVal, startVal)) {
+    return {
+      start: format(endVal, "yyyy-MM-dd"),
+      end: format(startVal, "yyyy-MM-dd"),
+    };
+  }
+
+  const start = startVal ? format(startVal, "yyyy-MM-dd") : "";
+  const end = endVal ? format(new Date(endVal), "yyyy-MM-dd") : "";
+  return {
+    start,
+    end,
+  };
+};
+
+export const DateRangePicker: FC<DateRangePickerProps> = ({ onChange }) => {
   const triggerEl = useRef(null);
   const contentEl = useRef(null);
   const [open, setOpen] = useState(false);
@@ -37,11 +62,21 @@ export function DatePicker() {
     open,
   );
 
+  const notifyValueChange = (startVal: Date | null, endVal: Date | null) => {
+    const startDateStr = startVal ? formatISO(startVal) : null;
+    const endDateStr = endVal ? formatISO(endVal) : null;
+
+    const val = isDateABeforeDateB(endVal, startVal) ? [endDateStr, startDateStr] : [startDateStr, endDateStr];
+    onChange && onChange(val as DateRangeValue);
+  };
+
+  const { start, end } = getInputValue(startVal, endVal);
+
   return (
     <>
       <div ref={triggerEl}>
-        <Input value={""} onClick={() => {}} placeholder={"from"} name={""} />
-        <Input value={""} onClick={() => {}} placeholder={"to"} name={""} />
+        <Input value={start} placeholder={"from"} name={"start date"} readOnly />
+        <Input value={end} placeholder={"to"} name={"end date"} readOnly />
       </div>
       {open && (
         <Portal>
@@ -62,11 +97,13 @@ export function DatePicker() {
 
                   if (!endVal) {
                     setEndVal(val);
+                    notifyValueChange(startVal, val);
                   }
 
                   if (startVal && endVal) {
                     setEndVal(null);
                     setStartVal(val);
+                    notifyValueChange(null, null);
                   }
                 }}
               />
@@ -76,4 +113,4 @@ export function DatePicker() {
       )}
     </>
   );
-}
+};

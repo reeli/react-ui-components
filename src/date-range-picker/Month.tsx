@@ -1,8 +1,7 @@
 import React, { FC } from "react";
-import { getMonthDays } from "./utils";
+import { getMonthDays, isDateBetweenStarDateAndEndDate, isTwoDateEqual } from "./utils";
 import { chunk } from "lodash";
 import { Day } from "./Day";
-import { isEqual, getTime, getYear, getMonth, getDate } from "date-fns";
 
 interface MonthProps {
   month: number;
@@ -11,31 +10,6 @@ interface MonthProps {
   startDate: Date | null;
   endDate: Date | null;
 }
-
-const isTwoDateEqual = (dateA?: Date | null, dateB?: Date | null) => {
-  if (!dateA || !dateB) {
-    return false;
-  }
-
-  return isEqual(
-    new Date(getYear(dateA), getMonth(dateA), getDate(dateA)),
-    new Date(getYear(dateB), getMonth(dateB), getDate(dateB)),
-  );
-};
-
-const isDateBetweenStarDateAndEndDate = (date?: Date, startDate?: Date | null, endDate?: Date | null) => {
-  if (!date || !startDate || !endDate) {
-    return false;
-  }
-  //TODO: refactor this code later
-
-  if (startDate > endDate) {
-    return getTime(date) > getTime(endDate) && getTime(date) < getTime(startDate);
-  }
-
-  return getTime(date) > getTime(startDate) && getTime(date) < getTime(endDate);
-};
-
 export const Month: FC<MonthProps> = ({ month, year, onClick, startDate, endDate }) => {
   const monthDays = getMonthDays(year, month);
 
