@@ -1,5 +1,6 @@
 const React = require("react");
 const ReactJSXRuntime = require("@emotion/react/jsx-runtime");
+const _ = require("lodash");
 
 const Fragment = ReactJSXRuntime.Fragment;
 
@@ -7,38 +8,68 @@ const NameContext = React.createContext({
   name: "",
 });
 
-const Name = ({ children, suffix }) => {
+const AutoTestId = ({ children, suffix, testIdChild }) => {
   const { name } = React.useContext(NameContext);
-  const suffixedName = `${name}.${suffix}`;
+  // const suffixedName = suffix ? `${name ? name + "." : ""}${suffix}` : name;
 
-  const Child = React.cloneElement(children, {
-    "data-testid": suffixedName,
-  });
+  console.log(testIdChild, name, "---");
+  const Child = React.cloneElement(
+    children,
+    testIdChild && name
+      ? {
+          "data-testid": `${name}.${testIdChild}`,
+        }
+      : {},
+  );
 
-  return ReactJSXRuntime.jsx(NameContext.Provider, { value: { name: suffixedName }, children: Child });
+  return Child;
 };
 
 const create = (children) => (type, props, key) => {
   if (typeof type !== "string") {
-    return ReactJSXRuntime.jsx(NameContext.Provider, { value: { name: type.name }, children }, key);
+    if ((props || {})["testid-root"]) {
+      return ReactJSXRuntime.jsx(
+        NameContext.Provider,
+        {
+          value: { name: (props || {})["testid-root"] || "" },
+          children,
+        },
+        key,
+      );
+    }
+
+    return children;
   }
 
-  console.log(key, "key");
+  const defaultSuffix = key ? type + key : type;
 
-  return ReactJSXRuntime.jsx(Name, { ...(props || {}), children, suffix: key ? type + key : type }, key);
+  return ReactJSXRuntime.jsx(
+    AutoTestId,
+    {
+      ...(props || {}),
+      children,
+      // suffix: defaultSuffix,
+      testIdChild: (props || {})["role"] || "",
+    },
+    key,
+  );
 };
 
 function jsx(type, props, key) {
-  const children = ReactJSXRuntime.jsx(type, props || {}, key);
+  const children = ReactJSXRuntime.jsx(type, ignoreTestProps(props || {}), key);
 
   return create(children)(type, props, key);
 }
 
 function jsxs(type, props, key) {
-  const children = ReactJSXRuntime.jsxs(type, props, key);
+  const children = ReactJSXRuntime.jsxs(type, ignoreTestProps(props), key);
 
   return create(children)(type, props, key);
 }
+
+const ignoreTestProps = (props = {}) => {
+  return _.omit(props, ["testid-root", "role"]);
+};
 
 module.exports = {
   Fragment,
