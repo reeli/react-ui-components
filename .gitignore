@@ -6,3 +6,4 @@ public
 *.js.map
 coverage/
 .tmp
+!custom-react/jsx-runtime.js

@@ -8,16 +8,16 @@
         }
       }
     ],
-    ["@babel/preset-typescript"],
-    [
-      "@emotion/babel-preset-css-prop",
-      {
-        "labelFormat": "[local]",
-        "sourceMap": true
-      }
-    ]
+    ["@babel/preset-typescript"]
   ],
   "plugins": [
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "runtime": "automatic",
+        "importSource": "custom-react"
+      }
+    ],
     "@emotion",
     "babel-plugin-typescript-iife-enum",
     "@babel/plugin-transform-typescript",
