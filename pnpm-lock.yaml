@@ -45,7 +45,7 @@ specifiers:
   pretty-quick: 3.1.0
   raw-loader: 4.0.2
   react: ^17.0.2
-  react-auto-testid: ^1.3.3
+  react-auto-testid: ^1.3.8
   react-dom: ^17.0.2
   react-router-dom: ^5.3.0
   react-spring: ^9.1.0
@@ -105,7 +105,7 @@ devDependencies:
   pretty-quick: 3.1.0_prettier@2.2.1
   raw-loader: 4.0.2_webpack@5.18.0
   react: 17.0.2
-  react-auto-testid: 1.3.3_f400783037ccf00f9cadfddbfc36c9d5
+  react-auto-testid: 1.3.8_f400783037ccf00f9cadfddbfc36c9d5
   react-dom: 17.0.2_react@17.0.2
   react-router-dom: 5.3.0_react@17.0.2
   ts-node: 9.1.1_typescript@4.1.3
@@ -7230,9 +7230,9 @@ packages:
       webpack: 5.18.0_webpack-cli@4.9.1
     dev: true
 
-  /react-auto-testid/1.3.3_f400783037ccf00f9cadfddbfc36c9d5:
+  /react-auto-testid/1.3.8_f400783037ccf00f9cadfddbfc36c9d5:
     resolution:
-      { integrity: sha512-KfRWTPxY/PiDJ6ydqjHTLRpaCocpIshZ+727vRfIw16gdKY0OYj++MSh4jxqR7N30L5yCk44nWK6b4ED3+UZEg== }
+      { integrity: sha512-PcMM+Uqn5eni4jdxUtWubxsf9BHxg/r4wYgLcFrFUEXwk3DkiQ72z0tZ7cgCgzeKOd3Ao2NgFDsdiiJRj7nuvg== }
     hasBin: true
     peerDependencies:
       "@emotion/react": ^11.5.0
