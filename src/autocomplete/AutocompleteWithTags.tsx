@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import { ChangeEvent, ReactNode, useEffect, useRef, useState, FC } from "react";
 import {
   Chip,
   ClickAwayListener,
@@ -67,7 +67,7 @@ interface IAutocompleteWithTagsProps {
   isLoading?: boolean;
 }
 
-export const AutocompleteWithTags: React.FC<IAutocompleteWithTagsProps> = ({
+export const AutocompleteWithTags: FC<IAutocompleteWithTagsProps> = ({
   value,
   options,
   placeholder,
@@ -99,7 +99,7 @@ export const AutocompleteWithTags: React.FC<IAutocompleteWithTagsProps> = ({
         addValue(list[idx]);
       }
     },
-    onBackSpace: e => {
+    onBackSpace: (e) => {
       if (inputValue.length === 0) {
         // This code is for IE, since autoFocus in TextField is not working in IE, we should make input field focus manually
         inputEl.current && inputEl.current.focus();
@@ -115,25 +115,19 @@ export const AutocompleteWithTags: React.FC<IAutocompleteWithTagsProps> = ({
     setInputValue("");
   };
 
-  useEffect(
-    () => {
-      onChange && onChange(selectedValues);
-      doReset();
-    },
-    [selectedValues],
-  );
+  useEffect(() => {
+    onChange && onChange(selectedValues);
+    doReset();
+  }, [selectedValues]);
 
-  useEffect(
-    () => {
-      if (!isLoading) {
-        const next = !isLoading;
-        setVisible(prev => (prev !== next ? next : prev));
-      }
-    },
-    [isLoading],
-  );
+  useEffect(() => {
+    if (!isLoading) {
+      const next = !isLoading;
+      setVisible((prev) => (prev !== next ? next : prev));
+    }
+  }, [isLoading]);
 
-  const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     setInputValue(value);
     onInputChange && onInputChange(value);
@@ -198,7 +192,7 @@ export const AutocompleteWithTags: React.FC<IAutocompleteWithTagsProps> = ({
               className={classes.input}
               InputProps={{
                 disableUnderline: true,
-                onKeyDown: handleInputKeyDown,
+                onKeyDown: handleInputKeyDown as any,
               }}
               ref={inputEl}
             />

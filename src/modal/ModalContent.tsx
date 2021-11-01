@@ -1,5 +1,5 @@
-import React from "react";
 import { css } from "@emotion/react";
+import { HTMLAttributes, FC } from "react";
 
 const containerStyles = css({
   width: "100%",
@@ -15,11 +15,11 @@ const modalContentStyles = css({
   width: "100%",
 });
 
-interface IModalContentProps extends React.HTMLAttributes<any> {
+interface IModalContentProps extends HTMLAttributes<any> {
   size?: string;
 }
 
-export const ModalContent: React.FC<IModalContentProps> = ({ children, size, ...otherProps }) => (
+export const ModalContent: FC<IModalContentProps> = ({ children, size, ...otherProps }) => (
   <div css={containerStyles} {...otherProps}>
     <div css={[modalContentStyles, { maxWidth: size || "100%" }]}>{children}</div>
   </div>

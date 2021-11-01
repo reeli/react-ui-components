@@ -1,5 +1,4 @@
 import { map } from "lodash";
-import * as React from "react";
 import { Link, RouteProps, useLocation } from "react-router-dom";
 import { ThemeContext } from "../ThemeContext";
 import { css } from "@emotion/react";

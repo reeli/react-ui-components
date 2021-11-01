@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import { MouseEventHandler, HTMLAttributes } from "react";
 import { css } from "@emotion/react";
 
 interface IModalOverlayProps {
@@ -14,6 +14,6 @@ const modalOverlayStyles = css({
   background: "rgba(0,0,0,0.35)",
 });
 
-export const ModalOverlay = ({ onClick, ...otherProps }: IModalOverlayProps & React.HTMLAttributes<any>) => (
+export const ModalOverlay = ({ onClick, ...otherProps }: IModalOverlayProps & HTMLAttributes<any>) => (
   <div onClick={onClick} css={modalOverlayStyles} {...otherProps} />
 );

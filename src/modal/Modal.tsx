@@ -1,4 +1,3 @@
-import React from "react";
 import { Portal } from "src/portal";
 import { css } from "@emotion/react";
 

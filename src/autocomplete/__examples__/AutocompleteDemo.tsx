@@ -1,4 +1,3 @@
-import React from "react";
 import { AutocompleteWithTags } from "../AutocompleteWithTags";
 import { AutoComplete } from "src/autocomplete/AutoComplete";
 

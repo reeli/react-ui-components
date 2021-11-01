@@ -8,17 +8,11 @@
         }
       }
     ],
-    ["@babel/preset-typescript"]
+    ["@babel/preset-typescript"],
+    "react-auto-testid/babel-preset"
   ],
   "plugins": [
-    [
-      "@babel/plugin-transform-react-jsx",
-      {
-        "runtime": "automatic",
-        "importSource": "custom-react"
-      }
-    ],
-    "@emotion",
+    "@emotion/babel-plugin",
     "babel-plugin-typescript-iife-enum",
     "@babel/plugin-transform-typescript",
     "@babel/plugin-proposal-class-properties",

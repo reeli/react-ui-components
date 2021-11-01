@@ -1,4 +1,3 @@
-import React from "react";
 import { Game, IGameData } from "../Game";
 
 const gameData: IGameData = {
@@ -27,8 +26,6 @@ const gameData: IGameData = {
   interferences: ["Sorry", "Hi", "You"],
 };
 
-export class GameDemo extends React.Component<any, any> {
-  render() {
-    return <Game gameData={gameData} wordHeight={30} />;
-  }
+export function GameDemo() {
+  return <Game gameData={gameData} wordHeight={30} />;
 }

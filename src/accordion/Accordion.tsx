@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState, FC, Children } from "react";
 
-export const Accordion: React.FC = ({ children }) => {
+export const Accordion: FC = ({ children }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const handleClick = (currentIdx: number) => {
     setCurrentIdx(currentIdx);
@@ -8,7 +8,7 @@ export const Accordion: React.FC = ({ children }) => {
 
   return (
     <div>
-      {React.Children.map(children, (item: any, index) => {
+      {Children.map(children, (item: any, index) => {
         const expanded = currentIdx === index;
         return (
           <div>

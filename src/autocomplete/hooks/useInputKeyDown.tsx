@@ -1,12 +1,12 @@
-import React, { RefObject, useState } from "react";
+import { RefObject, useState } from "react";
 
 interface IUseInputKeyDownInputs {
   scrollContainer: RefObject<HTMLElement | null>;
   offsetY: number;
   maxIdx: number;
   defaultActiveIdx?: number;
-  onEnter?: (e: React.KeyboardEvent, activeIdx: number) => void;
-  onBackSpace?: (e: React.KeyboardEvent, activeIdx: number) => void;
+  onEnter?: (e: KeyboardEvent, activeIdx: number) => void;
+  onBackSpace?: (e: KeyboardEvent, activeIdx: number) => void;
 }
 
 export const useInputKeyDown = ({
@@ -46,10 +46,10 @@ export const useInputKeyDown = ({
     setActiveIdx(idx);
   };
 
-  const handleInputKeyDown = (e: React.KeyboardEvent) => {
+  const handleInputKeyDown = (e: KeyboardEvent) => {
     switch (e.key) {
       case "ArrowUp":
-        setActiveIdx(prev => {
+        setActiveIdx((prev) => {
           const next = prev - 1;
           const nextActiveIdx = next >= 0 ? next : prev;
 
@@ -59,7 +59,7 @@ export const useInputKeyDown = ({
         });
         break;
       case "ArrowDown":
-        setActiveIdx(prev => {
+        setActiveIdx((prev) => {
           const next = prev + 1;
           const nextActiveIdx = next < maxIdx ? next : prev;
 

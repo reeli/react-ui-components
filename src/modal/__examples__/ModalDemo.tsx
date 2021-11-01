@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal } from "src/modal/Modal";
 import { useToggle } from "src/core";
 import { Button } from "src/button";

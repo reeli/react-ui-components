@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useRef, useState, Children, cloneElement } from "react";
 import { isEqual } from "lodash";
 import { Portal } from "src/portal";
 import { Placement, usePosition } from "src/core";
@@ -30,7 +30,7 @@ export const OverlayTrigger = ({ children, content, visible = false }: IOverlayT
 
   return (
     <>
-      {React.cloneElement(React.Children.only(children), {
+      {cloneElement(Children.only(children), {
         ref: triggerEl,
       })}
       {isOpen && (

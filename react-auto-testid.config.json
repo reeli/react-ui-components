@@ -1,0 +1,5 @@
+{
+  "runtime": "emotion",
+  "testidRoot": "testid-root",
+  "testidKey": "data-testid"
+}

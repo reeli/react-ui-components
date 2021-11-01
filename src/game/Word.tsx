@@ -1,4 +1,3 @@
-import React from "react";
 import { css } from "@emotion/react";
 
 interface IWordProps {
@@ -6,11 +5,6 @@ interface IWordProps {
   top: number;
   left: number;
   visible?: boolean;
-}
-
-interface IWordState {
-  top: number;
-  left: number;
 }
 
 const wordContainerStyles = css({
@@ -28,13 +22,11 @@ const wordStyles = css({
   maxWidth: "200px",
 });
 
-export class Word extends React.PureComponent<IWordProps, IWordState> {
-  render() {
-    const { visible = false, top, left, text } = this.props;
-    return (
-      <div css={[wordContainerStyles, { top, left, opacity: visible ? 1 : 0.5 }]}>
-        <div css={wordStyles}>{text}</div>
-      </div>
-    );
-  }
+export function Word(props: IWordProps) {
+  const { visible = false, top, left, text } = props;
+  return (
+    <div css={[wordContainerStyles, { top, left, opacity: visible ? 1 : 0.5 }]}>
+      <div css={wordStyles}>{text}</div>
+    </div>
+  );
 }

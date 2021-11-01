@@ -1,5 +1,3 @@
-import React from "react";
-
 export function genShowFunc<T extends (...args: any[]) => boolean>(func: T) {
   return func;
 }

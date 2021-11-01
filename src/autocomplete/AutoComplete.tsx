@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useEffect, useRef, useState } from "react";
+import { FC, MouseEvent, useEffect, useRef, useState } from "react";
 import { Input } from "src/input/Input";
 import { Placement, usePosition, usePrevious, useToggle } from "src/core";
 import { Portal } from "src/portal";

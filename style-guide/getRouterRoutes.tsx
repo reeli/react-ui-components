@@ -1,4 +1,4 @@
-import { Route, RouteProps } from "react-router";
+import { Route, RouteProps } from "react-router-dom";
 
 export const getRouterRoutes = (routes: RouteProps[]) => {
   return routes.map((route: RouteProps, idx: number) => {

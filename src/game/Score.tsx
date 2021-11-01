@@ -1,11 +1,7 @@
-import React from "react";
-
 interface IScoreProps {
   scores: number;
 }
 
-export class Score extends React.PureComponent<IScoreProps> {
-  render() {
-    return <div>Scores: {this.props.scores}</div>;
-  }
+export function Score(props: IScoreProps) {
+  return <div>Scores: {props.scores}</div>;
 }
