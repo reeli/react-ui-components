@@ -7,10 +7,10 @@ export class NotificationDemo extends React.Component<any, any> {
     return (
       <Button
         onClick={() => {
-          sendMessage("clicked me!");
+          sendMessage("Button Clicked!");
         }}
       >
-        button1
+        Send Notification
       </Button>
     );
   }
