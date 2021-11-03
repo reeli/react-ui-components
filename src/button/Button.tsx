@@ -1,4 +1,4 @@
-import { forwardRef, HTMLAttributes, Ref } from "react";
+import { forwardRef, Ref, MouseEventHandler, ReactNode } from "react";
 import { css } from "@emotion/react";
 
 const buttonStyles = css({
@@ -11,15 +11,17 @@ const buttonStyles = css({
   cursor: "pointer",
 });
 
-interface IButtonProps extends HTMLAttributes<any> {
+interface ButtonProps {
   disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  children?: ReactNode;
 }
 
-export const Button = forwardRef<HTMLButtonElement, IButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, disabled, ...others }, ref: Ref<HTMLButtonElement>) => {
     return (
-      <button ref={ref} css={buttonStyles} disabled={disabled} {...others}>
-        {children}
+      <button ref={ref} css={buttonStyles} disabled={disabled} {...others} role={"button-root"}>
+        <span role={"button-label"}>{children}</span>
       </button>
     );
   },
