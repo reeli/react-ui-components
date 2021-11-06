@@ -15,10 +15,6 @@
     "outDir": ".tmp",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "paths": {
-      "*": ["*", "types/*"] // * -> *  表示先找文件自身对应的 types，如果找不到然后再去 types/* 下面找
-    },
     "jsxImportSource": "@emotion/react"
-  },
-  "exclude": ["node_modules"]
+  }
 }
