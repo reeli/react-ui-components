@@ -1,8 +1,8 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as path from "path";
-import * as webpack from "webpack";
+import { Configuration } from "webpack";
 
-const webpackConfig: webpack.Configuration = {
+const webpackConfig = {
   context: path.resolve(__dirname, "./style-guide"),
   entry: "./index.tsx",
   output: {
@@ -38,6 +38,12 @@ const webpackConfig: webpack.Configuration = {
 
   mode: (process.env.NODE_ENV as any) || "development",
   devtool: process.env.NODE_ENV === "development" ? "source-map" : undefined,
-};
+  devServer: {
+    port: 9000,
+    compress: true,
+    open: true,
+    historyApiFallback: true,
+  },
+} as Configuration;
 
 export = webpackConfig;

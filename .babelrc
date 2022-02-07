@@ -9,7 +9,13 @@
       }
     ],
     ["@babel/preset-typescript"],
-    "react-auto-testid/babel-preset"
+    [
+      "@emotion/babel-preset-css-prop",
+      {
+        "labelFormat": "[local]",
+        "sourceMap": true
+      }
+    ]
   ],
   "plugins": [
     "@emotion/babel-plugin",

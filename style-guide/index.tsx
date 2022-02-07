@@ -1,5 +1,5 @@
 import { render } from "react-dom";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Routes } from "react-router-dom";
 import { Nav } from "./components/Nav";
 import { getRouterRoutes } from "./getRouterRoutes";
 import { routesConfig } from "./getRoutesConfig";
@@ -54,7 +54,7 @@ const App = () => {
           </ThemeContext.Provider>
         )}
         <main css={mainStyles}>
-          <Switch>{getRouterRoutes(routesConfig)}</Switch>
+          <Routes>{getRouterRoutes(routesConfig)}</Routes>
           <div css={{ position: "absolute", left: 0, bottom: 0, zIndex: 2000 }}>
             <Button onClick={() => setShow((prev) => !prev)}>menu</Button>
           </div>
