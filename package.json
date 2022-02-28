@@ -12,7 +12,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsc && pretty-quick --staged"
+      "pre-commit": "tsc && pretty-quick --staged",
+      "post-merge": "pnpm install"
     }
   },
   "repository": {
@@ -74,6 +75,7 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.7.1",
     "date-fns": "^2.28.0",
     "invariant": "^2.2.4",
