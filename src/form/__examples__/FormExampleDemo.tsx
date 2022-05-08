@@ -1,5 +1,7 @@
+import Editor from "@monaco-editor/react";
 import { Form } from "../Form";
 import { FormSpec } from "../types";
+import { useState } from "react";
 
 const formSpec: FormSpec = {
   formId: "001",
@@ -53,5 +55,29 @@ const formSpec: FormSpec = {
 };
 
 export function FormExampleDemo() {
-  return <Form formSpec={formSpec} />;
+  const [data, setData] = useState(formSpec);
+
+  const handleChange = (value: any) => {
+    try {
+      const data = JSON.parse(value);
+      setData(data);
+    } catch (e) {}
+  };
+
+  return (
+    <div css={{ display: "flex" }}>
+      <div css={{ flex: 1 }}>
+        <Editor
+          height="500vh"
+          defaultLanguage="json"
+          defaultValue={JSON.stringify(data, null, 2)}
+          options={{ minimap: { enabled: false } }}
+          onChange={handleChange}
+        />
+      </div>
+      <div css={{ flex: 1, padding: 20 }}>
+        <Form formSpec={data} />
+      </div>
+    </div>
+  );
 }
