@@ -21,6 +21,12 @@ const formSpec: FormSpec = {
       props: {
         type: "password",
       },
+      rules: [
+        {
+          rule: ["maxLength", 10],
+          errorMsg: "最大长度为 10 个字符",
+        },
+      ],
     },
   ],
   actions: {

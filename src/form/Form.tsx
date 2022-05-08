@@ -1,14 +1,14 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FormValue, FormSpec } from "./types";
 import { FieldList } from "./FieldList";
-import { getWidgetComponentByType } from "./mapping";
+import { getWidgetComponentByType } from "./utils";
 
 interface FormProps {
   formSpec: FormSpec;
 }
 
 export const Form = ({ formSpec }: FormProps) => {
-  const methods = useForm();
+  const methods = useForm({ mode: "all" });
 
   const onSubmit = (data: FormValue) => {
     console.log(data);

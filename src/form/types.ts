@@ -46,8 +46,7 @@ interface BasicInput {
   label?: string;
   description?: string;
   defaultValue?: any;
-  rules?: Rule[] | Rule[][];
-  props?: any;
+  props?: any; // extra props will pass to component
 }
 
 export interface StringInput extends BasicInput {
@@ -74,6 +73,7 @@ interface NumberInput extends BasicInput {
 interface BooleanInput extends BasicInput {
   type: "boolean";
   widget: "switch" | "toggle";
+  rules: null;
 }
 
 interface DateInput extends BasicInput {
@@ -104,6 +104,7 @@ interface FieldArrayInput extends BasicInput {
   max: number;
   min: number;
   items: Widget[];
+  rules: Rule[];
 }
 
 interface FieldSection extends BasicInput {
@@ -112,14 +113,15 @@ interface FieldSection extends BasicInput {
     title: string;
     items: Widget[];
   };
+  rules: null;
 }
 
 type Arg = Operator | string | number;
-type Operator = [item1: string, ...otherItems: Arg[]];
+export type Operator = [item1: string, ...otherItems: Arg[]];
 export type FormValue = any;
 export type FieldValue = any;
 
-interface Rule {
+export interface Rule {
   rule: Operator;
   when?: Operator;
   errorMsg?: string;
