@@ -8,7 +8,8 @@ export interface FormSpec {
       onSubmit: {
         apiUrl: string;
       };
-      onSuccess: RedirectAction | AlertAction;
+      onSubmitSuccess: RedirectAction | AlertAction;
+      onSubmitFail: RedirectAction | AlertAction;
     };
   };
 }
@@ -19,42 +20,37 @@ export type Widget =
   | DateInput
   | SelectInput
   | BooleanInput
+  | SubmitInput
   | FieldArrayInput
   | FieldSection;
-
-type StringWidget = "text" | "email";
-type NumberWidget = "number" | "currency";
-type DateWidget = "datepicker";
-type BooleanWidget = "boolean";
-type SelectWidget = "select" | "multiselect";
-
-type WidgetUIType = StringWidget | NumberWidget | DateWidget | BooleanWidget | SelectWidget;
 
 interface Action {
   type: string;
 }
 
-interface RedirectAction extends Action {
+export interface RedirectAction extends Action {
   type: "redirect";
-  url?: string;
+  url: string;
 }
 
-interface AlertAction extends Action {
+export interface AlertAction extends Action {
   type: "alert";
   message?: string;
 }
 
 interface BasicInput {
   name: string;
-  widget: WidgetUIType;
-  title?: string;
+  widget: string;
+  label?: string;
   description?: string;
   defaultValue?: any;
   rules?: Rule[] | Rule[][];
+  props?: any;
 }
 
-interface StringInput extends BasicInput {
+export interface StringInput extends BasicInput {
   type: "string";
+  widget: "text" | "textarea";
   placeholder?: string;
   rules?: Rule[];
   maxLength?: number;
@@ -66,6 +62,7 @@ interface StringInput extends BasicInput {
 
 interface NumberInput extends BasicInput {
   type: "number";
+  widget: "number" | "currency";
   placeholder?: string;
   rules?: Rule[];
   max?: number;
@@ -74,10 +71,12 @@ interface NumberInput extends BasicInput {
 
 interface BooleanInput extends BasicInput {
   type: "boolean";
+  widget: "switch" | "toggle";
 }
 
 interface DateInput extends BasicInput {
   type: "date";
+  widget: "datepicker" | "rangePicker";
   defaultValue: string | string[];
   placeholder?: string | string[];
   rules?: Rule[] | Rule[][];
@@ -87,6 +86,7 @@ interface DateInput extends BasicInput {
 
 interface SelectInput extends BasicInput {
   type: "select";
+  widget: "select" | "optgroup" | "multiSelect";
   placeholder?: string;
   options: Option[];
   rules?: Rule[];
@@ -110,6 +110,12 @@ interface FieldSection extends BasicInput {
     title: string;
     items: Widget[];
   };
+}
+
+export interface SubmitInput extends BasicInput {
+  type: "submit";
+  widget: "button";
+  text: string;
 }
 
 type Arg = Operator | string | number;

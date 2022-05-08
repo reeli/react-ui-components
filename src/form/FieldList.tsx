@@ -7,19 +7,24 @@ interface FieldListProps {
 
 export const FieldList = ({ widgets }: FieldListProps) => {
   return (
-    <>
-      {widgets.map((widget) => {
+    <div>
+      {widgets.map((widget, idx) => {
         if (widget.type === "array") {
           // TODO
           return <div>array</div>;
         }
+
         if (widget.type === "section") {
           // TODO
           return <div>section</div>;
         }
 
-        return <Field {...widget} />;
+        return (
+          <div>
+            <Field {...widget} key={idx} />
+          </div>
+        );
       })}
-    </>
+    </div>
   );
 };

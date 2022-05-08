@@ -1,28 +1,46 @@
-import { Input, Select } from "@material-ui/core";
+import { Select, TextField, Button, ButtonProps } from "@material-ui/core";
 import { Controller, useFormContext, Validate } from "react-hook-form";
 import { Widget as TWidget, FormValue, FieldValue } from "./types";
-import { FunctionComponent } from "react";
+import { FunctionComponent, forwardRef, Ref, FC } from "react";
 
-export const Field = ({ name, widget, rules }: TWidget) => {
+const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...others }, ref: Ref<HTMLButtonElement>) => {
+  return (
+    <Button {...others} ref={ref}>
+      {text}
+    </Button>
+  );
+});
+
+export const Field = ({ name, widget, type, defaultValue, rules, props = {}, ...others }: TWidget) => {
   const { control, getValues } = useFormContext();
   const Widget = getWidgetComponentByType(widget);
+
+  if (type === "submit") {
+    return (
+      <Widget name={name} type={"submit"} variant={"contained"} color={"primary"} {...others}>
+        {"submit"}
+      </Widget>
+    );
+  }
 
   return (
     <Controller
       name={name}
       rules={rules && { validate: parseRules(rules, getValues(), name) }}
       control={control}
-      render={({ field }) => {
-        return <Widget {...field} />;
-      }}
+      defaultValue={defaultValue}
+      render={({ field }) => <Widget {...others} {...props} {...field} />}
     />
   );
 };
 
 const getWidgetComponentByType = (type: TWidget["widget"]) => {
-  const mapping: { [key: string]: FunctionComponent<{ name: string; onChange: (value: unknown) => void }> } = {
-    text: Input,
+  const mapping: {
+    [key: string]: FunctionComponent<any>;
+  } = {
+    text: TextField,
     select: Select,
+    button: MyButton,
   };
 
   return mapping[type];
