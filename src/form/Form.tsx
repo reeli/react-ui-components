@@ -1,7 +1,8 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { FormValue, FormSpec } from "./types";
 import { FieldList } from "./FieldList";
-import { getWidgetComponentByType } from "./utils";
+import { validationFnList, widgetComponents } from "./utils";
+import { FormRenderProvider } from "./FormRenderContext";
 
 interface FormProps {
   formSpec: FormSpec;
@@ -19,16 +20,23 @@ export const Form = ({ formSpec }: FormProps) => {
   //
   // const onSubmitFail = () => {};
 
-  const Button = getWidgetComponentByType("submit");
+  const Button = widgetComponents["submit"];
 
   return (
-    <FormProvider {...methods}>
-      {formSpec.title && <div>{formSpec.title}</div>}
-      {formSpec.description && <div>{formSpec.description}</div>}
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <FieldList widgets={formSpec.widgets} />
-        <Button type={"submit"} text={formSpec.submit.confirmText} />
-      </form>
-    </FormProvider>
+    <FormRenderProvider
+      value={{
+        validationFnList,
+        widgetComponents,
+      }}
+    >
+      <FormProvider {...methods}>
+        {formSpec.title && <div>{formSpec.title}</div>}
+        {formSpec.description && <div>{formSpec.description}</div>}
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <FieldList widgets={formSpec.widgets} />
+          <Button type={"submit"} text={formSpec.submit.confirmText} />
+        </form>
+      </FormProvider>
+    </FormRenderProvider>
   );
 };

@@ -23,6 +23,10 @@ const formSpec: FormSpec = {
       },
       rules: [
         {
+          rule: ["required"],
+          errorMsg: "此字段为必填项",
+        },
+        {
           rule: ["maxLength", 10],
           errorMsg: "最大长度为 10 个字符",
         },

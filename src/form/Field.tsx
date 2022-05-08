@@ -1,11 +1,13 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Widget as TWidget, Rule } from "./types";
-import { getWidgetComponentByType, parseRules, validationFnList } from "./utils";
-import { Fragment } from "react";
+import { parseRules } from "./utils";
+import { Fragment, useContext } from "react";
+import { FormRenderContext } from "./FormRenderContext";
 
 export const Field = ({ name, widget, type, defaultValue, rules, props = {}, ...others }: TWidget) => {
   const { control, getValues, formState } = useFormContext();
-  const Widget = getWidgetComponentByType(widget);
+  const { validationFnList, widgetComponents } = useContext(FormRenderContext);
+  const Widget = widgetComponents[widget];
 
   return (
     <Controller

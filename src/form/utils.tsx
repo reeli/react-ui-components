@@ -1,6 +1,6 @@
 import { ButtonProps, Button, TextField, Select } from "@material-ui/core";
 import { FC, forwardRef, Ref } from "react";
-import { Widget as TWidget, FormValue, FieldValue, Operator, Rule } from "./types";
+import { FormValue, FieldValue, Operator, Rule, ValidateFnList, ValidateFnCore } from "./types";
 import { Validate } from "react-hook-form";
 
 const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...others }, ref: Ref<HTMLButtonElement>) => {
@@ -11,16 +11,10 @@ const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...othe
   );
 });
 
-export const getWidgetComponentByType = (type: TWidget["widget"]) => {
-  const mapping: {
-    [key: string]: FC<any>;
-  } = {
-    text: TextField,
-    select: Select,
-    submit: MyButton,
-  };
-
-  return mapping[type];
+export const widgetComponents = {
+  text: TextField,
+  select: Select,
+  submit: MyButton,
 };
 
 interface ParseRuleParams {
@@ -32,7 +26,7 @@ interface ParseRuleParams {
 export const parseRules = ({ rules, fnList, formValue }: ParseRuleParams): Validate<FieldValue> => {
   return (value: FieldValue) => {
     if (!rules) {
-      return [];
+      return undefined;
     }
 
     for (let i = 0; i < rules.length; i++) {
@@ -48,9 +42,6 @@ export const parseRules = ({ rules, fnList, formValue }: ParseRuleParams): Valid
     return undefined;
   };
 };
-
-type ValidateFnCore = (value: FieldValue, formValue: FormValue) => boolean | FieldValue;
-type ValidateFnList = { [key: string]: (...arg: any[]) => ValidateFnCore };
 
 export const parseOperator = (operator: Operator, fnList: ValidateFnList): ValidateFnCore => {
   const [fnName, ...others] = operator;
@@ -69,6 +60,8 @@ export const parseOperator = (operator: Operator, fnList: ValidateFnList): Valid
 
 const isOperator = (data: any): data is Operator => Array.isArray(data);
 
+const required = () => (value: FieldValue, _formValue: FormValue) =>
+  value !== undefined && value !== null && value !== "";
 const lte = (num: number) => (value: FieldValue, _formValue: FormValue) => value <= num;
 const gte = (num: number) => (value: FieldValue, _formValue: FormValue) => value >= num;
 const maxLength = (num: number) => (value: FieldValue, _formValue: FormValue) => value.length <= num;
@@ -79,4 +72,5 @@ export const validationFnList = {
   gte,
   maxLength,
   minLength,
+  required,
 };
