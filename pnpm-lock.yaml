@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@ant-design/icons': ^4.7.0
   '@babel/core': 7.17.0
   '@babel/plugin-proposal-class-properties': 7.16.7
   '@babel/plugin-proposal-object-rest-spread': 7.16.7
@@ -46,6 +47,7 @@ specifiers:
   react: ^17.0.2
   react-auto-testid: ^1.3.8
   react-dom: ^17.0.2
+  react-hook-form: ^7.30.0
   react-router-dom: ^6.2.1
   react-spring: ^9.4.2
   react-use-gesture: ^9.1.3
@@ -56,11 +58,13 @@ specifiers:
   webpack-dev-server: ^4.7.4
 
 dependencies:
+  '@ant-design/icons': 4.7.0_react-dom@17.0.2+react@17.0.2
   '@emotion/react': 11.7.1_1f521ea4d22f56301c9243450fe7194f
   date-fns: 2.28.0
   invariant: 2.2.4
   lodash: 4.17.21
   moment: 2.29.1
+  react-hook-form: 7.30.0_react@17.0.2
   react-spring: 9.4.2_react-dom@17.0.2+react@17.0.2
   react-use-gesture: 9.1.3_react@17.0.2
 
@@ -120,6 +124,32 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.2
     dev: true
+
+  /@ant-design/colors/6.0.0:
+    resolution: {integrity: sha512-qAZRvPzfdWHtfameEGP2Qvuf838NhergR35o+EuVyB5XvSA98xod5r4utvi4TJ3ywmevm290g9nsCG5MryrdWQ==}
+    dependencies:
+      '@ctrl/tinycolor': 3.4.1
+    dev: false
+
+  /@ant-design/icons-svg/4.2.1:
+    resolution: {integrity: sha512-EB0iwlKDGpG93hW8f85CTJTs4SvMX7tt5ceupvhALp1IF44SeUFOMhKUOYqpsoYWQKAOuTRDMqn75rEaKDp0Xw==}
+    dev: false
+
+  /@ant-design/icons/4.7.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-aoB4Z7JA431rt6d4u+8xcNPPCrdufSRMUOpxa1ab6mz1JCQZOEVolj2WVs/tDFmN62zzK30mNelEsprLYsSF3g==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: '>=16.0.0'
+      react-dom: '>=16.0.0'
+    dependencies:
+      '@ant-design/colors': 6.0.0
+      '@ant-design/icons-svg': 4.2.1
+      '@babel/runtime': 7.17.0
+      classnames: 2.3.1
+      rc-util: 5.21.2_react-dom@17.0.2+react@17.0.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
 
   /@babel/code-frame/7.16.7:
     resolution: {integrity: sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg==}
@@ -1354,6 +1384,11 @@ packages:
     dependencies:
       '@cspotcode/source-map-consumer': 0.8.0
     dev: true
+
+  /@ctrl/tinycolor/3.4.1:
+    resolution: {integrity: sha512-ej5oVy6lykXsvieQtqZxCOaLT+xD4+QNarq78cIYISHmZXshCvROLudpQN3lfL8G0NL7plMSSK+zlyvCaIJ4Iw==}
+    engines: {node: '>=10'}
+    dev: false
 
   /@discoveryjs/json-ext/0.5.5:
     resolution: {integrity: sha512-6nFkfkmSeV/rqSaS4oWHgmpnYw194f6hmWF5is6b0J1naJZoiD0NTc9AiUwPHvWsowkjuHErCZT1wa0jg+BLIA==}
@@ -3123,6 +3158,10 @@ packages:
   /cjs-module-lexer/1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
     dev: true
+
+  /classnames/2.3.1:
+    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
 
   /clean-css/5.2.4:
     resolution: {integrity: sha512-nKseG8wCzEuji/4yrgM/5cthL9oTDc5UOQyFMvW/Q53oP6gLH690o1NbuTh6Y18nujr7BxlsFuS7gXLnLzKJGg==}
@@ -5958,6 +5997,19 @@ packages:
       webpack: 5.68.0_webpack-cli@4.9.2
     dev: true
 
+  /rc-util/5.21.2_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-QuuZ2tKMScGtxSx3rLzgPGGDZm/np7phMqA7OcDidSf44abvSk+AdtdD7ZvQPvCEtdC6nCSI5tEVnUaYjjD9/w==}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.17.0
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-is: 16.13.1
+      shallowequal: 1.1.0
+    dev: false
+
   /react-auto-testid/1.3.8_79c1490562c3c65ef55eb132a37e39b4:
     resolution: {integrity: sha512-PcMM+Uqn5eni4jdxUtWubxsf9BHxg/r4wYgLcFrFUEXwk3DkiQ72z0tZ7cgCgzeKOd3Ao2NgFDsdiiJRj7nuvg==}
     hasBin: true
@@ -5980,6 +6032,15 @@ packages:
       react: 17.0.2
       scheduler: 0.20.2
     dev: true
+
+  /react-hook-form/7.30.0_react@17.0.2:
+    resolution: {integrity: sha512-DzjiM6o2vtDGNMB9I4yCqW8J21P314SboNG1O0obROkbg7KVS0I7bMtwSdKyapnCPjHgnxc3L7E5PEdISeEUcQ==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 17.0.2
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -6396,6 +6457,10 @@ packages:
     dependencies:
       kind-of: 6.0.3
     dev: true
+
+  /shallowequal/1.1.0:
+    resolution: {integrity: sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==}
+    dev: false
 
   /shebang-command/2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}

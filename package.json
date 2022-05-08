@@ -81,6 +81,7 @@
     "invariant": "^2.2.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "react-hook-form": "^7.30.0",
     "react-spring": "^9.4.2",
     "react-use-gesture": "^9.1.3"
   },

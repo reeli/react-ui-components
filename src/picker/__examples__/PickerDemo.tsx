@@ -1,5 +1,4 @@
-import React from "react";
-import { Picker } from "src/picker/Picker";
+import React, { useEffect } from "react";
 import { PickerView } from "src/picker/PickerView";
 import { DatePickerView } from "src/picker/DatePickerView";
 
@@ -10,23 +9,42 @@ const list = new Array(20).fill("").map((_s, idx) => {
   };
 });
 
-export class PickerDemo extends React.Component<any, any> {
-  state = {
-    value: list[0].value,
-  };
+export const PickerDemo = () => {
+  useEffect(() => {
+    window.addEventListener("scroll", (evt) => {
+      console.log(evt);
+    });
 
-  render() {
-    return (
-      <Picker
-        options={list as any}
-        onChange={(v) => {
-          this.setState({ value: v });
-        }}
-        value={this.state.value}
-      />
-    );
-  }
-}
+    document.documentElement.addEventListener("click", (evt) => {
+      console.log(evt.target, evt.clientX, evt.clientY, (evt.target as HTMLElement).getAttribute("role"), "click");
+    });
+  }, []);
+
+  return (
+    <div
+      onMouseDown={() => {
+        console.log(" down");
+      }}
+      onMouseUp={() => {
+        console.log(" up");
+      }}
+      onClick={() => {
+        console.log(" clicked");
+      }}
+      onMouseEnter={() => {
+        console.log(" enter");
+      }}
+      onMouseLeave={() => {
+        console.log(" leave");
+      }}
+      onMouseOver={() => {
+        console.log(" over");
+      }}
+    >
+      test
+    </div>
+  );
+};
 
 export class PickerDemo1 extends React.Component<any, any> {
   state = {
@@ -66,3 +84,4 @@ export class PickerDemo2 extends React.Component<any, any> {
     );
   }
 }
+
