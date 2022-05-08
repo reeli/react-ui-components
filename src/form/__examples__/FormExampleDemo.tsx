@@ -1,7 +1,7 @@
 import { Form } from "../Form";
-import { StringInput, RedirectAction, AlertAction, SubmitInput } from "../types";
+import { FormSpec } from "../types";
 
-const formSpec = {
+const formSpec: FormSpec = {
   formId: "001",
   title: "Basic Form",
   description: "This is a basic form",
@@ -10,24 +10,18 @@ const formSpec = {
       name: "username",
       type: "string",
       widget: "text",
-      label: "Username",
+      label: "用户名",
       defaultValue: "Rui",
-    } as StringInput,
+    },
     {
       name: "password",
       type: "string",
       widget: "text",
-      label: "Password",
+      label: "密码",
       props: {
         type: "password",
       },
-    } as StringInput,
-    {
-      name: "submit",
-      type: "submit",
-      widget: "button",
-      text: "Submit",
-    } as SubmitInput,
+    },
   ],
   actions: {
     client: {
@@ -37,12 +31,14 @@ const formSpec = {
       onSubmitSuccess: {
         type: "redirect",
         url: "xxx",
-      } as RedirectAction,
+      },
       onSubmitFail: {
         type: "alert",
-      } as AlertAction,
+      },
     },
-    server: {},
+  },
+  submit: {
+    confirmText: "提交",
   },
 };
 

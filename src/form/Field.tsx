@@ -1,27 +1,10 @@
-import { Select, TextField, Button, ButtonProps } from "@material-ui/core";
 import { Controller, useFormContext, Validate } from "react-hook-form";
 import { Widget as TWidget, FormValue, FieldValue } from "./types";
-import { FunctionComponent, forwardRef, Ref, FC } from "react";
-
-const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...others }, ref: Ref<HTMLButtonElement>) => {
-  return (
-    <Button {...others} ref={ref}>
-      {text}
-    </Button>
-  );
-});
+import { getWidgetComponentByType } from "./mapping";
 
 export const Field = ({ name, widget, type, defaultValue, rules, props = {}, ...others }: TWidget) => {
   const { control, getValues } = useFormContext();
   const Widget = getWidgetComponentByType(widget);
-
-  if (type === "submit") {
-    return (
-      <Widget name={name} type={"submit"} variant={"contained"} color={"primary"} {...others}>
-        {"submit"}
-      </Widget>
-    );
-  }
 
   return (
     <Controller
@@ -32,18 +15,6 @@ export const Field = ({ name, widget, type, defaultValue, rules, props = {}, ...
       render={({ field }) => <Widget {...others} {...props} {...field} />}
     />
   );
-};
-
-const getWidgetComponentByType = (type: TWidget["widget"]) => {
-  const mapping: {
-    [key: string]: FunctionComponent<any>;
-  } = {
-    text: TextField,
-    select: Select,
-    button: MyButton,
-  };
-
-  return mapping[type];
 };
 
 const parseRules = (rules: TWidget["rules"], formValue: FormValue, name: string): Validate<FieldValue> => {

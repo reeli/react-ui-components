@@ -12,6 +12,9 @@ export interface FormSpec {
       onSubmitFail: RedirectAction | AlertAction;
     };
   };
+  submit: {
+    confirmText: string;
+  };
 }
 
 export type Widget =
@@ -20,7 +23,6 @@ export type Widget =
   | DateInput
   | SelectInput
   | BooleanInput
-  | SubmitInput
   | FieldArrayInput
   | FieldSection;
 
@@ -110,12 +112,6 @@ interface FieldSection extends BasicInput {
     title: string;
     items: Widget[];
   };
-}
-
-export interface SubmitInput extends BasicInput {
-  type: "submit";
-  widget: "button";
-  text: string;
 }
 
 type Arg = Operator | string | number;
