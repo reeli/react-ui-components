@@ -47,6 +47,20 @@ const formSpec: FormSpec = {
       label: "是否已婚",
       defaultValue: false,
     },
+    {
+      name: "showMore",
+      type: "boolean",
+      widget: "switch",
+      label: "显示更多",
+      defaultValue: false,
+    },
+    {
+      name: "annualIncome",
+      type: "string",
+      widget: "text",
+      label: "年收入",
+      visible: ["eq", ["get", "showMore"], ["get", "maritalStatus"]],
+    },
   ],
   actions: {
     client: {

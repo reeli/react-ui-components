@@ -9,7 +9,13 @@ interface FormProps {
 }
 
 export const Form = ({ formSpec }: FormProps) => {
-  const methods = useForm({ mode: "all" });
+  const methods = useForm({
+    mode: "all",
+    // defaultValues: {
+    //   maritalStatus: false,
+    //   showMore: false,
+    // },
+  });
 
   const onSubmit = (data: FormValue) => {
     alert(JSON.stringify(data, null, 2));

@@ -47,6 +47,7 @@ interface BasicInput {
   description?: string;
   defaultValue?: any;
   props?: any; // extra props will pass to component
+  visible?: Operator | boolean;
 }
 
 export interface StringInput extends BasicInput {
@@ -116,7 +117,7 @@ interface FieldSection extends BasicInput {
   rules?: null;
 }
 
-type Arg = Operator | string | number;
+type Arg = Operator | string | number | boolean;
 export type Operator = [item1: string, ...otherItems: Arg[]];
 export type FormValue = any;
 export type FieldValue = any;
