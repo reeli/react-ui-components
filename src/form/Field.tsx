@@ -24,9 +24,9 @@ export const Field = ({ name, widget, type, defaultValue, rules, props = {}, ...
       render={({ field }) => (
         <Fragment>
           <div>
-            <Widget {...others} {...props} {...field} value={field.value || ""} />
+            <Widget {...others} {...props} {...field} value={field.value} />
           </div>
-          {formState.errors[name]?.message && <div>{formState.errors[name].message}</div>}
+          {formState.errors[name]?.message && <div css={{ color: "red" }}>{formState.errors[name].message}</div>}
         </Fragment>
       )}
     />

@@ -73,7 +73,7 @@ interface NumberInput extends BasicInput {
 interface BooleanInput extends BasicInput {
   type: "boolean";
   widget: "switch" | "toggle";
-  rules: null;
+  rules?: null;
 }
 
 interface DateInput extends BasicInput {
@@ -113,7 +113,7 @@ interface FieldSection extends BasicInput {
     title: string;
     items: Widget[];
   };
-  rules: null;
+  rules?: null;
 }
 
 type Arg = Operator | string | number;

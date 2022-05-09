@@ -1,9 +1,18 @@
-import { ButtonProps, Button, TextField, Select } from "@material-ui/core";
-import { FC, forwardRef, Ref } from "react";
+import {
+  ButtonProps,
+  Button,
+  TextField,
+  Select,
+  Switch,
+  SwitchProps,
+  TextFieldProps,
+  FormControlLabel,
+} from "@material-ui/core";
+import { FC, forwardRef } from "react";
 import { FormValue, FieldValue, Operator, Rule, ValidateFnList, ValidateFnCore } from "./types";
 import { Validate } from "react-hook-form";
 
-const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...others }, ref: Ref<HTMLButtonElement>) => {
+const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...others }, ref) => {
   return (
     <Button {...others} ref={ref} variant={"contained"} color={"primary"}>
       {text}
@@ -11,9 +20,26 @@ const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...othe
   );
 });
 
+const MySwitch: FC<SwitchProps & { value: boolean; label: string }> = forwardRef(({ value, label, ...others }, ref) => {
+  return (
+    <FormControlLabel control={<Switch checked={value} {...others} ref={ref} />} label={label} labelPlacement={"top"} />
+  );
+});
+
+const MyTextField: FC<TextFieldProps & { value: string }> = forwardRef(({ value = "", label, ...others }, ref) => {
+  return (
+    <FormControlLabel
+      control={<TextField value={value} {...others} ref={ref} />}
+      label={label}
+      labelPlacement={"top"}
+    />
+  );
+});
+
 export const widgetComponents = {
-  text: TextField,
+  text: MyTextField,
   select: Select,
+  switch: MySwitch,
   submit: MyButton,
 };
 

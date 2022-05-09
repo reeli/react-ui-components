@@ -14,6 +14,12 @@ const formSpec: FormSpec = {
       widget: "text",
       label: "用户名",
       defaultValue: "Rui",
+      rules: [
+        {
+          rule: ["required"],
+          errorMsg: "用户名为必填项",
+        },
+      ],
     },
     {
       name: "password",
@@ -33,6 +39,13 @@ const formSpec: FormSpec = {
           errorMsg: "最大长度为 10 个字符",
         },
       ],
+    },
+    {
+      name: "maritalStatus",
+      type: "boolean",
+      widget: "switch",
+      label: "是否已婚",
+      defaultValue: false,
     },
   ],
   actions: {

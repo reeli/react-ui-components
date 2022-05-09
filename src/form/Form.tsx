@@ -12,7 +12,7 @@ export const Form = ({ formSpec }: FormProps) => {
   const methods = useForm({ mode: "all" });
 
   const onSubmit = (data: FormValue) => {
-    console.log(data);
+    alert(JSON.stringify(data, null, 2));
     // axios.post(formSpec.actions.client.onSubmit.apiUrl, data);
   };
 
