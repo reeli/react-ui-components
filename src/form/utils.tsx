@@ -1,15 +1,15 @@
 import {
-  ButtonProps,
   Button,
-  TextField,
+  ButtonProps,
+  FormControlLabel,
   Select,
   Switch,
   SwitchProps,
+  TextField,
   TextFieldProps,
-  FormControlLabel,
 } from "@material-ui/core";
 import { FC, forwardRef } from "react";
-import { FormValue, FieldValue, Operator, Rule, ValidateFnList, ValidateFnCore } from "./types";
+import { FieldValue, FormValue, Operator, Rule, ValidateFnCore, ValidateFnList } from "./types";
 import { Validate } from "react-hook-form";
 import { get, isEqual } from "lodash";
 
@@ -78,20 +78,22 @@ export const parseRules = ({ rules, fnList, formValue }: ParseRuleParams): Valid
   };
 };
 
-export const parseOperator = (operator: Operator, fnList: ValidateFnList): ValidateFnCore => {
-  const [fnName, ...others] = operator;
-  const args: any[] = [];
+export const parseOperator =
+  (operator: Operator, fnList: ValidateFnList): ValidateFnCore =>
+  (value, formValue) => {
+    const [fnName, ...others] = operator;
+    const args: any[] = [];
 
-  others.forEach((item) => {
-    if (isOperator(item)) {
-      args.push(parseOperator(item, fnList));
-    } else {
-      args.push(item);
-    }
-  });
+    others.forEach((item) => {
+      if (isOperator(item)) {
+        args.push(parseOperator(item, fnList)(value, formValue));
+      } else {
+        args.push(item);
+      }
+    });
 
-  return fnList[fnName] && fnList[fnName](...args);
-};
+    return fnList[fnName] && fnList[fnName](...args)(value, formValue);
+  };
 
 const isOperator = (data: any): data is Operator => Array.isArray(data);
 
