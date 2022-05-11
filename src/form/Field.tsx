@@ -23,29 +23,37 @@ export const Field = ({ name, widget, type, defaultValue, rules, props = {}, vis
 
   const shouldShow = every(values);
 
+  if (!Widget) {
+    return null;
+  }
+
   return (
-    <Controller
-      name={name}
-      rules={{
-        validate: parseRules({
-          rules: rules as Rule[],
-          formValue: getValues(),
-          fnList: validationFnList,
-        }),
-      }}
-      control={control}
-      defaultValue={defaultValue}
-      render={({ field }) => {
-        if (!shouldShow) {
-          return <Fragment />;
-        }
-        return (
-          <Fragment>
-            <Widget {...others} {...props} {...field} value={field.value} />
-            {formState.errors[name]?.message && <div css={{ color: "red" }}>{formState.errors[name].message}</div>}
-          </Fragment>
-        );
-      }}
-    />
+    shouldShow && (
+      <Controller
+        name={name}
+        rules={{
+          validate: parseRules({
+            rules: rules as Rule[],
+            formValue: getValues(),
+            fnList: validationFnList,
+          }),
+        }}
+        control={control}
+        defaultValue={defaultValue}
+        render={({ field }) => {
+          if (!shouldShow) {
+            return <Fragment />;
+          }
+          return (
+            <Fragment>
+              <div>
+                <Widget {...others} {...props} {...field} value={field.value} />
+              </div>
+              {formState.errors[name]?.message && <div css={{ color: "red" }}>{formState.errors[name].message}</div>}
+            </Fragment>
+          );
+        }}
+      />
+    )
   );
 };

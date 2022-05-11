@@ -2,6 +2,7 @@ import Editor from "@monaco-editor/react";
 import { Form } from "../Form";
 import { FormSpec } from "../types";
 import { useState } from "react";
+import { debounce } from "lodash";
 
 const formSpec: FormSpec = {
   formId: "001",
@@ -60,6 +61,12 @@ const formSpec: FormSpec = {
       widget: "text",
       label: "年收入",
       visible: ["eq", ["get", "showMore"], ["get", "maritalStatus"]],
+      rules: [
+        {
+          rule: ["required"],
+          errorMsg: "此字段为必填项",
+        },
+      ],
     },
   ],
   actions: {
@@ -84,12 +91,13 @@ const formSpec: FormSpec = {
 export function FormExampleDemo() {
   const [data, setData] = useState(formSpec);
 
-  const handleChange = (value: any) => {
+  const handleChange = debounce((value: any) => {
     try {
       const data = JSON.parse(value);
+      console.log(data, "data");
       setData(data);
     } catch (e) {}
-  };
+  }, 1000);
 
   return (
     <div css={{ display: "flex" }}>
