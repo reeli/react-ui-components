@@ -1,17 +1,20 @@
 import {
   Button,
   ButtonProps,
-  FormControlLabel,
   Select,
-  Switch,
   SwitchProps,
   TextField,
   TextFieldProps,
+  SelectProps,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { FC, forwardRef } from "react";
 import { FieldValue, FormValue, Operator, Rule, ValidateFnCore, ValidateFnList } from "./types";
 import { Validate } from "react-hook-form";
-import { get, isEqual } from "lodash";
+import { get, isEqual, every } from "lodash";
 
 const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...others }, ref) => {
   return (
@@ -21,34 +24,62 @@ const MyButton: FC<ButtonProps & { text: string }> = forwardRef(({ text, ...othe
   );
 });
 
-const MySwitch: FC<SwitchProps & { value: boolean; label: string; onChange: (value: FieldValue) => void }> = forwardRef(
-  ({ value, label, onChange, ...others }, ref) => {
+const MyCheckbox: FC<SwitchProps & { value: boolean; label: string; onChange: (value: FieldValue) => void }> =
+  forwardRef(({ value, label, onChange, ...others }, ref) => {
     return (
-      <FormControlLabel
-        control={
-          <Switch {...others} checked={value} ref={ref} onChange={(_, checked) => onChange && onChange(checked)} />
-        }
-        label={label}
-        labelPlacement={"top"}
-      />
+      <FormControl fullWidth>
+        <InputLabel>{label}</InputLabel>
+        <div>
+          <Checkbox {...others} checked={value} ref={ref} onChange={(_, checked) => onChange && onChange(checked)} />
+        </div>
+      </FormControl>
+    );
+  });
+
+const MyTextField: FC<TextFieldProps & { value: string }> = forwardRef(({ value = "", label, ...others }, ref) => {
+  return (
+    <FormControl fullWidth>
+      <TextField label={label} value={value} {...others} ref={ref} />
+    </FormControl>
+  );
+});
+
+interface Option<TValue = any> {
+  id: string;
+  label: string;
+  value: TValue;
+}
+
+const MySelect: FC<SelectProps & { value: string; options: Option[] }> = forwardRef(
+  ({ value = "", options, label, ...others }, ref) => {
+    return (
+      <FormControl fullWidth>
+        <InputLabel>{label}</InputLabel>
+        <Select value={value} {...others} ref={ref}>
+          {options.map((option) => (
+            <MenuItem value={option.value} key={option.id}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     );
   },
 );
 
-const MyTextField: FC<TextFieldProps & { value: string }> = forwardRef(({ value = "", label, ...others }, ref) => {
+const MyNumberInput: FC<TextFieldProps & { value: number }> = forwardRef(({ value, label, ...others }, ref) => {
   return (
-    <FormControlLabel
-      control={<TextField value={value} {...others} ref={ref} />}
-      label={label}
-      labelPlacement={"top"}
-    />
+    <FormControl fullWidth>
+      <TextField type={"number"} label={label} value={value} {...others} ref={ref} />
+    </FormControl>
   );
 });
 
 export const widgetComponents = {
   text: MyTextField,
-  select: Select,
-  switch: MySwitch,
+  select: MySelect,
+  checkbox: MyCheckbox,
+  number: MyNumberInput,
   submit: MyButton,
 };
 
@@ -141,6 +172,10 @@ const maxLength = (num: number) => (value: FieldValue, _formValue: FormValue) =>
 const minLength = (num: number) => (value: FieldValue, _formValue: FormValue) => value.length >= num;
 const getValue = (name: string) => (_value: FieldValue, formValue: FormValue) => get(formValue, name);
 const eq = (a: any, b: any) => (_value: FieldValue, _formValue: FormValue) => isEqual(a, b);
+const all =
+  (...args: any[]) =>
+  (_value: FieldValue, _formValue: FormValue) =>
+    every(args);
 
 export const validationFnList = {
   lte,
@@ -150,4 +185,5 @@ export const validationFnList = {
   required,
   get: getValue,
   eq,
+  all
 };

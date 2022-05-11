@@ -73,7 +73,7 @@ interface NumberInput extends BasicInput {
 
 interface BooleanInput extends BasicInput {
   type: "boolean";
-  widget: "switch" | "toggle";
+  widget: "switch" | "toggle" | "checkbox";
   rules?: null;
 }
 
@@ -96,6 +96,7 @@ interface SelectInput extends BasicInput {
 }
 
 interface Option {
+  id: string;
   label: string;
   value: string;
 }

@@ -44,14 +44,14 @@ const formSpec: FormSpec = {
     {
       name: "maritalStatus",
       type: "boolean",
-      widget: "switch",
+      widget: "checkbox",
       label: "是否已婚",
       defaultValue: false,
     },
     {
       name: "showMore",
       type: "boolean",
-      widget: "switch",
+      widget: "checkbox",
       label: "显示更多",
       defaultValue: false,
     },
@@ -65,6 +65,57 @@ const formSpec: FormSpec = {
         {
           rule: ["required"],
           errorMsg: "此字段为必填项",
+        },
+      ],
+    },
+    {
+      name: "hobby",
+      type: "select",
+      widget: "select",
+      label: "爱好",
+      placeholder: "请填写爱好",
+      options: [
+        {
+          id: "001",
+          value: "swimming",
+          label: "游泳",
+        },
+        {
+          id: "002",
+          value: "hiking",
+          label: "徒步",
+        },
+        {
+          id: "003",
+          value: "ski",
+          label: "滑雪",
+        },
+        {
+          id: "004",
+          value: "climbing",
+          label: "登山",
+        },
+        {
+          id: "005",
+          value: "camping",
+          label: "露营",
+        },
+      ],
+    },
+    {
+      name: "age",
+      type: "number",
+      widget: "number",
+      label: "年龄",
+      placeholder: "请填写年龄",
+      rules: [
+        {
+          rule: ["required"],
+          errorMsg: "此字段为必填项",
+        },
+        {
+          rule: ["all", ["gte", 18], ["lte", 55]],
+          errorMsg: "年龄必须在 18 - 55 岁之间",
         },
       ],
     },
