@@ -5,10 +5,19 @@ import { Fragment, useContext } from "react";
 import { FormRenderContext } from "./FormRenderContext";
 import { every } from "lodash";
 
-export const Field = ({ name, widget, type, defaultValue, rules, props = {}, visible = true, ...others }: TWidget) => {
+export const Field = ({
+  name,
+  widget,
+  type,
+  defaultValue,
+  rules,
+  props = {},
+  visible = true,
+  ...others
+}: TWidget & { name: string }) => {
   const { control, getValues, formState } = useFormContext();
   const { validationFnList, widgetComponents } = useContext(FormRenderContext);
-  const Widget = widgetComponents[widget];
+  const Widget = widgetComponents[widget!];
 
   const formValue = getValues();
   const values = useWatch({
@@ -23,35 +32,33 @@ export const Field = ({ name, widget, type, defaultValue, rules, props = {}, vis
 
   const shouldShow = every(values);
 
-  if (!Widget) {
+  if (!Widget || !shouldShow) {
     return null;
   }
 
   return (
-    shouldShow && (
-      <Controller
-        name={name}
-        rules={{
-          validate: parseRules({
-            rules: rules as Rule[],
-            formValue: getValues(),
-            fnList: validationFnList,
-          }),
-        }}
-        control={control}
-        defaultValue={defaultValue}
-        render={({ field }) => {
-          if (!shouldShow) {
-            return <Fragment />;
-          }
-          return (
-            <Fragment>
-              <Widget {...others} {...props} {...field} value={field.value} />
-              {formState.errors[name]?.message && <div css={{ color: "red" }}>{formState.errors[name].message}</div>}
-            </Fragment>
-          );
-        }}
-      />
-    )
+    <Controller
+      name={name}
+      rules={{
+        validate: parseRules({
+          rules: rules as Rule[],
+          formValue: getValues(),
+          fnList: validationFnList,
+        }),
+      }}
+      control={control}
+      defaultValue={defaultValue}
+      render={({ field }) => {
+        if (!shouldShow) {
+          return <Fragment />;
+        }
+        return (
+          <Fragment>
+            <Widget {...others} {...props} {...field} value={field.value} />
+            {formState.errors[name]?.message && <div css={{ color: "red" }}>{formState.errors[name].message}</div>}
+          </Fragment>
+        );
+      }}
+    />
   );
 };

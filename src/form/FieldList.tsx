@@ -6,7 +6,7 @@ interface FieldListProps {
   widgets: Widget[];
 }
 
-export const FieldList = ({ widgets }: FieldListProps) => {
+const renderFieldList = (widgets: Widget[]) => {
   return (
     <Fragment>
       {widgets.map((widget, idx) => {
@@ -15,13 +15,21 @@ export const FieldList = ({ widgets }: FieldListProps) => {
           return <div key={idx}>array</div>;
         }
 
-        if (widget.type === "section") {
-          // TODO
-          return <div key={idx}>section</div>;
+        if (widget.type === "group") {
+          return (
+            <div key={idx} css={{ padding: 10, marginBottom: 25 }}>
+              <h3>{widget.section.title}</h3>
+              <div>{renderFieldList(widget.section.widgets)}</div>
+            </div>
+          );
         }
 
         return <Field {...widget} key={idx} />;
       })}
     </Fragment>
   );
+};
+
+export const FieldList = ({ widgets }: FieldListProps) => {
+  return renderFieldList(widgets);
 };

@@ -17,14 +17,7 @@ export interface FormSpec {
   };
 }
 
-export type Widget =
-  | StringInput
-  | NumberInput
-  | DateInput
-  | SelectInput
-  | BooleanInput
-  | FieldArrayInput
-  | FieldSection;
+export type Widget = StringInput | NumberInput | DateInput | SelectInput | BooleanInput | FieldArrayInput | FieldGroup;
 
 interface Action {
   type: string;
@@ -41,8 +34,8 @@ export interface AlertAction extends Action {
 }
 
 interface BasicInput {
-  name: string;
-  widget: string;
+  name?: string;
+  widget?: string;
   label?: string;
   description?: string;
   defaultValue?: any;
@@ -51,6 +44,7 @@ interface BasicInput {
 }
 
 export interface StringInput extends BasicInput {
+  name: string;
   type: "string";
   widget: "text" | "textarea";
   placeholder?: string;
@@ -63,6 +57,7 @@ export interface StringInput extends BasicInput {
 }
 
 interface NumberInput extends BasicInput {
+  name: string;
   type: "number";
   widget: "number" | "currency";
   placeholder?: string;
@@ -72,12 +67,14 @@ interface NumberInput extends BasicInput {
 }
 
 interface BooleanInput extends BasicInput {
+  name: string;
   type: "boolean";
   widget: "switch" | "toggle" | "checkbox";
   rules?: null;
 }
 
 interface DateInput extends BasicInput {
+  name: string;
   type: "date";
   widget: "datepicker" | "rangePicker";
   defaultValue: string | string[];
@@ -88,6 +85,7 @@ interface DateInput extends BasicInput {
 }
 
 interface SelectInput extends BasicInput {
+  name: string;
   type: "select";
   widget: "select" | "optgroup" | "multiSelect";
   placeholder?: string;
@@ -102,6 +100,7 @@ interface Option {
 }
 
 interface FieldArrayInput extends BasicInput {
+  name: string;
   type: "array";
   max: number;
   min: number;
@@ -109,11 +108,11 @@ interface FieldArrayInput extends BasicInput {
   rules: Rule[];
 }
 
-interface FieldSection extends BasicInput {
-  type: "section";
-  items: {
+interface FieldGroup extends BasicInput {
+  type: "group";
+  section: {
     title: string;
-    items: Widget[];
+    widgets: Widget[];
   };
   rules?: null;
 }
