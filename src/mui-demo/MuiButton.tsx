@@ -1,31 +1,36 @@
-import {  buttonUnstyledClasses, useButton } from "@mui/base";
+import { useButton } from "@mui/base";
 import { styled } from "@mui/system";
-import { FC, forwardRef } from "react";
+import { FC, forwardRef, ReactNode } from "react";
 import clsx from "clsx";
 import { capitalize } from "lodash";
 import { ButtonBaseProps } from "@material-ui/core";
 
 const colors: any = {
   primary: "#1976d2",
-  secondary:"rgba(25, 118, 210, 0.5)",
-  success:"green",
-  error:"red"
+  secondary: "rgba(25, 118, 210, 0.5)",
+  success: "green",
+  error: "red"
 };
-const MuiButtonRoot = styled("button")((props) => {
+
+const MuiButtonRoot = styled("button")((ownerState: MuiOwnerState) => {
   return {
     border: "none",
     borderRadius: 6,
     padding: 8,
     fontSize: 12,
-    [`&.${buttonUnstyledClasses.disabled}`]: {
+    display: "inline-flex",
+    verticalAlign: "middle",
+    alignItems: "center",
+    cursor: "pointer",
+    ...(ownerState.disabled && {
       opacity: 0.5,
       cursor: "not-allowed"
-    },
-    "&.fullWidth": {
+    }),
+    ...(ownerState.fullWidth && {
       width: "100%"
-    },
-    "&.variantContained": {
-      backgroundColor: colors[props.color || "primary"],
+    }),
+    ...(ownerState.variant === "contained" && {
+      backgroundColor: colors[ownerState.color || "primary"],
       color: "#fff",
       ["&:hover"]: {
         textDecoration: "none",
@@ -38,53 +43,69 @@ const MuiButtonRoot = styled("button")((props) => {
       //   backgroundColor: "black",
       //   "outline": "none"
       // },
-    },
-    "&.variantOutlined": {
-      border: `1px solid ${colors[props.color || "primary"]}`,
+    }),
+    ...(ownerState.variant === "outlined" && {
+      border: `1px solid ${colors[ownerState.color || "primary"]}`,
       backgroundColor: "rgb(244, 250, 255)",
       ["&:hover"]: {
         textDecoration: "none",
         border: "1px solid rgb(25, 118, 210)",
         backgroundColor: "rgba(25, 118, 210, 0.04)"
       }
-    },
-    "&.variantText": {
-      color: `${colors[props.color||"primary"]}`,
+    }),
+    ...(ownerState.variant === "text" && {
+      color: `${colors[ownerState.color || "primary"]}`,
       background: "none",
       ["&:hover"]: {
         textDecoration: "none",
         backgroundColor: "rgba(25, 118, 210, 0.04)"
       }
-    },
-    "&.large": {
+    }),
+    ...(ownerState.size === "large" && {
       fontSize: "1.5rem",
       padding: "7px 21px",
       lineHeight: 1.75
-    },
-    "&.medium": {
+    }),
+    ...(ownerState.size === "medium" && {
       fontSize: "1.4rem",
       padding: "5px 15px",
       lineHeight: 1.75
-    },
-    "&.small": {
+    }),
+    ...(ownerState.size === "small" && {
       fontSize: "1.3rem",
       padding: "3px 9px",
       lineHeight: 1.75
-    }
+    })
   };
 });
 
+const ButtonStartIcon = styled("span")({
+  display: "inherit",
+  marginRight: 8
+  // marginLeft: -4
+});
+
+const ButtonEndIcon = styled("span")({
+  display: "inherit",
+  marginLeft: 8
+  // marginRight: -4
+});
 
 interface MuiButtonProps extends ButtonBaseProps {
   fullWidth?: boolean;
   disabled?: boolean;
   variant?: "contained" | "outlined" | "text",
   color?: "primary" | "secondary" | "success" | "error",
-  size?: "large" | "medium" | "small"
+  size?: "large" | "medium" | "small",
+  startIcon?: ReactNode,
+  endIcon?: ReactNode
+}
+
+interface MuiOwnerState extends MuiButtonProps{
 }
 
 export const MuiButton: FC<MuiButtonProps> = forwardRef((props, ref) => {
-  const { children, variant = "contained", color, size = "medium" } = props;
+  const { children, variant = "contained", size = "medium", startIcon, endIcon } = props;
   const { active, disabled, focusVisible, getRootProps } = useButton({
     ...props,
     ref
@@ -99,8 +120,12 @@ export const MuiButton: FC<MuiButtonProps> = forwardRef((props, ref) => {
     fullWidth: props.fullWidth
   };
 
-  return <MuiButtonRoot {...getRootProps()} color={color}
-                        className={clsx(classes)}>{children}</MuiButtonRoot>;
+  return <MuiButtonRoot {...props} {...getRootProps()}
+                        className={clsx(classes)}>
+    {startIcon && <ButtonStartIcon>{startIcon}</ButtonStartIcon>}
+    {children}
+    {endIcon && <ButtonEndIcon>{endIcon}</ButtonEndIcon>}
+  </MuiButtonRoot>;
 });
 
 
