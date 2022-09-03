@@ -4,7 +4,7 @@ export interface TreeNode {
   id: string,
   parentId: string | null
   title: ReactNode;
-  // visible: boolean;
+  collapsed: boolean | null;
   checked: boolean;
   // disableCheckbox?: boolean,
   // disabled?: boolean;

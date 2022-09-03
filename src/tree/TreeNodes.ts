@@ -18,7 +18,8 @@ export class TreeNodes {
           parentId,
           title: item.title,
           // visible: false,
-          checked: false
+          checked: false,
+          collapsed: item.children ? false : null
           // disabled: item.disabled,
           // disableCheckbox: item.disableCheckbox,
         },
@@ -38,6 +39,7 @@ export class TreeNodes {
           checked: value
         };
       });
+
       return;
     }
 
