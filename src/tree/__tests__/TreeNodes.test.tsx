@@ -52,6 +52,59 @@ describe("TreeNodes", () => {
     });
   });
 
+  it("should covert tree nodes to tree data", () => {
+    const treeNodes = new TreeNodes(treeData);
+    expect(treeNodes.toTree()).toEqual([
+      {
+        id: "0-0",
+        title: "parent 1",
+        parentId: null,
+        checked: false,
+        collapsed: false,
+        children: [
+          {
+            id: "0-0-0",
+            title: "parent 1-0",
+            parentId: "0-0",
+            checked: false,
+            collapsed: false,
+            children: [{
+              id: "0-0-0-0",
+              title: "leaf",
+              parentId: "0-0-0",
+              checked: false,
+              collapsed: null
+              // disableCheckbox: true
+            },
+              {
+                id: "0-0-0-1",
+                parentId: "0-0-0",
+                title: "leaf",
+                checked: false,
+                collapsed: null
+              }
+            ]
+            // disabled: true
+          },
+          {
+            id: "0-0-1",
+            title: "parent 1-1",
+            parentId: "0-0",
+            checked: false,
+            collapsed: false,
+            children: [{
+              id: "0-0-1-0",
+              parentId: "0-0-1",
+              title: <span style={{ color: "#1890ff" }}>sss</span>,
+              checked: false,
+              collapsed: null
+            }]
+          }
+        ]
+      }
+    ]);
+  });
+
   describe("check and uncheck a node", () => {
     it("should check a basic node", () => {
       const treeNodes = new TreeNodes(treeData);
@@ -212,9 +265,9 @@ const newTreeData: DataNode[] = [
             title: "leaf",
             key: "0-0-0-1",
             // disableCheckbox: true
-            children:[{
+            children: [{
               title: "leaf-leaf",
-              key: "0-0-0-0-1",
+              key: "0-0-0-0-1"
             }]
           }
         ]

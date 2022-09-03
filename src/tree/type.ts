@@ -10,6 +10,15 @@ export interface TreeNode {
   // disabled?: boolean;
 }
 
+export interface TreeData {
+  id: string;
+  parentId: string | null;
+  title: ReactNode;
+  collapsed: boolean | null;
+  checked: boolean;
+  children?: TreeData[]
+}
+
 export interface DataNode {
   title: ReactNode;
   key: string,

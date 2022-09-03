@@ -1,5 +1,5 @@
-import { DataNode, TreeNode } from "src/tree/type";
-import { mapValues } from "lodash";
+import { DataNode, TreeData, TreeNode } from "src/tree/type";
+import { mapValues, isEmpty } from "lodash";
 
 
 export class TreeNodes {
@@ -89,5 +89,35 @@ export class TreeNodes {
     }
 
     return Object.values(this.treeNodes).filter(node => node.parentId === parentId);
+  }
+
+  toTree() {
+    const root = Object.values(this.treeNodes).find(node => node.parentId === null);
+    if (!root) {
+      return [];
+    }
+
+    const findChildrenById = (id: string): TreeData[] => {
+      const matchList = Object.values(this.treeNodes).filter((node) => {
+        return node.parentId === id;
+      });
+
+      return matchList.map(node => {
+        const children = findChildrenById(node.id);
+        return children
+          ? {
+            ...node,
+            children: isEmpty(children) ? undefined : children
+          }
+          : node;
+      });
+    };
+
+    return [
+      {
+        ...root,
+        children: findChildrenById(root.id)
+      }
+    ];
   }
 }
