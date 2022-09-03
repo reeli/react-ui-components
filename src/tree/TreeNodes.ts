@@ -28,6 +28,26 @@ export class TreeNodes {
     }, {});
   }
 
+  toggleCollapsedStatus(id: string) {
+    const collapsed = this.treeNodes[id].collapsed;
+
+    if (collapsed === null) {
+      return;
+    }
+
+    this.treeNodes[id].collapsed = !collapsed;
+    this.toggleChildren(id, !collapsed);
+  }
+
+  toggleChildren(id: string, value: boolean) {
+    this.findNodesByParentId(id).forEach(node => {
+      if (node.collapsed !== null) {
+        this.treeNodes[node.id].collapsed = value;
+        this.toggleChildren(node.id, value);
+      }
+    });
+  }
+
   toggleCheckedStatus(id: string) {
     const parentId = this.treeNodes[id].parentId;
     const value = !this.treeNodes[id].checked;
@@ -63,10 +83,10 @@ export class TreeNodes {
     }
   }
 
-  findNodesByParentId(parentId: string) {
-    // if (parentId === null) {
-    //   return Object.values(this.treeNodes).filter(node => node.parentId !== null);
-    // }
+  findNodesByParentId(parentId: string | null) {
+    if (parentId === null) {
+      return Object.values(this.treeNodes).filter(node => node.parentId !== null);
+    }
 
     return Object.values(this.treeNodes).filter(node => node.parentId === parentId);
   }

@@ -134,6 +134,31 @@ describe("TreeNodes", () => {
       expect(treeNodes.treeNodes["0-0-1-0"].checked).toEqual(false);
     });
   });
+
+  describe("collapse and not collapse a node", () => {
+    it("should not collapse a node", () => {
+      const treeNodes = new TreeNodes(treeData);
+      const id = "0-0-0";
+      treeNodes.toggleCollapsedStatus(id);
+      expect(treeNodes.treeNodes[id].collapsed).toEqual(true);
+    });
+
+    it("should not collapse a node it's child nodes", () => {
+      const treeNodes = new TreeNodes(newTreeData);
+
+      const id = "0-0";
+      const childId1 = "0-0-0";
+      const childId2 = "0-0-1";
+      const childId3 = "0-0-0-1";
+
+      treeNodes.toggleCollapsedStatus(id);
+
+      expect(treeNodes.treeNodes[id].collapsed).toEqual(true);
+      expect(treeNodes.treeNodes[childId1].collapsed).toEqual(true);
+      expect(treeNodes.treeNodes[childId2].collapsed).toEqual(true);
+      expect(treeNodes.treeNodes[childId3].collapsed).toEqual(true);
+    });
+  });
 });
 
 
@@ -156,6 +181,41 @@ const treeData: DataNode[] = [
             title: "leaf",
             key: "0-0-0-1"
             // disableCheckbox: true
+          }
+        ]
+      },
+      {
+        title: "parent 1-1",
+        key: "0-0-1",
+        children: [{ title: <span style={{ color: "#1890ff" }}>sss</span>, key: "0-0-1-0" }]
+      }
+    ]
+  }
+];
+
+const newTreeData: DataNode[] = [
+  {
+    title: "parent 1",
+    key: "0-0",
+    children: [
+      {
+        title: "parent 1-0",
+        key: "0-0-0",
+        // disabled: true,
+        children: [
+          {
+            title: "leaf",
+            key: "0-0-0-0"
+            // disableCheckbox: true
+          },
+          {
+            title: "leaf",
+            key: "0-0-0-1",
+            // disableCheckbox: true
+            children:[{
+              title: "leaf-leaf",
+              key: "0-0-0-0-1",
+            }]
           }
         ]
       },
