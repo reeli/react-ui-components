@@ -1,5 +1,5 @@
 import { DataNode, TreeData, TreeNode } from "src/tree/type";
-import { mapValues, isEmpty } from "lodash";
+import {  isEmpty } from "lodash";
 
 
 export class TreeNodes {
@@ -49,6 +49,7 @@ export class TreeNodes {
     const parentId = this.treeNodes[id].parentId;
     const value = !this.treeNodes[id].checked;
 
+    // console.log(value, this.treeNodes,'=========');
     this.treeNodes[id].checked = value;
 
     if (!parentId) {
@@ -59,35 +60,34 @@ export class TreeNodes {
       return;
     }
 
-
-    this.treeNodes = mapValues(this.treeNodes, (node) => {
-      if (node.parentId === id) {
-        return {
-          ...node,
+    Object.keys(this.treeNodes).forEach(key=>{
+      if(this.treeNodes[key].parentId ===id){
+        this.treeNodes[key] = {
+          ...this.treeNodes[key],
           checked: value
-        };
+        }
       }
-      return node;
-    });
+    })
 
 
     const nodes = this.findNodesByParentId(parentId);
     const isAllChildNodesChecked = nodes.every(node => node.checked);
-    const isAllChildNodesUnChecked = nodes.every(node => !node.checked);
+    const isAnyChildNodesUnChecked = nodes.some(node => !node.checked);
 
-    // if (isAllChildNodesChecked) {
-    //   this.treeNodes[parentId].checked = value;
-    // }
 
-    if (isAllChildNodesUnChecked || isAllChildNodesChecked) {
-      this.treeNodes[parentId].checked = value;
+    if (isAnyChildNodesUnChecked) {
+      this.treeNodes[parentId].checked = false;
+    }
+
+    if(isAllChildNodesChecked){
+      this.treeNodes[parentId].checked = true;
     }
   }
 
   findNodesByParentId(parentId: string | null, final: TreeNode[] = []): TreeNode[] {
-    // if (parentId === null) {
-    //   return Object.values(this.treeNodes).filter(node => node.parentId !== null);
-    // }
+    if (parentId === null) {
+      return Object.values(this.treeNodes).filter(node => node.parentId !== null);
+    }
 
     const res = Object.values(this.treeNodes).filter(node => node.parentId === parentId);
     final = [...res];

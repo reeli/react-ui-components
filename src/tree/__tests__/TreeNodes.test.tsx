@@ -194,6 +194,7 @@ describe("TreeNodes", () => {
       expect(treeNodes.treeNodes[id].checked).toEqual(true);
       expect(treeNodes.treeNodes[parentId].checked).toEqual(true);
     });
+
     it("should uncheck the parent node if all children node are unchecked", () => {
       const treeNodes = new TreeNodes(treeData);
 
