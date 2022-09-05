@@ -13,8 +13,8 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
 
   useEffect(() => {
     const treeNodes = new TreeNodes(treeData);
-    setTreeNode(treeNodes)
-    setData(treeNodes.toTree())
+    setTreeNode(treeNodes);
+    setData(treeNodes.toTree());
   }, []);
 
 
@@ -25,9 +25,11 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
           return (
             <div key={node.id}>
               <div css={{ display: "flex", alignItems: "center" }}>
-                <Checkbox value={node.checked} onChange={()=>{
-                  treeNodes!.toggleCheckedStatus(node.id)
-                  setData(treeNodes!.toTree())
+                <Checkbox value={node.checked} onChange={() => {
+                  node.checked
+                    ? treeNodes!.uncheckNode(node.id)
+                    : treeNodes!.checkNode(node.id);
+                  setData(treeNodes!.toTree());
                 }}/>
                 <span>{node.title}</span>
               </div>
@@ -39,5 +41,5 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
     </div>;
   };
 
-  return treeNodes ? renderRoots(data) :null;
+  return treeNodes ? renderRoots(data) : null;
 };
