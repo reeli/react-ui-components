@@ -17,11 +17,8 @@ export class TreeNodes {
           id: item.key,
           parentId,
           title: item.title,
-          // visible: false,
           checked: false,
           collapsed: item.children ? false : null
-          // disabled: item.disabled,
-          // disableCheckbox: item.disableCheckbox,
         },
         ...(item.children ? this.toTreeNodes(item.children, item.key) : {})
       };
@@ -52,6 +49,8 @@ export class TreeNodes {
     const parentId = this.treeNodes[id].parentId;
     const value = !this.treeNodes[id].checked;
 
+    this.treeNodes[id].checked = value;
+
     if (!parentId) {
       this.treeNodes = mapValues(this.treeNodes, (node) => {
         return {
@@ -63,7 +62,6 @@ export class TreeNodes {
       return;
     }
 
-    this.treeNodes[id].checked = value;
 
     this.treeNodes = mapValues(this.treeNodes, (node) => {
       if (node.parentId === id) {
@@ -77,9 +75,14 @@ export class TreeNodes {
 
 
     const isAllChildNodesChecked = this.findNodesByParentId(parentId).every(node => node.checked);
+    const isAllChildNodesUnChecked = this.findNodesByParentId(parentId).every(node => !node.checked);
 
     if (isAllChildNodesChecked) {
       this.treeNodes[parentId].checked = true;
+    }
+
+    if (isAllChildNodesUnChecked) {
+      this.treeNodes[parentId].checked = false;
     }
   }
 
@@ -113,15 +116,14 @@ export class TreeNodes {
       });
     };
 
-    return roots.map(root => {
-      return {
-        id: root.id,
-        collapsed: false,
-        checked: false,
-        title: root.title,
-        parentId: root.parentId || null,
-        children: findChildrenById(root.id)
-      };
-    });
+
+    return roots.map(root => ({
+      id: root.id,
+      collapsed: root.collapsed,
+      checked: root.checked,
+      title: root.title,
+      parentId: root.parentId || null,
+      children: findChildrenById(root.id)
+    }));
   }
 }

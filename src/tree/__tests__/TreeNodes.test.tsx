@@ -165,6 +165,7 @@ describe("TreeNodes", () => {
     ]);
   });
 
+
   describe("check and uncheck a node", () => {
     it("should check a basic node", () => {
       const treeNodes = new TreeNodes(treeData);
@@ -192,6 +193,18 @@ describe("TreeNodes", () => {
 
       expect(treeNodes.treeNodes[id].checked).toEqual(true);
       expect(treeNodes.treeNodes[parentId].checked).toEqual(true);
+    });
+    it("should uncheck the parent node if all children node are unchecked", () => {
+      const treeNodes = new TreeNodes(treeData);
+
+      const id = "0-0-1-0";
+      const parentId = "0-0-1";
+
+      treeNodes.toggleCheckedStatus(id);
+      treeNodes.toggleCheckedStatus(id);
+
+      expect(treeNodes.treeNodes[id].checked).toEqual(false);
+      expect(treeNodes.treeNodes[parentId].checked).toEqual(false);
     });
 
     it("should check all the child nodes if checked a parent node", () => {
@@ -245,6 +258,94 @@ describe("TreeNodes", () => {
       expect(treeNodes.treeNodes["0-0-0-1"].checked).toEqual(false);
       expect(treeNodes.treeNodes["0-0-1"].checked).toEqual(false);
       expect(treeNodes.treeNodes["0-0-1-0"].checked).toEqual(false);
+    });
+
+    it("should get correct tree data after toggle the root", () => {
+      const treeNodes = new TreeNodes(treeData);
+
+      treeNodes.toggleCheckedStatus("0-0")
+
+      expect(treeNodes.toTree()).toEqual([
+        {
+          id: "0-0",
+          title: "parent 1",
+          parentId: null,
+          checked: true,
+          collapsed: false,
+          children: [
+            {
+              id: "0-0-0",
+              title: "parent 1-0",
+              parentId: "0-0",
+              checked: true,
+              collapsed: false,
+              children: [{
+                id: "0-0-0-0",
+                title: "leaf",
+                parentId: "0-0-0",
+                checked: true,
+                collapsed: null
+                // disableCheckbox: true
+              },
+                {
+                  id: "0-0-0-1",
+                  parentId: "0-0-0",
+                  title: "leaf",
+                  checked: true,
+                  collapsed: null
+                }
+              ]
+              // disabled: true
+            },
+            {
+              id: "0-0-1",
+              title: "parent 1-1",
+              parentId: "0-0",
+              checked: true,
+              collapsed: false,
+              children: [{
+                id: "0-0-1-0",
+                parentId: "0-0-1",
+                title: <span style={{ color: "#1890ff" }}>sss</span>,
+                checked: true,
+                collapsed: null
+              }]
+            }
+          ]
+        },
+        {
+          id: "0-1",
+          title: "parent 2",
+          parentId:null,
+          checked:true,
+          collapsed: false,
+          children: [
+            {
+              id: "0-1-0",
+              title: "parent 2-0",
+              parentId: "0-1",
+              checked: true,
+              collapsed: false,
+              children: [
+                {
+                  id: "0-1-0-0",
+                  title: "leaf",
+                  parentId: "0-1-0",
+                  checked: true,
+                  collapsed: null
+                },
+              ]
+            },
+            {
+              id: "0-1-1",
+              title: "parent 2-1",
+              parentId: "0-1",
+              checked: true,
+              collapsed: null
+            }
+          ]
+        },
+      ]);
     });
   });
 
