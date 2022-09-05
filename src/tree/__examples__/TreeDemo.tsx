@@ -30,7 +30,27 @@ const treeData: DataNode[] = [
         children: [{ title: <span style={{ color: "#1890ff" }}>sss</span>, key: "0-0-1-0" }]
       }
     ]
-  }
+  },
+  {
+    title: "parent 2",
+    key: "0-1",
+    children: [
+      {
+        title: "parent 2-0",
+        key: "0-1-0",
+        children: [
+          {
+            title: "leaf",
+            key: "0-1-0-0"
+          },
+        ]
+      },
+      {
+        title: "parent 2-1",
+        key: "0-1-1",
+      }
+    ]
+  },
 ];
 
 export function TreeDemo() {

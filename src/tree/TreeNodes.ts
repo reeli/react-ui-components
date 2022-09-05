@@ -52,11 +52,8 @@ export class TreeNodes {
     this.treeNodes[id].checked = value;
 
     if (!parentId) {
-      this.treeNodes = mapValues(this.treeNodes, (node) => {
-        return {
-          ...node,
-          checked: value
-        };
+      this.findNodesByParentId(id).forEach(node => {
+        this.treeNodes[node.id].checked = value;
       });
 
       return;
@@ -74,24 +71,35 @@ export class TreeNodes {
     });
 
 
-    const isAllChildNodesChecked = this.findNodesByParentId(parentId).every(node => node.checked);
-    const isAllChildNodesUnChecked = this.findNodesByParentId(parentId).every(node => !node.checked);
+    const nodes = this.findNodesByParentId(parentId);
+    const isAllChildNodesChecked = nodes.every(node => node.checked);
+    const isAllChildNodesUnChecked = nodes.every(node => !node.checked);
 
-    if (isAllChildNodesChecked) {
-      this.treeNodes[parentId].checked = true;
-    }
+    // if (isAllChildNodesChecked) {
+    //   this.treeNodes[parentId].checked = value;
+    // }
 
-    if (isAllChildNodesUnChecked) {
-      this.treeNodes[parentId].checked = false;
+    if (isAllChildNodesUnChecked || isAllChildNodesChecked) {
+      this.treeNodes[parentId].checked = value;
     }
   }
 
-  findNodesByParentId(parentId: string | null) {
-    if (parentId === null) {
-      return Object.values(this.treeNodes).filter(node => node.parentId !== null);
-    }
+  findNodesByParentId(parentId: string | null, final: TreeNode[] = []): TreeNode[] {
+    // if (parentId === null) {
+    //   return Object.values(this.treeNodes).filter(node => node.parentId !== null);
+    // }
 
-    return Object.values(this.treeNodes).filter(node => node.parentId === parentId);
+    const res = Object.values(this.treeNodes).filter(node => node.parentId === parentId);
+    final = [...res];
+
+    res.forEach(v => {
+      final = [
+        ...final,
+        ...this.findNodesByParentId(v.id, final)
+      ];
+    });
+
+    return final;
   }
 
   toTree() {

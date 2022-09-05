@@ -70,7 +70,7 @@ describe("TreeNodes", () => {
         checked: false,
         collapsed: null
       },
-      "0-1-0-0":{
+      "0-1-0-0": {
         id: "0-1-0-0",
         parentId: "0-1-0",
         title: "leaf",
@@ -133,8 +133,8 @@ describe("TreeNodes", () => {
       {
         id: "0-1",
         title: "parent 2",
-        parentId:null,
-        checked:false,
+        parentId: null,
+        checked: false,
         collapsed: false,
         children: [
           {
@@ -150,7 +150,7 @@ describe("TreeNodes", () => {
                 parentId: "0-1-0",
                 checked: false,
                 collapsed: null
-              },
+              }
             ]
           },
           {
@@ -161,7 +161,7 @@ describe("TreeNodes", () => {
             collapsed: null
           }
         ]
-      },
+      }
     ]);
   });
 
@@ -244,6 +244,11 @@ describe("TreeNodes", () => {
       expect(treeNodes.treeNodes["0-0-0-1"].checked).toEqual(true);
       expect(treeNodes.treeNodes["0-0-1"].checked).toEqual(true);
       expect(treeNodes.treeNodes["0-0-1-0"].checked).toEqual(true);
+
+      expect(treeNodes.treeNodes["0-1"].checked).toEqual(false);
+      expect(treeNodes.treeNodes["0-1-0"].checked).toEqual(false);
+      expect(treeNodes.treeNodes["0-1-1"].checked).toEqual(false);
+      expect(treeNodes.treeNodes["0-1-0-0"].checked).toEqual(false);
     });
 
     it("should uncheck all nodes if checked root node", () => {
@@ -263,7 +268,7 @@ describe("TreeNodes", () => {
     it("should get correct tree data after toggle the root", () => {
       const treeNodes = new TreeNodes(treeData);
 
-      treeNodes.toggleCheckedStatus("0-0")
+      treeNodes.toggleCheckedStatus("0-0");
 
       expect(treeNodes.toTree()).toEqual([
         {
@@ -316,35 +321,35 @@ describe("TreeNodes", () => {
         {
           id: "0-1",
           title: "parent 2",
-          parentId:null,
-          checked:true,
+          parentId: null,
+          checked: false,
           collapsed: false,
           children: [
             {
               id: "0-1-0",
               title: "parent 2-0",
               parentId: "0-1",
-              checked: true,
+              checked: false,
               collapsed: false,
               children: [
                 {
                   id: "0-1-0-0",
                   title: "leaf",
                   parentId: "0-1-0",
-                  checked: true,
+                  checked: false,
                   collapsed: null
-                },
+                }
               ]
             },
             {
               id: "0-1-1",
               title: "parent 2-1",
               parentId: "0-1",
-              checked: true,
+              checked: false,
               collapsed: null
             }
           ]
-        },
+        }
       ]);
     });
   });
@@ -416,15 +421,15 @@ const treeData: DataNode[] = [
           {
             title: "leaf",
             key: "0-1-0-0"
-          },
+          }
         ]
       },
       {
         title: "parent 2-1",
-        key: "0-1-1",
+        key: "0-1-1"
       }
     ]
-  },
+  }
 ];
 
 const newTreeData: DataNode[] = [
