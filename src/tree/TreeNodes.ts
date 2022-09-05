@@ -92,8 +92,8 @@ export class TreeNodes {
   }
 
   toTree() {
-    const root = Object.values(this.treeNodes).find(node => node.parentId === null);
-    if (!root) {
+    const roots = Object.values(this.treeNodes).filter(node => node.parentId === null);
+    if (roots.length === 0) {
       return [];
     }
 
@@ -113,11 +113,15 @@ export class TreeNodes {
       });
     };
 
-    return [
-      {
-        ...root,
+    return roots.map(root => {
+      return {
+        id: root.id,
+        collapsed: false,
+        checked: false,
+        title: root.title,
+        parentId: root.parentId || null,
         children: findChildrenById(root.id)
-      }
-    ];
+      };
+    });
   }
 }

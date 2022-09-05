@@ -48,6 +48,34 @@ describe("TreeNodes", () => {
         title: <span style={{ color: "#1890ff" }}>sss</span>,
         checked: false,
         collapsed: null
+      },
+      "0-1": {
+        id: "0-1",
+        parentId: null,
+        title: "parent 2",
+        checked: false,
+        collapsed: false
+      },
+      "0-1-0": {
+        id: "0-1-0",
+        parentId: "0-1",
+        title: "parent 2-0",
+        checked: false,
+        collapsed: false
+      },
+      "0-1-1": {
+        id: "0-1-1",
+        parentId: "0-1",
+        title: "parent 2-1",
+        checked: false,
+        collapsed: null
+      },
+      "0-1-0-0":{
+        id: "0-1-0-0",
+        parentId: "0-1-0",
+        title: "leaf",
+        checked: false,
+        collapsed: null
       }
     });
   });
@@ -101,7 +129,39 @@ describe("TreeNodes", () => {
             }]
           }
         ]
-      }
+      },
+      {
+        id: "0-1",
+        title: "parent 2",
+        parentId:null,
+        checked:false,
+        collapsed: false,
+        children: [
+          {
+            id: "0-1-0",
+            title: "parent 2-0",
+            parentId: "0-1",
+            checked: false,
+            collapsed: false,
+            children: [
+              {
+                id: "0-1-0-0",
+                title: "leaf",
+                parentId: "0-1-0",
+                checked: false,
+                collapsed: null
+              },
+            ]
+          },
+          {
+            id: "0-1-1",
+            title: "parent 2-1",
+            parentId: "0-1",
+            checked: false,
+            collapsed: null
+          }
+        ]
+      },
     ]);
   });
 
@@ -243,7 +303,27 @@ const treeData: DataNode[] = [
         children: [{ title: <span style={{ color: "#1890ff" }}>sss</span>, key: "0-0-1-0" }]
       }
     ]
-  }
+  },
+  {
+    title: "parent 2",
+    key: "0-1",
+    children: [
+      {
+        title: "parent 2-0",
+        key: "0-1-0",
+        children: [
+          {
+            title: "leaf",
+            key: "0-1-0-0"
+          },
+        ]
+      },
+      {
+        title: "parent 2-1",
+        key: "0-1-1",
+      }
+    ]
+  },
 ];
 
 const newTreeData: DataNode[] = [
