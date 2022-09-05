@@ -32,8 +32,7 @@ export class TreeNodes {
       return;
     }
 
-    this.treeNodes[id].collapsed = !collapsed;
-    this.toggleChildren(id, !collapsed);
+    this.treeNodes[id].collapsed = !this.treeNodes[id].collapsed;
   }
 
   private checkParent(id: string) {

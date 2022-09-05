@@ -25,6 +25,10 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
           return (
             <div key={node.id}>
               <div css={{ display: "flex", alignItems: "center" }}>
+                {node.collapsed!==null && <span onClick={()=> {
+                  treeNodes!.toggleCollapsedStatus(node.id);
+                  setData(treeNodes!.toTree());
+                }}>{">"}</span>}
                 <Checkbox value={node.checked} onChange={() => {
                   node.checked
                     ? treeNodes!.uncheckNode(node.id)
@@ -33,7 +37,9 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
                 }}/>
                 <span>{node.title}</span>
               </div>
-              {node.children && renderRoots(node.children)}
+              <div css={{display: node.collapsed ? "none": "block"}}>
+                {node.children && renderRoots(node.children)}
+              </div>
             </div>
           );
         })
