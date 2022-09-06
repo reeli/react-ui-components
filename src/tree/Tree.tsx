@@ -2,6 +2,10 @@ import { FC, useEffect, useState } from "react";
 import { DataNode, TreeData } from "src/tree/type";
 import { TreeNodes } from "src/tree/TreeNodes";
 import { Checkbox } from "src/checkbox/Checkbox";
+import {
+  KeyboardArrowDown,
+  KeyboardArrowRight
+} from "@material-ui/icons";
 
 interface TreeProps {
   treeData: DataNode[];
@@ -25,10 +29,12 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
           return (
             <div key={node.id}>
               <div css={{ display: "flex", alignItems: "center" }}>
-                {node.collapsed!==null && <span onClick={()=> {
-                  treeNodes!.toggleCollapsedStatus(node.id);
-                  setData(treeNodes!.toTree());
-                }}>{">"}</span>}
+                {node.collapsed !== null && (
+                  <span onClick={() => {
+                    treeNodes!.toggleCollapsedStatus(node.id);
+                    setData(treeNodes!.toTree());
+                  }} css={{cursor:"pointer"}}>{node.collapsed ?<KeyboardArrowRight fontSize={"large"} />:  <KeyboardArrowDown fontSize={"large"}/> }</span>
+                )}
                 <Checkbox value={node.checked} onChange={() => {
                   node.checked
                     ? treeNodes!.uncheckNode(node.id)
@@ -37,7 +43,7 @@ export const Tree: FC<TreeProps> = ({ treeData }) => {
                 }}/>
                 <span>{node.title}</span>
               </div>
-              <div css={{display: node.collapsed ? "none": "block"}}>
+              <div css={{ display: node.collapsed ? "none" : "block" }}>
                 {node.children && renderRoots(node.children)}
               </div>
             </div>
