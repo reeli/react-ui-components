@@ -58,6 +58,7 @@ specifiers:
   react-router-dom: ^6.2.1
   react-spring: ^9.4.2
   react-use-gesture: ^9.1.3
+  react-use-measure: ^2.1.1
   ts-node: 10.4.0
   typescript: 4.5.5
   webpack: 5.68.0
@@ -80,6 +81,7 @@ dependencies:
   react-hook-form: 7.30.0_react@17.0.2
   react-spring: 9.4.2_sfoxds7t5ydpegc3knd667wn6m
   react-use-gesture: 9.1.3_react@17.0.2
+  react-use-measure: 2.1.1_sfoxds7t5ydpegc3knd667wn6m
 
 devDependencies:
   '@babel/core': 7.17.0
@@ -3747,6 +3749,10 @@ packages:
     engines: {node: '>=0.11'}
     dev: false
 
+  /debounce/1.2.1:
+    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
+    dev: false
+
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -6450,6 +6456,17 @@ packages:
       react: '>= 16.8.0'
     dependencies:
       react: 17.0.2
+    dev: false
+
+  /react-use-measure/2.1.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
+    peerDependencies:
+      react: '>=16.13'
+      react-dom: '>=16.13'
+    dependencies:
+      debounce: 1.2.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react/17.0.2:
