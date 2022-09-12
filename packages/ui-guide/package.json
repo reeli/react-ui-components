@@ -1,13 +1,16 @@
 {
-  "name": "react-ui-components",
+  "name": "ui-guide",
   "version": "1.0.0",
   "description": "react ui components",
   "main": "index.js",
   "scripts": {
-    "build": "turbo run build",
-    "test": "turbo run test",
-    "lint": "turbo run lint",
-    "dev": "turbo run dev"
+    "dev": "NODE_ENV=development webpack serve --config=webpack.config.ts",
+    "test": "jest",
+    "build": "rm -rf public && webpack --config=webpack.config.ts",
+    "build:prod": "rm -rf public && NODE_ENV=production webpack --config=webpack.config.ts",
+    "release": "NODE_ENV=production npm run build",
+    "watch": "tsc --watch",
+    "analyze": "ENABLE_BUNDLE_ANALYZE=true pnpm build:prod"
   },
   "husky": {
     "hooks": {
@@ -32,7 +35,6 @@
     "@babel/plugin-syntax-typescript": "7.16.7",
     "@babel/plugin-transform-typescript": "7.16.8",
     "@babel/preset-env": "7.16.11",
-    "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.16.7",
     "@babel/runtime": "^7.17.0",
     "@emotion/babel-plugin": "^11.7.2",
@@ -71,7 +73,6 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.1",
     "ts-node": "10.4.0",
-    "turbo": "^1.4.6",
     "typescript": "4.5.5",
     "webpack": "5.68.0",
     "webpack-bundle-analyzer": "^4.5.0",
@@ -79,6 +80,7 @@
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
+    "@ui/core": "workspace:*",
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.10.0",

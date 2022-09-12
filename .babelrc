@@ -8,20 +8,14 @@
         }
       }
     ],
-    ["@babel/preset-typescript"],
     [
-      "@emotion/babel-preset-css-prop",
+      "@babel/preset-react",
       {
-        "labelFormat": "[local]",
-        "sourceMap": true
+        "runtime": "automatic"
       }
+    ],
+    [
+      "@babel/preset-typescript"
     ]
-  ],
-  "plugins": [
-    "@emotion/babel-plugin",
-    "babel-plugin-typescript-iife-enum",
-    "@babel/plugin-transform-typescript",
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread"
   ]
 }

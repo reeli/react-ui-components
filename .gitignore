@@ -8,3 +8,8 @@ coverage/
 .tmp
 !custom-react/jsx-runtime.js
 bundle-report/
+.turbo
+build/**
+dist/**
+.next/**
+.pnpm-debug.log
