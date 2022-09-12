@@ -6,7 +6,7 @@ import { getRouterRoutes } from "./getRouterRoutes";
 import { ThemeContext } from "./ThemeContext";
 import { css, Global } from "@emotion/react";
 import { useState } from "react";
-import { Button } from "@ui/core/button";
+import { Button } from "@ui/core";
 
 const containerStyles = css({
   position: "absolute",

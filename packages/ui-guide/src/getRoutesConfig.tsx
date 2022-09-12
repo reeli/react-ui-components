@@ -17,5 +17,3 @@ export const routesConfig: any[] = uniqBy(filterDemosByKeys(paths).map((key: str
     element: renderComponent(req(key)),
   };
 }), "path");
-
-console.log(routesConfig,'routesConfig');

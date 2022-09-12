@@ -13,3 +13,4 @@ build/**
 dist/**
 .next/**
 .pnpm-debug.log
+.DS_Store

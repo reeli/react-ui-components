@@ -1,0 +1,5 @@
+{
+  "name": "@ui/base",
+  "types": "./src/index.ts",
+  "main": "src/index.ts"
+}
