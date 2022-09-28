@@ -140,7 +140,10 @@ importers:
       webpack-dev-server: 4.7.4_2avgptllzshtra2fri2mvdjgbe
 
   packages/ui-base:
-    specifiers: {}
+    specifiers:
+      react: ^17.0.2
+    dependencies:
+      react: 17.0.2
 
   packages/ui-core:
     specifiers:
@@ -6299,7 +6302,7 @@ packages:
     dev: true
 
   /object-assign/4.1.1:
-    resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
 
   /object-is/1.1.5:
