@@ -10,12 +10,8 @@
     ],
     [
       "@babel/preset-react",
-      {
-        "runtime": "automatic"
-      }
+      { "runtime": "automatic", "importSource": "@emotion/react" }
     ],
-    [
-      "@babel/preset-typescript"
-    ]
+    ["@babel/preset-typescript"],
   ]
 }

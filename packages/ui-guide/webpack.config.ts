@@ -35,23 +35,6 @@ const webpackConfig = () => {
           use: [
             {
               loader: "babel-loader",
-              options: {
-                "presets": [
-                  [
-                    "@babel/preset-env",
-                    {
-                      "targets": {
-                        "node": true
-                      }
-                    }
-                  ],
-                  [
-                    "@babel/preset-react",
-                    { "runtime": "automatic", "importSource": "@emotion/react" }
-                  ],
-                  ["@babel/preset-typescript"],
-                ]
-              }
             }
           ]
         },
