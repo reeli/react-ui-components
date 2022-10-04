@@ -5,31 +5,24 @@ const basic = 12;
 
 interface Props {
   value: number;
+  label?: string;
 }
 
-export const SliderMark: FC<Props> = ({ value }) => {
+export const SliderMark: FC<Props> = ({ value, label }) => {
   return (
-    <div>
-      <div css={[markStyles, markLabelStyles]} style={{ left: `calc(${value}% - ${basic / 2}px)` }}>
-        {value}
-      </div>
-      <div css={[markStyles, markDotStyles]} style={{ left: `calc(${value}% - ${basic/2}px)` }}></div>
+    <div css={markDotStyles} style={{ left: `calc(${value}% - ${basic / 2}px)` }}>
+      <div css={markLabelStyles}>{label || value}</div>
     </div>
   );
 };
 
-
-const markStyles = css({
-  position: "absolute",
-  zIndex:1
-});
-
 const markLabelStyles = css({
-  marginTop: basic
-})
+  marginTop: basic * 2,
+});
 
 const markDotStyles = css({
   position: "absolute",
+  zIndex: 1,
   top: "50%",
   transform: "translateY(-50%)",
   width: basic,
@@ -37,4 +30,7 @@ const markDotStyles = css({
   borderRadius: "50%",
   backgroundColor: "currentColor",
   outline: 0,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 });

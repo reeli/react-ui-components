@@ -93,24 +93,21 @@ export const Slider = ({ defaultValue = 20 }) => {
   };
 
   return (
-    <>
-      <div css={containerStyles} onClick={handleSlickTrackClick} {...bind()}>
-        <SliderMark value={15} />
-        <SliderMark value={50} />
-        <SliderMark value={75} />
-        <div css={sliderTrackStyles} ref={sliderTrackEl}>
-          <div css={sliderFilledTrackStyles} style={{ width: `${percentage}%` }} ref={sliderProgressEl}></div>
-        </div>
-        <div
-          css={sliderStyles}
-          style={{ left: `calc(${percentage}% - ${basic}px)` }}
-          ref={sliderEl}
-          role={"slider"}
-        ></div>
-        <input type={"hidden"} value={percentage} />
+    <div css={containerStyles} onClick={handleSlickTrackClick} {...bind()}>
+      <SliderMark value={0} label={"RS5000"} />
+      <SliderMark value={50} label={"RS9000"} />
+      <SliderMark value={100} label={"RS100000"} />
+      <div css={sliderTrackStyles} ref={sliderTrackEl}>
+        <div css={sliderFilledTrackStyles} style={{ width: `${percentage}%` }} ref={sliderProgressEl}></div>
       </div>
-      <div css={{ color: "blue" }}>{percentage}</div>
-    </>
+      <div
+        css={sliderStyles}
+        style={{ left: `calc(${percentage}% - ${basic}px)` }}
+        ref={sliderEl}
+        role={"slider"}
+      ></div>
+      <input type={"hidden"} value={percentage} />
+    </div>
   );
 };
 
