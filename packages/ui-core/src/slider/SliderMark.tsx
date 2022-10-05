@@ -28,7 +28,7 @@ const markDotStyles = css({
   width: basic,
   height: basic,
   borderRadius: "50%",
-  backgroundColor: "currentColor",
+  backgroundColor: "red",
   outline: 0,
   display: "flex",
   flexDirection: "column",
