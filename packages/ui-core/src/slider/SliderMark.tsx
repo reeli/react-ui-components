@@ -5,13 +5,13 @@ const basic = 12;
 
 interface Props {
   value: number;
-  label?: string;
+  label?: string|number;
 }
 
 export const SliderMark: FC<Props> = ({ value, label }) => {
   return (
     <div css={markDotStyles} style={{ left: `calc(${value}% - ${basic / 2}px)` }}>
-      <div css={markLabelStyles}>{label || value}</div>
+      <div css={markLabelStyles}>{label}</div>
     </div>
   );
 };

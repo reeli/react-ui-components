@@ -67,7 +67,27 @@ const getDefaultPercentage = ({
   return Math.round(val / max) * 100;
 };
 
-export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min, max, onChange }) => {
+const calSteps = (step: number, max?: number, min?: number) => {
+  if (isUndefined(step) || isUndefined(max) || isUndefined(min)) {
+    return [];
+  }
+
+  const numberOfMarks = Math.ceil(max / step);
+  return new Array(numberOfMarks + 1).fill(0).map((_, idx) => {
+    const next = idx * step;
+    if (next < min) {
+      return min;
+    }
+
+    if (next > max) {
+      return max;
+    }
+
+    return next;
+  });
+};
+
+export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, max = 100, onChange }) => {
   const sliderTrackEl = useRef<HTMLDivElement>(null);
   const sliderEl = useRef<HTMLDivElement>(null);
   const sliderProgressEl = useRef<HTMLDivElement>(null);
@@ -135,6 +155,12 @@ export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min, max, 
     const deltaX = sliderTrackRect.width / 100;
     const nextX = constraintPercentage(Math.round((evt.clientX - sliderTrackRect.x) / deltaX));
 
+    if (step && max) {
+      const num = Math.round(((nextX / 100) * max) / step);
+      setPercentage(() => ((num * step) / max) * 100);
+      return;
+    }
+
     setPercentage(() => {
       return constraintPercentage(nextX);
     });
@@ -142,9 +168,10 @@ export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min, max, 
 
   return (
     <div css={containerStyles} onClick={handleSlickTrackClick} {...bind()}>
-      <SliderMark value={0} label={"RS5000"} />
-      <SliderMark value={50} label={"RS9000"} />
-      <SliderMark value={100} label={"RS100000"} />
+      {calSteps(step, max, min).map((v) => {
+        return <SliderMark value={(v / max!) * 100} label={v} key={v} />;
+      })}
+
       <div css={sliderTrackStyles} ref={sliderTrackEl}>
         <div css={sliderFilledTrackStyles} style={{ width: `${percentage}%` }} ref={sliderProgressEl}></div>
       </div>
@@ -198,7 +225,8 @@ const sliderStyles = css({
   width: basic * 2,
   height: basic * 2,
   borderRadius: "50%",
-  backgroundColor: "currentColor",
+  // backgroundColor: "currentColor",
+  background: "rgba(0,0,0,0.7)",
   outline: 0,
   display: "flex",
   justifyContent: "center",
@@ -206,6 +234,6 @@ const sliderStyles = css({
   cursor: "pointer",
   touchAction: "none",
   userSelect: "none",
-  zIndex:1
+  zIndex: 1,
   // left: "calc(0% - 7px)",
 });
