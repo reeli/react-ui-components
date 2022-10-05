@@ -20,6 +20,7 @@ export const useSlider = ({ min, max, step, defaultValue, onChange, sliderOffset
 
   useEffect(() => {
     sliderTrackRectRef.current = sliderTrackEl.current?.getBoundingClientRect();
+    setStyles(calcPercentage(defaultValue, max));
   }, []);
 
   const isSliderElementsExists = (event: React.PointerEvent | PointerEvent) => {
@@ -31,33 +32,37 @@ export const useSlider = ({ min, max, step, defaultValue, onChange, sliderOffset
     );
   };
 
-  const getOffsetValue = (mx: number) => {
+  const getOffsetValue = (mx: number, step: number) => {
     return Math.round(((mx / sliderTrackRectRef.current!.width) * max) / step) * step;
+  };
+
+  const setStyles = (percentage: number) => {
+    sliderEl.current!.style.left = `calc(${percentage}% - ${sliderOffset}px)`;
+    sliderFilledTrackEl.current!.style.width = `${percentage}%`;
   };
 
   const bind = useGesture({
     onDrag: ({ movement: [mx], event }) => {
       if (isSliderElementsExists(event)) {
-        const nextValue = constraintValue(value + getOffsetValue(mx), min, max);
-        const percentage = calcPercentage(nextValue, max);
-
-        sliderEl.current!.style.left = `calc(${percentage}% - ${sliderOffset}px)`;
-        sliderFilledTrackEl.current!.style.width = `${percentage}%`;
+        const nextValue = constraintValue(value + getOffsetValue(mx, 1), min, max);
+        setStyles(calcPercentage(nextValue, max));
       }
     },
     onDragEnd: ({ movement: [mx], event }) => {
       if (isSliderElementsExists(event)) {
-        setValue((value) => constraintValue(value + getOffsetValue(mx), min, max));
+        const nextValue = constraintValue(value + getOffsetValue(mx, step), min, max);
+        setValue(nextValue);
+        setStyles(calcPercentage(nextValue, max));
       }
     },
     onClick: ({ event }) => {
-      setValue(
-        constraintValue(
-          getOffsetValue((event as unknown as MouseEvent).clientX - sliderTrackRectRef.current!.x),
-          min,
-          max,
-        ),
+      const nextValue = constraintValue(
+        getOffsetValue((event as unknown as MouseEvent).clientX - sliderTrackRectRef.current!.x, step),
+        min,
+        max,
       );
+      setStyles(calcPercentage(nextValue, max));
+      setValue(nextValue);
     },
   });
 

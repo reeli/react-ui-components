@@ -7,7 +7,7 @@ export class SliderDemo extends React.Component<any, any> {
       <>
         <div css={{ width: 500, padding: 50 }}>
           <Slider
-            defaultValue={10}
+            defaultValue={0}
             onChange={(v) => {
               console.log(v, "v1");
             }}
@@ -15,9 +15,9 @@ export class SliderDemo extends React.Component<any, any> {
         </div>
         <div css={{ width: 500, padding: 50 }}>
           <Slider
-            defaultValue={0}
+            defaultValue={50}
             min={0}
-            max={700}
+            max={600}
             step={100}
             onChange={(v) => {
               console.log(v, "v2");
