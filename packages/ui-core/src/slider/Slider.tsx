@@ -10,7 +10,7 @@ import { noop } from "lodash";
 
 const basic = 12;
 
-export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, max = 100, onChange = noop }) => {
+export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, max = 100, onChange = noop , children}) => {
   const { bind, sliderTrackEl, sliderFilledTrackEl, sliderEl, value } = useSlider({
     min,
     max,
@@ -22,6 +22,7 @@ export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, m
 
   return (
     <div css={containerStyles} {...bind()}>
+      {children}
       <div css={sliderTrackStyles} ref={sliderTrackEl}>
         <div css={sliderFilledTrackStyles} ref={sliderFilledTrackEl}></div>
       </div>
