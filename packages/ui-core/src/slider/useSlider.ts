@@ -1,96 +1,71 @@
-import { useRef, useState, useEffect, MouseEvent } from "react";
+import React, { useRef, useState, useEffect, MouseEvent } from "react";
 import { useGesture } from "react-use-gesture";
-import { SliderProps, constraintPercentage, getDefaultPercentage } from ".";
+import { SliderProps, constraintValue, calcPercentage } from ".";
 
 interface UseSliderParameters extends Required<SliderProps> {
   sliderOffset: number;
 }
 
 export const useSlider = ({ min, max, step, defaultValue, onChange, sliderOffset }: UseSliderParameters) => {
-  const sliderTrackEl = useRef<HTMLDivElement>(null);
   const sliderEl = useRef<HTMLDivElement>(null);
+  const sliderTrackEl = useRef<HTMLDivElement>(null);
   const sliderFilledTrackEl = useRef<HTMLDivElement>(null);
 
-  const [percentage, setPercentage] = useState(
-    constraintPercentage(getDefaultPercentage({ min, max, step, defaultValue })),
-  );
+  const [value, setValue] = useState(constraintValue(defaultValue, min, max));
+  const sliderTrackRectRef = useRef<DOMRect>();
 
   useEffect(() => {
-    onChange && onChange(percentage);
-  }, [percentage]);
+    onChange && onChange(value);
+  }, [value]);
+
+  useEffect(() => {
+    sliderTrackRectRef.current = sliderTrackEl.current?.getBoundingClientRect();
+  }, []);
+
+  const isSliderElementsExists = (event: React.PointerEvent | PointerEvent) => {
+    return (
+      (event.target as HTMLDivElement).getAttribute("role") === "slider" &&
+      sliderEl.current &&
+      sliderFilledTrackEl.current &&
+      sliderTrackRectRef.current
+    );
+  };
+
+  const getOffsetValue = (mx: number) => {
+    return Math.round(((mx / sliderTrackRectRef.current!.width) * max) / step) * step;
+  };
 
   const bind = useGesture({
-    onDragEnd: ({ movement: [mx], event }) => {
-      if ((event.target as HTMLDivElement).getAttribute("role") !== "slider") {
-        return;
-      }
-
-      const sliderTrackRect = sliderTrackEl.current?.getBoundingClientRect();
-
-      if (!sliderTrackRect) {
-        return;
-      }
-
-      const deltaX = sliderTrackRect.width / 100;
-
-      setPercentage((percentage) => {
-        const currentX = mx + percentage * deltaX;
-        return constraintPercentage(Math.round(currentX / deltaX));
-      });
-    },
     onDrag: ({ movement: [mx], event }) => {
-      if ((event.target as HTMLDivElement).getAttribute("role") !== "slider") {
-        return;
+      if (isSliderElementsExists(event)) {
+        const nextValue = constraintValue(value + getOffsetValue(mx), min, max);
+        const percentage = calcPercentage(nextValue, max);
+
+        sliderEl.current!.style.left = `calc(${percentage}% - ${sliderOffset}px)`;
+        sliderFilledTrackEl.current!.style.width = `${percentage}%`;
       }
-
-      const sliderTrackRect = sliderTrackEl.current?.getBoundingClientRect();
-      if (!sliderEl.current || !sliderFilledTrackEl.current || !sliderTrackRect) {
-        return;
+    },
+    onDragEnd: ({ movement: [mx], event }) => {
+      if (isSliderElementsExists(event)) {
+        setValue((value) => constraintValue(value + getOffsetValue(mx), min, max));
       }
-
-      const deltaX = sliderTrackRect.width / 100;
-      const currentX = percentage * deltaX + mx;
-
-      let nextPercentage = Math.round(currentX / deltaX);
-      if (nextPercentage > 100) {
-        nextPercentage = 100;
-      }
-
-      if (nextPercentage < 0) {
-        nextPercentage = 0;
-      }
-
-      sliderEl.current.style.left = `calc(${nextPercentage}% - ${sliderOffset}px)`;
-      sliderFilledTrackEl.current!.style.width = `${nextPercentage}%`;
+    },
+    onClick: ({ event }) => {
+      setValue(
+        constraintValue(
+          getOffsetValue((event as unknown as MouseEvent).clientX - sliderTrackRectRef.current!.x),
+          min,
+          max,
+        ),
+      );
     },
   });
 
-  const handleSlickTrackClick = (evt: MouseEvent<HTMLDivElement>) => {
-    const sliderTrackRect = sliderTrackEl.current?.getBoundingClientRect();
-    if (!sliderTrackRect) {
-      return;
-    }
-
-    const deltaX = sliderTrackRect.width / 100;
-    const nextX = constraintPercentage(Math.round((evt.clientX - sliderTrackRect.x) / deltaX));
-
-    if (step && max) {
-      const num = Math.round(((nextX / 100) * max) / step);
-      setPercentage(() => ((num * step) / max) * 100);
-      return;
-    }
-
-    setPercentage(() => {
-      return constraintPercentage(nextX);
-    });
-  };
-
   return {
     bind,
-    handleSlickTrackClick,
+    value,
     sliderEl,
     sliderTrackEl,
     sliderFilledTrackEl,
-    percentage
   };
 };

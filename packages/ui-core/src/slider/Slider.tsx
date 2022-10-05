@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { FC } from "react";
-import { SliderProps, useSlider } from "./";
+import { calcPercentage, SliderProps, useSlider } from "./";
 import { noop } from "lodash";
 
 // 1. css() 方法会创建一个 className， append 到 style 里面，因此对于动态计算的样式，最好放到 inline style 属性上，避免频繁的创建 css class（每当属性发生变化都会创建新的 class？如果样式属性不变，那么 re-render 时应该不会重新创建新的 class?）
@@ -11,7 +11,7 @@ import { noop } from "lodash";
 const basic = 12;
 
 export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, max = 100, onChange = noop }) => {
-  const { bind, handleSlickTrackClick, sliderTrackEl, sliderFilledTrackEl, sliderEl, percentage } = useSlider({
+  const { bind, sliderTrackEl, sliderFilledTrackEl, sliderEl, value } = useSlider({
     min,
     max,
     defaultValue,
@@ -19,8 +19,10 @@ export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, m
     onChange,
     sliderOffset: basic,
   });
+  const percentage = calcPercentage(value, max);
+
   return (
-    <div css={containerStyles} onClick={handleSlickTrackClick} {...bind()}>
+    <div css={containerStyles} {...bind()}>
       {/*{calSteps(step, max, min).map((v) => {*/}
       {/*  return <SliderMark value={(v / max!) * 100} label={v} key={v} />;*/}
       {/*})}*/}
