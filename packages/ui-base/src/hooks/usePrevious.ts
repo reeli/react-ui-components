@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-export const usePrevious = (value: any) => {
-  const ref = useRef(null);
+export const usePrevious = <T>(value: T) => {
+  const ref = useRef<T | null>(null);
 
   useEffect(() => {
     // 赋值的时机：每一次 render 结束之后

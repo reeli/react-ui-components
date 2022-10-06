@@ -1,3 +1,5 @@
+import { isUndefined, isNull } from "lodash";
+
 export const constraintValue = (value: number, min: number = 0, max: number = 100) => {
   if (!value) {
     return min;
@@ -21,3 +23,5 @@ export const calcPercentage = (value: number, maxValue: number) => {
 
   return Math.round(value / maxValue * 100);
 };
+
+export const isExists = <T>(value?:T): value is NonNullable<T>=> !isUndefined(value) && !isNull(value);

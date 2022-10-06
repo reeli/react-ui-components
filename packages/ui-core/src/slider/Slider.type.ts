@@ -4,4 +4,5 @@ export interface SliderProps {
   min?: number;
   max?: number;
   onChange?: (value?: number) => void;
+  sliderValue?: number;
 }

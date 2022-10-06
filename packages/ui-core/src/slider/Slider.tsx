@@ -10,11 +10,20 @@ import { noop } from "lodash";
 
 const basic = 12;
 
-export const Slider: FC<SliderProps> = ({ defaultValue = 0, step = 1, min = 0, max = 100, onChange = noop , children}) => {
+export const Slider: FC<SliderProps> = ({
+  step = 1,
+  min = 0,
+  max = 100,
+  defaultValue,
+  sliderValue,
+  onChange = noop,
+  children,
+}) => {
   const { bind, sliderTrackEl, sliderFilledTrackEl, sliderEl, value } = useSlider({
     min,
     max,
     defaultValue,
+    sliderValue,
     step,
     onChange,
     sliderOffset: basic,
@@ -81,5 +90,6 @@ const sliderStyles = css({
   touchAction: "none",
   userSelect: "none",
   zIndex: 1,
+  transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
   // left: "calc(0% - 7px)",
 });
