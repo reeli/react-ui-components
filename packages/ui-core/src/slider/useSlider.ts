@@ -10,7 +10,7 @@ interface UseSliderParameters {
   max: NonNullable<SliderProps["max"]>;
   onChange: NonNullable<SliderProps["onChange"]>;
   defaultValue?: SliderProps["defaultValue"];
-  sliderValue?: SliderProps["sliderValue"];
+  value?: SliderProps["value"];
 }
 
 export const useSlider = ({
@@ -20,29 +20,29 @@ export const useSlider = ({
   defaultValue,
   onChange,
   sliderOffset,
-  sliderValue,
+  value,
 }: UseSliderParameters) => {
   const sliderEl = useRef<HTMLDivElement>(null);
   const sliderTrackEl = useRef<HTMLDivElement>(null);
   const sliderFilledTrackEl = useRef<HTMLDivElement>(null);
 
-  const [value, setValue] = useState(defaultValue ? constraintValue(defaultValue, min, max) : 0);
+  const [sliderValue, setSliderValue] = useState(defaultValue ? constraintValue(defaultValue, min, max) : 0);
   const sliderTrackRectRef = useRef<DOMRect>();
-  const prevValue = usePrevious(value);
+  const prevSliderValue = usePrevious(sliderValue);
 
   useEffect(() => {
-    if (prevValue && prevValue !== value) {
-      onChange && onChange(value);
+    if (prevSliderValue && prevSliderValue !== sliderValue) {
+      onChange && onChange(sliderValue);
     }
-  }, [value]);
+  }, [sliderValue]);
 
   useEffect(() => {
-    if (isExists(sliderValue)) {
-      const nextValue = constraintValue(sliderValue, min, max);
-      setValue(nextValue);
+    if (isExists(value)) {
+      const nextValue = constraintValue(value, min, max);
+      setSliderValue(nextValue);
       setStyles(calcPercentage(nextValue, max));
     }
-  }, [sliderValue, max]);
+  }, [value]);
 
   useEffect(() => {
     sliderTrackRectRef.current = sliderTrackEl.current?.getBoundingClientRect();
@@ -70,14 +70,14 @@ export const useSlider = ({
   const bind = useGesture({
     onDrag: ({ movement: [mx], event }) => {
       if (isSliderElementsExists(event)) {
-        const nextValue = constraintValue(value + getOffsetValue(mx, 1), min, max);
+        const nextValue = constraintValue(sliderValue + getOffsetValue(mx, 1), min, max);
         setStyles(calcPercentage(nextValue, max));
       }
     },
     onDragEnd: ({ movement: [mx], event }) => {
       if (isSliderElementsExists(event)) {
-        const nextValue = constraintValue(value + getOffsetValue(mx, step), min, max);
-        setValue(nextValue);
+        const nextValue = constraintValue(sliderValue + getOffsetValue(mx, step), min, max);
+        setSliderValue(nextValue);
         setStyles(calcPercentage(nextValue, max));
       }
     },
@@ -88,13 +88,13 @@ export const useSlider = ({
         max,
       );
       setStyles(calcPercentage(nextValue, max));
-      setValue(nextValue);
+      setSliderValue(nextValue);
     },
   });
 
   return {
     bind,
-    value,
+    sliderValue,
     sliderEl,
     sliderTrackEl,
     sliderFilledTrackEl,

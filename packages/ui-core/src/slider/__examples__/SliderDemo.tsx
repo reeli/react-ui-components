@@ -27,7 +27,7 @@ export const SliderDemo = () => {
           type={"number"}
         />
         <Slider
-          sliderValue={value}
+          value={value}
           min={0}
           max={600}
           step={100}

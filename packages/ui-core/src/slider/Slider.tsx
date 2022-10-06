@@ -15,15 +15,15 @@ export const Slider: FC<SliderProps> = ({
   min = 0,
   max = 100,
   defaultValue,
-  sliderValue,
+  value,
   onChange = noop,
   children,
 }) => {
-  const { bind, sliderTrackEl, sliderFilledTrackEl, sliderEl, value } = useSlider({
+  const { bind, sliderTrackEl, sliderFilledTrackEl, sliderEl, sliderValue } = useSlider({
     min,
     max,
     defaultValue,
-    sliderValue,
+    value,
     step,
     onChange,
     sliderOffset: basic,
@@ -36,7 +36,7 @@ export const Slider: FC<SliderProps> = ({
         <div css={sliderFilledTrackStyles} ref={sliderFilledTrackEl}></div>
       </div>
       <div css={sliderStyles} ref={sliderEl} role={"slider"}></div>
-      <input type={"hidden"} value={value} />
+      <input type={"hidden"} value={sliderValue} />
     </div>
   );
 };
