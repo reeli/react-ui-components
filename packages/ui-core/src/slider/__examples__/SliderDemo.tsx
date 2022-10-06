@@ -1,10 +1,19 @@
 import { Slider } from "../Slider";
 import { SliderMark } from "../SliderMark";
-import { useState } from "react";
+import { useState, useMemo, ChangeEvent } from "react";
 
+const max = 600;
 export const SliderDemo = () => {
-  const [value, setValue] = useState(50);
-  const max = 600;
+  const [value, setValue] = useState("50");
+
+  const { handleOnChange } = useMemo(() => {
+    return {
+      handleOnChange: (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+      },
+    };
+  }, []);
+
   return (
     <>
       <div css={{ width: 500, padding: 50 }}>
@@ -19,20 +28,15 @@ export const SliderDemo = () => {
         </Slider>
       </div>
       <div css={{ width: 500, padding: 50 }}>
-        <input
-          value={value}
-          onChange={(e) => {
-            setValue(Number(e.target.value));
-          }}
-          type={"number"}
-        />
+        <input value={value} onChange={handleOnChange} type={"text"} />
         <Slider
-          value={value}
+          value={Number(value)}
           min={0}
-          max={600}
+          max={max}
           step={100}
           onChange={(v) => {
-            setValue(v!);
+            console.log(v, "v2");
+            setValue(`${v || ""}`);
           }}
         >
           <SliderMark value={0} max={max} label={"R0"} showDot={false} />
