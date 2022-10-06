@@ -16,12 +16,16 @@ export const constraintValue = (value: number, min: number = 0, max: number = 10
   return value;
 };
 
-export const calcPercentage = (value: number, maxValue: number) => {
-  if (maxValue === 0) {
+export const calcPercentage = (value: number, max: number, min: number) => {
+  if (max === 0) {
     return 0;
   }
 
-  return Math.round(value / maxValue * 100);
+  if (value - min < 0) {
+    return 0;
+  }
+
+  return Math.round(((value - min) / (max - min)) * 100);
 };
 
-export const isExists = <T>(value?:T): value is NonNullable<T>=> !isUndefined(value) && !isNull(value);
+export const isExists = <T>(value?: T): value is NonNullable<T> => !isUndefined(value) && !isNull(value);

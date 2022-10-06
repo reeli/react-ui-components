@@ -13,15 +13,7 @@ interface UseSliderParameters {
   value?: SliderProps["value"];
 }
 
-export const useSlider = ({
-  min,
-  max,
-  step,
-  defaultValue,
-  onChange,
-  sliderOffset,
-  value,
-}: UseSliderParameters) => {
+export const useSlider = ({ min, max, step, defaultValue, onChange, sliderOffset, value }: UseSliderParameters) => {
   const sliderEl = useRef<HTMLDivElement>(null);
   const sliderTrackEl = useRef<HTMLDivElement>(null);
   const sliderFilledTrackEl = useRef<HTMLDivElement>(null);
@@ -40,26 +32,27 @@ export const useSlider = ({
     if (isExists(value)) {
       const nextValue = constraintValue(value, min, max);
       setSliderValue(nextValue);
-      setStyles(calcPercentage(nextValue, max));
+      setStyles(calcPercentage(nextValue, max, min));
     }
   }, [value]);
 
   useEffect(() => {
     sliderTrackRectRef.current = sliderTrackEl.current?.getBoundingClientRect();
-    isExists(defaultValue) && setStyles(calcPercentage(defaultValue, max));
+    isExists(defaultValue) && setStyles(calcPercentage(defaultValue, max, min));
   }, []);
 
-  const isSliderElementsExists = (event: React.PointerEvent | PointerEvent) => {
-    return (
-      (event.target as HTMLDivElement).getAttribute("role") === "slider" &&
-      sliderEl.current &&
-      sliderFilledTrackEl.current &&
-      sliderTrackRectRef.current
-    );
-  };
+  const isSliderElementsExists = (event: React.PointerEvent | PointerEvent) =>
+    (event.target as HTMLDivElement).getAttribute("role") === "slider" &&
+    sliderEl.current &&
+    sliderFilledTrackEl.current &&
+    sliderTrackRectRef.current;
 
   const getOffsetValue = (mx: number, step: number) => {
-    return Math.round(((mx / sliderTrackRectRef.current!.width) * max) / step) * step;
+    return Math.round(((mx / sliderTrackRectRef.current!.width) * (max - min)) / step) * step + min;
+  };
+
+  const getDraggingOffset = (mx: number) => {
+    return (mx / sliderTrackRectRef.current!.width) * (max - min);
   };
 
   const setStyles = (percentage: number) => {
@@ -70,15 +63,15 @@ export const useSlider = ({
   const bind = useGesture({
     onDrag: ({ movement: [mx], event }) => {
       if (isSliderElementsExists(event)) {
-        const nextValue = constraintValue(sliderValue + getOffsetValue(mx, 1), min, max);
-        setStyles(calcPercentage(nextValue, max));
+        const nextValue = constraintValue(sliderValue + getDraggingOffset(mx), min, max);
+        setStyles(calcPercentage(nextValue, max, min));
       }
     },
     onDragEnd: ({ movement: [mx], event }) => {
       if (isSliderElementsExists(event)) {
         const nextValue = constraintValue(sliderValue + getOffsetValue(mx, step), min, max);
         setSliderValue(nextValue);
-        setStyles(calcPercentage(nextValue, max));
+        setStyles(calcPercentage(nextValue, max, min));
       }
     },
     onClick: ({ event }) => {
@@ -87,7 +80,7 @@ export const useSlider = ({
         min,
         max,
       );
-      setStyles(calcPercentage(nextValue, max));
+      setStyles(calcPercentage(nextValue, max, min));
       setSliderValue(nextValue);
     },
   });

@@ -2,14 +2,17 @@ import { Slider } from "../Slider";
 import { SliderMark } from "../SliderMark";
 import { useState, useMemo, ChangeEvent } from "react";
 
-const max = 600;
+const max = 6500;
+const min = 1000;
 export const SliderDemo = () => {
-  const [value, setValue] = useState("50");
+  const [value, setValue] = useState("1000");
+  const [inputValue, setInputValue] = useState("1000");
 
   const { handleOnChange } = useMemo(() => {
     return {
       handleOnChange: (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
+        setInputValue(e.target.value);
       },
     };
   }, []);
@@ -28,24 +31,31 @@ export const SliderDemo = () => {
         </Slider>
       </div>
       <div css={{ width: 500, padding: 50 }}>
-        <input value={value} onChange={handleOnChange} type={"text"} />
+        <input
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          onBlur={handleOnChange}
+          type={"text"}
+        />
         <Slider
           value={Number(value)}
-          min={0}
+          min={min}
           max={max}
-          step={100}
+          step={1000}
           onChange={(v) => {
-            console.log(v, "v2");
             setValue(`${v || ""}`);
+            setInputValue(`${v || ""}`);
           }}
         >
-          <SliderMark value={0} max={max} label={"R0"} showDot={false} />
-          <SliderMark value={100} max={max} label={"R100"} />
-          <SliderMark value={200} max={max} label={"R200"} />
-          <SliderMark value={300} max={max} label={"R300"} />
-          <SliderMark value={400} max={max} label={"R400"} />
-          <SliderMark value={500} max={max} label={"R500"} />
-          <SliderMark value={600} max={max} label={"R600"} showDot={false} />
+          <SliderMark value={1000} max={max} min={min} label={"R1000"} showDot={false} />
+          <SliderMark value={2000} max={max} min={min} label={"R2000"} />
+          <SliderMark value={3000} max={max} min={min} label={"R3000"} />
+          <SliderMark value={4000} max={max} min={min} label={"R4000"} />
+          <SliderMark value={5000} max={max} min={min} label={"R5000"} />
+          <SliderMark value={6000} max={max} min={min} label={"R6000"} />
+          <SliderMark value={6500} max={max} min={min} label={"R6500"} />
         </Slider>
       </div>
     </>

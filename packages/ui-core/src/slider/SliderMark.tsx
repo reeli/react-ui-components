@@ -5,19 +5,20 @@ import { calcPercentage } from "./utils";
 interface Props {
   value: number;
   max?: number;
+  min?: number;
   label?: string | number;
   showDot?: boolean;
   sliderOffset?: number;
 }
 
-export const SliderMark: FC<Props> = ({ value, max = 100, label, showDot = true, sliderOffset = 12 }) => {
+export const SliderMark: FC<Props> = ({ value, min = 0, max = 100, label, showDot = true, sliderOffset = 12 }) => {
   return (
     <div
       css={[
         markDotStyles,
         { backgroundColor: showDot ? "currentColor" : "none", width: sliderOffset, height: sliderOffset },
       ]}
-      style={{ left: `calc(${calcPercentage(value, max)}% - ${sliderOffset / 2}px)` }}
+      style={{ left: `calc(${calcPercentage(value, max, min)}% - ${sliderOffset / 2}px)` }}
     >
       <div css={{ marginTop: sliderOffset * 2 }}>{label}</div>
     </div>
