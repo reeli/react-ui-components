@@ -1,6 +1,6 @@
-import { useState, FC, Children } from "react";
+import { useState, FC, Children, PropsWithChildren } from "react";
 
-export const Accordion: FC = ({ children }) => {
+export const Accordion: FC<PropsWithChildren> = ({ children }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const handleClick = (currentIdx: number) => {
     setCurrentIdx(currentIdx);

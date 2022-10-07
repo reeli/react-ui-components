@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 
 interface DayProps {
   isActive: boolean;
@@ -8,7 +8,14 @@ interface DayProps {
   isHighlight?: boolean;
 }
 
-export const Day: FC<DayProps> = ({ isActive, value, onClick, isSelected, isHighlight, children }) => {
+export const Day: FC<PropsWithChildren<DayProps>> = ({
+  isActive,
+  value,
+  onClick,
+  isSelected,
+  isHighlight,
+  children,
+}) => {
   const handleClick = () => {
     onClick(value);
   };

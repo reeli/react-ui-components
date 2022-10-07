@@ -8,7 +8,7 @@ describe("getPlacement", () => {
     left: 100,
     right: 0,
     bottom: 0,
-  };
+  } as DOMRect;
 
   const contentRect = {
     width: 500,
@@ -17,7 +17,7 @@ describe("getPlacement", () => {
     left: 0,
     right: 0,
     bottom: 0,
-  };
+  } as DOMRect;
 
   it("should get correct position when placement is top", () => {
     expect(getPlacement({ triggerRect, contentRect, placement: Placement.top })).toEqual({

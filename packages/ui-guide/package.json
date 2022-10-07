@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack serve --config=webpack.config.ts",
     "test": "jest",
+    "tsc": "tsc",
     "build": "rm -rf public && webpack --config=webpack.config.ts",
     "build:prod": "rm -rf public && NODE_ENV=production webpack --config=webpack.config.ts",
     "release": "NODE_ENV=production npm run build",

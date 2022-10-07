@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import { SliderProps, useSlider } from "./";
 import { noop } from "lodash";
 
@@ -10,7 +10,7 @@ import { noop } from "lodash";
 
 const basic = 12;
 
-export const Slider: FC<SliderProps> = ({
+export const Slider: FC<PropsWithChildren<SliderProps>> = ({
   step = 1,
   min = 0,
   max = 100,

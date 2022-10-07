@@ -1,5 +1,4 @@
 import { get, map } from "lodash";
-import React from "react";
 import { Component } from "react";
 import { Cell } from "./Cell";
 import { LabelCell } from "./LabelCell";

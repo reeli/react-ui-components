@@ -1,4 +1,3 @@
-import React from "react";
 import { DateRangePicker } from "../DateRangePicker";
 
 export function DateRangePickerDemo() {

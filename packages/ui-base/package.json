@@ -4,5 +4,9 @@
   "main": "src/index.ts",
   "dependencies": {
     "react": "^17.0.2"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "jest"
   }
 }

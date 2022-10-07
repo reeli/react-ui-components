@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 
 const rowStyles = css({
   display: "flex",
@@ -13,6 +13,6 @@ interface RowProps {
   justifyContent?: "flex-start" | "center" | "flex-end" | "space-between" | "space-around" | "space-evenly";
 }
 
-export const Row: FC<RowProps> = ({ children, alignItems, justifyContent }) => {
+export const Row: FC<PropsWithChildren<RowProps>> = ({ children, alignItems, justifyContent }) => {
   return <div css={[rowStyles, { alignItems, justifyContent }]}>{children}</div>;
 };

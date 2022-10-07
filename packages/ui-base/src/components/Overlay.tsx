@@ -1,8 +1,8 @@
-import  { ReactNode, useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { Placement } from "../utils/getPlacement";
 import { useToggle } from "../hooks/useToggle";
 import { Portal } from "../portal";
-import { Position } from "../components/Position";
+import { Position } from "./Position";
 
 interface IOverlayTriggerProps {
   placement?: Placement;

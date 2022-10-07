@@ -1,5 +1,4 @@
 import { map } from "lodash";
-import React from "react";
 import { Checkbox } from "../../checkbox/Checkbox";
 import { useMultiSelect } from "../useMultiSelect";
 
@@ -24,14 +23,14 @@ export const UseMultiSelectDemo = () => {
   const { selectedState, toggle, selectAll, unselectAll } = useMultiSelect({
     options,
     selectedValues: initialValues,
-    onSelectedValuesChange: values => {
+    onSelectedValuesChange: (values) => {
       console.log(values, "onchange");
     },
   });
 
   return (
     <div>
-      {map(options, option => {
+      {map(options, (option) => {
         return (
           <Checkbox
             key={option.value}

@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 
-export const ModalFooter: FC = ({ children }) => (
+export const ModalFooter: FC<PropsWithChildren> = ({ children }) => (
   <div
     css={{
       display: "flex",

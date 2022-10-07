@@ -8,6 +8,7 @@
     "test": "turbo run test",
     "lint": "turbo run lint",
     "dev": "turbo run dev",
+    "tsc": "turbo run tsc",
     "prepare": "husky install"
   },
   "repository": {

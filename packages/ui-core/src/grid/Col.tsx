@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import { css } from "@emotion/react";
 
 interface ColProps {
@@ -41,6 +41,6 @@ const containerStyles = ({ sm, md, lg, xl }: ColProps) => css`
   ${xl && `${mq("xl", getColWidth(xl))}`}
 `;
 
-export const Col: FC<ColProps> = ({ children, sm, md, lg, xl }) => {
+export const Col: FC<PropsWithChildren<ColProps>> = ({ children, sm, md, lg, xl }) => {
   return <div css={containerStyles({ sm, md, lg, xl })}>{children}</div>;
 };

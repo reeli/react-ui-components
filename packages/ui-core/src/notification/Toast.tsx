@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, PropsWithChildren } from "react";
 import { Portal } from "@ui/base";
 import { css } from "@emotion/react";
 
@@ -13,7 +13,11 @@ const containerStyles = css({
   borderRadius: 4,
 });
 
-export const Toast: FC<{ duration?: number; onClose?: () => void }> = ({ children, duration = 3000, onClose }) => {
+export const Toast: FC<PropsWithChildren<{ duration?: number; onClose?: () => void }>> = ({
+  children,
+  duration = 3000,
+  onClose,
+}) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
