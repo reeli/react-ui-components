@@ -4,6 +4,6 @@ export default {
   coverageProvider: "v8",
   moduleDirectories: ["node_modules", "<rootDir>"],
   moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node"],
-  roots: ["<rootDir>", "<rootDir>/style-guide/"],
+  roots: ["<rootDir>"],
   testEnvironment: "jsdom",
 };
