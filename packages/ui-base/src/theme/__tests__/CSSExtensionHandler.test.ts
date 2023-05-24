@@ -1,8 +1,14 @@
-import { convert, defaultTheme } from "../DesignToken";
+import { CSSExtensionHandler } from "../CSSExtensionHandler";
+import { defaultTheme } from "../defaultTheme";
 
 describe("#convert", () => {
   it("should covert custom css styles to official css styles", () => {
-    expect(convert({ px: 1, textStyle: "bodyMedium", color: "red", py: 1 }, defaultTheme)).toEqual({
+    expect(CSSExtensionHandler.of(defaultTheme).convert({
+      px: 1,
+      textStyle: "bodyMedium",
+      color: "red",
+      py: 1,
+    })).toEqual({
       paddingLeft: 4,
       paddingRight: 4,
       fontSize: "27",
