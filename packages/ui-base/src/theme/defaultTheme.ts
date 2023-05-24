@@ -97,7 +97,7 @@ export const defaultTheme: Theme = {
       letterSpacing: "",
     },
     bodyMedium: {
-      fontSize: "27", // 单位用 rem 还是 px
+      fontSize: "27",
       fontFamily: (t: Theme) => t.fontFamily.brand,
       fontWeight: (t: Theme) => t.fontWeight.bold,
       lineHeight: "10px",

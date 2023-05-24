@@ -1,7 +1,6 @@
-import { isFunction, isNumber } from "lodash";
+import { isFunction } from "lodash";
 import { Theme, CSSPropsWithExtensions } from ".";
 import { Properties } from "csstype";
-
 
 const CSSPropNameGetter = <T extends Record<string, any>>(): { [K in keyof T]: T[K] } => {
   return new Proxy({} as T, {
@@ -26,13 +25,14 @@ export class CSSExtensionHandler {
     mx: [cssPropNameGetter.marginLeft, cssPropNameGetter.marginRight],
     my: [cssPropNameGetter.marginTop, cssPropNameGetter.marginBottom],
     textStyle: [cssPropNameGetter.fontSize, cssPropNameGetter.fontFamily, cssPropNameGetter.fontWeight, cssPropNameGetter.lineHeight, cssPropNameGetter.letterSpacing],
+    containerStyle: [cssPropNameGetter.backgroundColor, cssPropNameGetter.color],
   };
 
   constructor(private theme: Theme) {
   }
 
   // TODO: remove any type
-  getExtensionByProp(k: keyof typeof this.extensions): any[] {
+  private getExtensionByProp(k: keyof typeof this.extensions): any[] {
     return this.extensions[k];
   }
 
@@ -47,7 +47,11 @@ export class CSSExtensionHandler {
       const f = (this.theme.font as any)[value!][cssProp];
       return isFunction(f) ? f(this.theme) : f;
     }
-    return isNumber(value) ? value * this.theme.spacing : value;
+
+    if (extensionProp === "containerStyle") {
+    }
+
+    return value;
   };
 
   convert = (styles: CSSPropsWithExtensions): Properties => {

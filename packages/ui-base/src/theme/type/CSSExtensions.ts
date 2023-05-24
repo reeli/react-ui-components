@@ -1,5 +1,6 @@
 import { Font } from ".";
-import { type Properties } from "csstype";
+import { type PropertiesFallback } from "csstype";
+import { color } from "..";
 
 interface CssExtensions {
   p: number;
@@ -10,7 +11,8 @@ interface CssExtensions {
   my: number;
   g: number;
   textStyle: Font;
+  containerStyle: keyof typeof color;
 }
 
-export type CSSPropsWithExtensions = Properties & Partial<CssExtensions>;
+export type CSSPropsWithExtensions = PropertiesFallback<string|number> & Partial<CssExtensions>;
 

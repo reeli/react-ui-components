@@ -1,5 +1,10 @@
 export const color = {
   primary: "",
   onPrimary: "",
-  primaryContainer: "",
+
+  primaryContainer: "red",
+  onPrimaryContainer: "white",
+
+  white: "#fff",
+  black: "#000",
 };

@@ -8,6 +8,7 @@ describe("#convert", () => {
       textStyle: "bodyMedium",
       color: "red",
       py: 1,
+      padding: 1,
     })).toEqual({
       paddingLeft: 4,
       paddingRight: 4,
