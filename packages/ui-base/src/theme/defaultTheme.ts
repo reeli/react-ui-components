@@ -111,6 +111,6 @@ export const defaultTheme: Theme = {
       letterSpacing: "",
     },
   },
-  spacing: 4,
+  spacing: 1,
   rounded,
 };

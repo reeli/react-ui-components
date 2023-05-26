@@ -2,6 +2,9 @@ import { Font } from ".";
 import { type PropertiesFallback } from "csstype";
 import { color } from "..";
 
+type PickByPrefix<T, Prefix extends string> = T extends `${Prefix}${string}` ? T : never;
+type FilteredKeys<T, Prefix extends string> = Exclude<keyof T, PickByPrefix<keyof T, Prefix>>;
+
 interface CssExtensions {
   p: number;
   px: number;
@@ -11,8 +14,8 @@ interface CssExtensions {
   my: number;
   g: number;
   textStyle: Font;
-  containerStyle: keyof typeof color;
+  containerStyle: FilteredKeys<typeof color, "on">;
 }
 
-export type CSSPropsWithExtensions = PropertiesFallback<string|number> & Partial<CssExtensions>;
+export type CSSPropsWithExtensions = PropertiesFallback<string | number> & Partial<CssExtensions>;
 

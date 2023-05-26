@@ -1,4 +1,4 @@
-import { isFunction } from "lodash";
+import { isFunction, capitalize } from "lodash";
 import { Theme, CSSPropsWithExtensions } from ".";
 import { Properties } from "csstype";
 
@@ -24,14 +24,18 @@ export class CSSExtensionHandler {
     m: [cssPropNameGetter.margin],
     mx: [cssPropNameGetter.marginLeft, cssPropNameGetter.marginRight],
     my: [cssPropNameGetter.marginTop, cssPropNameGetter.marginBottom],
-    textStyle: [cssPropNameGetter.fontSize, cssPropNameGetter.fontFamily, cssPropNameGetter.fontWeight, cssPropNameGetter.lineHeight, cssPropNameGetter.letterSpacing],
+    textStyle: [
+      cssPropNameGetter.fontSize,
+      cssPropNameGetter.fontFamily,
+      cssPropNameGetter.fontWeight,
+      cssPropNameGetter.lineHeight,
+      cssPropNameGetter.letterSpacing,
+    ],
     containerStyle: [cssPropNameGetter.backgroundColor, cssPropNameGetter.color],
   };
 
-  constructor(private theme: Theme) {
-  }
+  constructor(private theme: Theme) {}
 
-  // TODO: remove any type
   private getExtensionByProp(k: keyof typeof this.extensions): any[] {
     return this.extensions[k];
   }
@@ -40,23 +44,40 @@ export class CSSExtensionHandler {
     return Object.keys(this.extensions).includes(x);
   }
 
-  getExtensionStyle = (styles: CSSPropsWithExtensions, extensionProp: keyof typeof this.extensions, cssProp: keyof Properties) => {
+  getExtensionStyle = (
+    styles: CSSPropsWithExtensions,
+    extensionProp: keyof typeof this.extensions,
+    cssProp: keyof Properties,
+  ) => {
     const value = styles[extensionProp];
+
     if (extensionProp === "textStyle") {
-      // TODO: Remove any type
       const f = (this.theme.font as any)[value!][cssProp];
       return isFunction(f) ? f(this.theme) : f;
-    }
-
-    if (extensionProp === "containerStyle") {
     }
 
     return value;
   };
 
+  getColorByBackgroundColor(bgColor: string) {
+    if (bgColor.startsWith("surface")) {
+      return this.theme.color["onSurface"];
+    }
+    return (this.theme.color as any)[`on${capitalize(bgColor)}`];
+  }
+
   convert = (styles: CSSPropsWithExtensions): Properties => {
     return Object.keys(styles).reduce((results, prop) => {
       if (this.isExtensionProp(prop)) {
+        if (prop === "containerStyle") {
+          const bgColor = styles[prop] || "primary";
+          return {
+            ...results,
+            backgroundColor: this.theme.color[bgColor],
+            color: this.getColorByBackgroundColor(bgColor),
+          };
+        }
+
         const customProps = this.getExtensionByProp(prop).reduce((res, cssProp) => {
           return {
             ...res,
@@ -77,5 +98,3 @@ export class CSSExtensionHandler {
     }, {});
   };
 }
-
-
