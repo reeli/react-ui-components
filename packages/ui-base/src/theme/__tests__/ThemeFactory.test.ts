@@ -1,10 +1,10 @@
-import { CSSExtensionHandler } from "../CSSExtensionHandler";
+import { ThemeFactory } from "../ThemeFactory";
 import { defaultTheme } from "../defaultTheme";
 
 describe("#convert", () => {
   it("should covert custom css styles to official css styles", () => {
     expect(
-      CSSExtensionHandler.of(defaultTheme).convert({
+      ThemeFactory.of(defaultTheme).convert({
         px: 10,
         py: 10,
         margin: 10,
@@ -12,16 +12,16 @@ describe("#convert", () => {
         containerStyle: "primary",
       }),
     ).toEqual({
-      paddingLeft: 1,
-      paddingRight: 1,
-      paddingBottom: 1,
-      paddingTop: 1,
-      margin: 1,
-      fontSize: "27",
+      paddingLeft: "1rem",
+      paddingRight: "1rem",
+      paddingBottom: "1rem",
+      paddingTop: "1rem",
+      margin: "1rem",
+      fontSize: "2.7rem",
       fontFamily: "brand",
       fontWeight: 700,
-      lineHeight: "10px",
-      letterSpacing: "5px",
+      lineHeight: "1rem",
+      letterSpacing: "0.5rem",
       backgroundColor: "#6750A4",
       color: "#FFFFFF",
     });
@@ -29,7 +29,7 @@ describe("#convert", () => {
 
   it("should always use onSurface color as text color when given background color is in surface category", () => {
     expect(
-      CSSExtensionHandler.of(defaultTheme).convert({
+      ThemeFactory.of(defaultTheme).convert({
         containerStyle: "surface",
       }),
     ).toEqual({

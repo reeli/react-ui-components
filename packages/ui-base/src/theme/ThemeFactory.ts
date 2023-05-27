@@ -1,4 +1,4 @@
-import { isFunction, capitalize } from "lodash";
+import { isFunction, capitalize, isNumber } from "lodash";
 import { Theme, CSSPropsWithExtensions } from ".";
 import { Properties } from "csstype";
 
@@ -10,11 +10,17 @@ const CSSPropNameGetter = <T extends Record<string, any>>(): { [K in keyof T]: T
   });
 };
 
+interface ThemeOptions {
+  createSpacing: (value: number) => string;
+}
+
+const defaultCreateSpacing = (value: number) => `${value * 0.1}rem`;
+
 const cssPropNameGetter = CSSPropNameGetter<Properties>();
 
-export class CSSExtensionHandler {
-  static of(theme: Theme) {
-    return new CSSExtensionHandler(theme);
+export class ThemeFactory {
+  static of(theme: Theme, themeOptions: ThemeOptions = { createSpacing: defaultCreateSpacing }) {
+    return new ThemeFactory(theme, themeOptions);
   }
 
   private extensions = {
@@ -34,17 +40,17 @@ export class CSSExtensionHandler {
     containerStyle: [cssPropNameGetter.backgroundColor, cssPropNameGetter.color],
   };
 
-  constructor(private theme: Theme) {}
+  constructor(public theme: Theme, private themeOptions: ThemeOptions) {}
 
   private getExtensionByProp(k: keyof typeof this.extensions): any[] {
     return this.extensions[k];
   }
 
-  isExtensionProp(x: string): x is keyof typeof this.extensions {
+  private isExtensionProp(x: string): x is keyof typeof this.extensions {
     return Object.keys(this.extensions).includes(x);
   }
 
-  getExtensionStyle = (
+  private getExtensionStyle = (
     styles: CSSPropsWithExtensions,
     extensionProp: keyof typeof this.extensions,
     cssProp: keyof Properties,
@@ -53,20 +59,42 @@ export class CSSExtensionHandler {
 
     if (extensionProp === "textStyle") {
       const f = (this.theme.font as any)[value!][cssProp];
-      return isFunction(f) ? f(this.theme) : f;
+      return isFunction(f) ? f(this.theme) : this.convertLengthValue(cssProp, f);
     }
 
-    return value;
+    return this.convertLengthValue(extensionProp, value as any);
   };
 
-  getColorByBackgroundColor(bgColor: string) {
+  private isLengthAttr(prop: string) {
+    const lengthAttrs = [
+      "px",
+      "py",
+      "mx",
+      "my",
+      cssPropNameGetter.margin,
+      cssPropNameGetter.padding,
+      cssPropNameGetter.fontSize,
+      cssPropNameGetter.lineHeight,
+      cssPropNameGetter.letterSpacing,
+    ];
+    return lengthAttrs.includes(prop);
+  }
+
+  private convertLengthValue(prop: string, value: string | number) {
+    if (this.isLengthAttr(prop) && isNumber(value)) {
+      return this.themeOptions.createSpacing(value);
+    }
+    return value;
+  }
+
+  private getColorByBackgroundColor(bgColor: string) {
     if (bgColor.startsWith("surface")) {
       return this.theme.color["onSurface"];
     }
     return (this.theme.color as any)[`on${capitalize(bgColor)}`];
   }
 
-  convert = (styles: CSSPropsWithExtensions): Properties => {
+  public convert = (styles: CSSPropsWithExtensions): Properties => {
     return Object.keys(styles).reduce((results, prop) => {
       if (this.isExtensionProp(prop)) {
         if (prop === "containerStyle") {
@@ -93,7 +121,7 @@ export class CSSExtensionHandler {
 
       return {
         ...results,
-        [prop]: (styles as any)[prop],
+        [prop]: this.convertLengthValue(prop, (styles as any)[prop]),
       };
     }, {});
   };
