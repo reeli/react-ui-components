@@ -17,7 +17,7 @@
         "packages/ui-*/src/index.ts"
       ]
     },
-    "outDir": "../../.tmp",
+    "outDir": ".tmp",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "jsxImportSource": "@emotion/react"

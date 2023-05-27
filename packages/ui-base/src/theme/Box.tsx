@@ -1,16 +1,30 @@
-import { ElementType, FC } from "react";
-import { useThemeFactory } from "./ThemeContext";
-import styled from "@emotion/styled";
-import { CSSPropsWithExtensions } from "packages/ui-base/src/theme/type";
+import { ElementType, useContext, PropsWithChildren, DOMAttributes, forwardRef } from "react";
+import { CSSPropsWithExtensions, ThemeContext } from ".";
 
-interface BoxProps {
+// @ts-ignore
+import { jsx, jsxs } from "@emotion/react/jsx-runtime";
+
+interface BoxProps extends DOMAttributes<any> {
   component: ElementType;
   sx: CSSPropsWithExtensions;
 }
 
-const BoxRoot = styled("div")();
-export const Box: FC<BoxProps> = ({ component = "span", sx }) => {
-  const themeFactory = useThemeFactory();
+export const Box = forwardRef<HTMLElement, PropsWithChildren<BoxProps>>(
+  ({ component = "span", sx, ...otherProps }, ref) => {
+    const { themeFactory } = useContext(ThemeContext);
 
-  return <BoxRoot as={component} theme={themeFactory.theme} style={themeFactory.convert(sx)} />;
-};
+    if (Array.isArray((otherProps as any)["children"])) {
+      return jsxs(component, {
+        ...otherProps,
+        css: themeFactory.convert(sx),
+        ref,
+      });
+    }
+
+    return jsx(component, {
+      ...otherProps,
+      css: themeFactory.convert(sx),
+      ref,
+    });
+  },
+);

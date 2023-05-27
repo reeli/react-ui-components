@@ -112,4 +112,4 @@ export const defaultTheme = {
     },
   },
   rounded,
-};
+}

@@ -1,11 +1,8 @@
 import { createContext, useContext } from "react";
-import { defaultTheme } from "./";
-import { ThemeFactory } from "./ThemeFactory";
-
-const themeFactory = ThemeFactory.of(defaultTheme, { createSpacing: (v) => `${v * 0.1}rem` });
+import { ThemeFactory } from "./";
 
 export const ThemeContext = createContext({
-  themeFactory,
+  themeFactory: {} as unknown as ThemeFactory,
 });
 
 export const useThemeFactory = () => {
@@ -17,3 +14,5 @@ export const useTheme = () => {
   const { themeFactory } = useContext(ThemeContext);
   return themeFactory.theme;
 };
+
+export const ThemeProvider = ThemeContext.Provider;
