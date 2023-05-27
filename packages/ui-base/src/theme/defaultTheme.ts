@@ -90,11 +90,11 @@ export const defaultTheme = {
       letterSpacing: 5,
     },
     bodyLarge: {
-      fontSize: 57,
+      fontSize: 16,
       fontFamily: fontFamily.brand,
-      fontWeight: fontWeight.bold,
-      lineHeight: 23,
-      letterSpacing: 5,
+      fontWeight: fontWeight.medium,
+      lineHeight: 24,
+      letterSpacing: 0.5,
     },
     bodyMedium: {
       fontSize: 27,

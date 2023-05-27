@@ -44,6 +44,9 @@ const App = () => {
                 font-family: "Roboto", "Helvetica", "Arial", sans-serif;
                 font-size: 1.4rem;
               }
+              button {
+                border: none;
+              }
             `}
           />
 

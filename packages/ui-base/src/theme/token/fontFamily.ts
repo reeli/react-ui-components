@@ -1,4 +1,4 @@
 export const fontFamily = {
-  brand: "brand",
-  plain: "plain",
+  brand: "Roboto",
+  plain: "Roboto",
 };

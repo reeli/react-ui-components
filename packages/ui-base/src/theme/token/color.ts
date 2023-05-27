@@ -9,7 +9,7 @@ export const color = {
   onSecondary: "#FFFFFF",
 
   secondaryContainer: "#E8DEF8",
-  onSecondaryContainer: "#1E192",
+  onSecondaryContainer: "#1E192B",
 
   tertiary: "#7D5260",
   onTertiary: "#FFFFFF",
