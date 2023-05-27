@@ -12,3 +12,4 @@ export * from "./components/Position";
 export * from "./components/OverlayTrigger";
 export * from "./components/ClickAwayListener";
 export * from "./portal";
+export * from "./theme";

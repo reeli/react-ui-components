@@ -11,10 +11,12 @@
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "baseUrl": "../..",
-    "outDir": "../../.tmp",
+    //    "baseUrl": "../..",
+    //    "outDir": "../../.tmp",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "noEmit": true,
+    "inlineSourceMap": false
   }
 }

@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes } from "react-router-dom";
 import { Nav } from "./components/Nav";
 import { routesConfig } from "./getRoutesConfig";
 import { getRouterRoutes } from "./getRouterRoutes";
-import { ThemeContext } from "./ThemeContext";
 import { css, Global } from "@emotion/react";
 import { useState } from "react";
 import { Button } from "@ui/core";
+import { ThemeContext, defaultTheme } from "@ui/base";
+import { ThemeFactory } from "@ui/base/src/theme/ThemeFactory";
 
 const containerStyles = css({
   position: "absolute",
@@ -23,8 +24,9 @@ const mainStyles = css({
   overflow: "scroll",
 });
 
+const themeFactory = ThemeFactory.of(defaultTheme, { createSpacing: (v) => `${v * 0.1}rem` });
+
 const App = () => {
-  const [theme, setTheme] = useState("dark");
   const [show, setShow] = useState(true);
 
   return (
@@ -44,10 +46,7 @@ const App = () => {
         {show && (
           <ThemeContext.Provider
             value={{
-              theme: theme,
-              toggleTheme: () => {
-                setTheme(theme === "light" ? "dark" : "light");
-              },
+              themeFactory,
             }}
           >
             <Nav routesConfig={routesConfig} />

@@ -1,7 +1,7 @@
 {
   "name": "@ui/core",
   "dependencies": {
-    "@ui/base": "workspace:*"
+    "@ui/base": "workspace:^"
   },
   "types": "./src/index.ts",
   "main": "src/index.ts",

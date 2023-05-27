@@ -1,6 +1,5 @@
 import { ElementType, FC } from "react";
-import { ThemeFactory } from "packages/ui-base/src/theme/ThemeFactory";
-import { useTheme } from "./ThemeContext";
+import { useThemeFactory } from "./ThemeContext";
 import styled from "@emotion/styled";
 import { CSSPropsWithExtensions } from "packages/ui-base/src/theme/type";
 
@@ -11,7 +10,7 @@ interface BoxProps {
 
 const BoxRoot = styled("div")();
 export const Box: FC<BoxProps> = ({ component = "span", sx }) => {
-  const theme = useTheme();
+  const themeFactory = useThemeFactory();
 
-  return <BoxRoot as={component} theme={theme} style={ThemeFactory.of(theme).convert(sx)} />;
+  return <BoxRoot as={component} theme={themeFactory.theme} style={themeFactory.convert(sx)} />;
 };

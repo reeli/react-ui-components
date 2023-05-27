@@ -9,7 +9,8 @@
     "lint": "turbo run lint",
     "dev": "turbo run dev",
     "tsc": "turbo run tsc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "clean": "find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}'"
   },
   "repository": {
     "type": "git",
