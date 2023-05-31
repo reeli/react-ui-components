@@ -20,6 +20,10 @@ interface CssExtensions {
   roundedBottom: number;
   roundedLeft: number;
   roundedRight: number;
+  _hover: Partial<CSSPropsWithExtensions>;
+  _focus: Partial<CSSPropsWithExtensions>;
+  _active: Partial<CSSPropsWithExtensions>;
+  _disabled: Partial<CSSPropsWithExtensions>;
 }
 
 export type CSSPropsWithExtensions = PropertiesFallback<string | number> & Partial<CssExtensions>;

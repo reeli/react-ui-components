@@ -100,8 +100,22 @@ export class ThemeFactory {
     return (this.theme.color as any)[`on${capitalize(bgColor)}`];
   }
 
-  public convert = (styles: CSSPropsWithExtensions): Properties => {
+  public convert = (styles: CSSPropsWithExtensions, disabled: boolean = false): Properties => {
     return Object.keys(styles).reduce((results, prop) => {
+      if (prop.startsWith("_")) {
+        if (prop == "_disabled") {
+          return {
+            ...results,
+            ...(disabled ? this.convert((styles as any)[prop], disabled) : {}),
+          };
+        }
+
+        return {
+          ...results,
+          [`&:${prop.slice(1)}`]: this.convert((styles as any)[prop], disabled),
+        };
+      }
+
       if (this.isExtensionProp(prop)) {
         if (prop === "containerStyle") {
           const bgColor = styles[prop] || "primary";

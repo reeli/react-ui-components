@@ -4,7 +4,9 @@ export function ButtonDemo() {
   return (
     <div>
       <Button onClick={() => console.log("hello")}>button1</Button>
-      <Button>button2</Button>
+      <Button onClick={() => console.log("good")} disabled>
+        button2
+      </Button>
     </div>
   );
 }

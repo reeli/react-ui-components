@@ -12,7 +12,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Box
         component={"button"}
-        sx={{ containerStyle: "primaryContainer", textStyle: "bodyLarge", px: 10, rounded: 10 }}
+        disabled={disabled}
+        sx={{
+          containerStyle: "primaryContainer",
+          textStyle: "bodyLarge",
+          px: 16,
+          py: 8,
+          rounded: 10,
+          cursor: "pointer",
+          _hover: {
+            boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3),0px 2px 6px 2px rgba(0, 0, 0, 0.15)",
+          },
+          _focus: {
+            color: "red",
+          },
+          _disabled: {
+            containerStyle: "surfaceContainer",
+            cursor: "not-allowed",
+          },
+        }}
         onClick={others.onClick}
         ref={ref}
       >
