@@ -10,7 +10,8 @@
     "dev": "turbo run dev",
     "tsc": "turbo run tsc",
     "prepare": "husky install",
-    "clean": "find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \\;"
+    "clean": "find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \\;",
+    "cleanJS": "find packages -name 'node_modules' -prune -o -name '*.js' -print -exec rm -rf '{}' \\;"
   },
   "repository": {
     "type": "git",
