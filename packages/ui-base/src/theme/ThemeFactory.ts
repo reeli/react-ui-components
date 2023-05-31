@@ -38,6 +38,11 @@ export class ThemeFactory {
       cssPropNameGetter.letterSpacing,
     ],
     containerStyle: [cssPropNameGetter.backgroundColor, cssPropNameGetter.color],
+    rounded: [cssPropNameGetter.borderRadius],
+    roundedTop: [cssPropNameGetter.borderTopLeftRadius, cssPropNameGetter.borderTopRightRadius],
+    roundedBottom: [cssPropNameGetter.borderBottomLeftRadius, cssPropNameGetter.borderBottomRightRadius],
+    roundedLeft: [cssPropNameGetter.borderTopLeftRadius, cssPropNameGetter.borderBottomLeftRadius],
+    roundedRight: [cssPropNameGetter.borderTopRightRadius, cssPropNameGetter.borderBottomRightRadius],
   };
 
   constructor(public theme: Theme, private themeOptions: ThemeOptions) {}
@@ -76,6 +81,7 @@ export class ThemeFactory {
       cssPropNameGetter.fontSize,
       cssPropNameGetter.lineHeight,
       cssPropNameGetter.letterSpacing,
+      "rounded",
     ];
     return lengthAttrs.includes(prop);
   }

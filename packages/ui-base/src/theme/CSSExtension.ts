@@ -27,6 +27,7 @@ export class MixinFactory {
       m: ["marginLeft", "marginRight", "marginBottom", "marginTop"],
       mx: ["marginLeft", "marginRight"],
       my: ["marginBottom", "marginTop"],
+      rounded: ["borderRadius"],
     };
 
     return Object.keys(alias).map((name) => {

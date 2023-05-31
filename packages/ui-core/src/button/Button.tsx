@@ -12,7 +12,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Box
         component={"button"}
-        sx={{ containerStyle: "primaryContainer", textStyle: "bodyLarge", px: 10 }}
+        sx={{ containerStyle: "primaryContainer", textStyle: "bodyLarge", px: 10, rounded: 10 }}
         onClick={others.onClick}
         ref={ref}
       >

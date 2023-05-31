@@ -10,7 +10,7 @@ interface BoxProps extends DOMAttributes<any> {
 }
 
 export const Box = forwardRef<HTMLElement, PropsWithChildren<BoxProps>>(
-  ({ component = "span", sx, ...otherProps }, ref) => {
+  ({ component = "div", sx, ...otherProps }, ref) => {
     const { themeFactory } = useContext(ThemeContext);
 
     if (Array.isArray((otherProps as any)["children"])) {

@@ -15,7 +15,11 @@ interface CssExtensions {
   g: number;
   textStyle: Font;
   containerStyle: FilteredKeys<typeof color, "on">;
+  rounded: number;
+  roundedTop: number;
+  roundedBottom: number;
+  roundedLeft: number;
+  roundedRight: number;
 }
 
 export type CSSPropsWithExtensions = PropertiesFallback<string | number> & Partial<CssExtensions>;
-
