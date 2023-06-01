@@ -14,12 +14,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         component={"button"}
         disabled={disabled}
         sx={{
-          containerStyle: "primaryContainer",
+          containerStyle: "primary",
           textStyle: "bodyLarge",
           px: 16,
           py: 8,
-          rounded: 10,
+          rounded: 24,
           cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
           _hover: {
             boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3),0px 2px 6px 2px rgba(0, 0, 0, 0.15)",
           },

@@ -1,5 +1,8 @@
 import { Button } from "../Button";
 import { Box } from "@ui/base";
+import { Icon } from "../../Icon";
+
+import { mdiAutorenew, mdiPlus } from "@mdi/js";
 
 export function ButtonDemo() {
   return (
@@ -8,9 +11,10 @@ export function ButtonDemo() {
       <Button onClick={() => console.log("good")} disabled>
         button2
       </Button>
-      <Button onClick={() => console.log("good")} disabled>
+      <Button onClick={() => console.log("good")}>
+        <Icon path={mdiPlus} placement={"start"} />
         Button3
-        <div>icon</div>
+        <Icon path={mdiAutorenew} placement={"end"} />
       </Button>
     </Box>
   );

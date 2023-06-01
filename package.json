@@ -82,6 +82,7 @@
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@mdi/js": "^7.2.96",
     "@monaco-editor/react": "^4.4.6",
     "@mui/base": "5.0.0-alpha.100",
     "@mui/system": "^5.10.8",
