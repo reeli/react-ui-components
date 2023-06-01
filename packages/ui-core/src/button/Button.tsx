@@ -2,17 +2,15 @@ import { forwardRef, Ref, MouseEventHandler, ReactNode } from "react";
 import { Box } from "@ui/base";
 
 interface ButtonProps {
-  disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children?: ReactNode;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, disabled, ...others }, ref: Ref<HTMLButtonElement>) => {
+  ({ children, ...others }, ref: Ref<HTMLButtonElement>) => {
     return (
       <Box
         component={"button"}
-        disabled={disabled}
         sx={{
           containerStyle: "primary",
           textStyle: "bodyLarge",
@@ -36,6 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         }}
         onClick={others.onClick}
         ref={ref}
+        {...others}
       >
         {children}
       </Box>

@@ -100,20 +100,25 @@ export class ThemeFactory {
     return (this.theme.color as any)[`on${capitalize(bgColor)}`];
   }
 
-  public convert = (styles: CSSPropsWithExtensions, disabled: boolean = false): Properties => {
+  public convert = (styles: CSSPropsWithExtensions, otherProps: any): Properties => {
     return Object.keys(styles).reduce((results, prop) => {
       if (prop.startsWith("_")) {
-        if (prop == "_disabled") {
+        if (["_focus", "_active", "_hover"].includes(prop)) {
           return {
             ...results,
-            ...(disabled ? this.convert((styles as any)[prop], disabled) : {}),
+            [`&:${prop.slice(1)}`]: this.convert((styles as any)[prop], otherProps),
           };
         }
 
-        return {
-          ...results,
-          [`&:${prop.slice(1)}`]: this.convert((styles as any)[prop], disabled),
-        };
+        console.log(Object.keys(otherProps));
+        if (Object.keys(otherProps).includes(`data-${prop.slice(1)}`)) {
+          return {
+            ...results,
+            ...this.convert((styles as any)[prop], otherProps),
+          };
+        }
+
+        return results;
       }
 
       if (this.isExtensionProp(prop)) {
