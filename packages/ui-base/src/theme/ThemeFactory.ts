@@ -100,7 +100,7 @@ export class ThemeFactory {
     return (this.theme.color as any)[`on${capitalize(bgColor)}`];
   }
 
-  public convert = (styles: CSSPropsWithExtensions, otherProps: any): Properties => {
+  public convert = (styles: CSSPropsWithExtensions, otherProps?: any): Properties => {
     return Object.keys(styles).reduce((results, prop) => {
       if (prop.startsWith("_")) {
         if (["_focus", "_active", "_hover"].includes(prop)) {

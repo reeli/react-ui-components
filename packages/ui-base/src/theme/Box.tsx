@@ -1,12 +1,12 @@
 import { ElementType, useContext, PropsWithChildren, DOMAttributes, forwardRef } from "react";
-import { CSSPropsWithExtensions, ThemeContext } from ".";
+import {  ThemeContext } from ".";
 
 // @ts-ignore
 import { jsx, jsxs } from "@emotion/react/jsx-runtime";
 
 interface BoxProps extends DOMAttributes<any> {
   component: ElementType;
-  sx: CSSPropsWithExtensions;
+  sx: any;
 }
 
 export const Box = forwardRef<HTMLElement, PropsWithChildren<BoxProps>>(

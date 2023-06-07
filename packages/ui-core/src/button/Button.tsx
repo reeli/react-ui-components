@@ -1,5 +1,5 @@
 import { forwardRef, Ref, MouseEventHandler, ReactNode } from "react";
-import { Box } from "@ui/base";
+import { Box, $ } from "@ui/base";
 
 interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -21,16 +21,31 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           display: "inline-flex",
           alignItems: "center",
           gap: 4,
-          _hover: {
+          ...$.of().hover().css({
             boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3),0px 2px 6px 2px rgba(0, 0, 0, 0.15)",
-          },
-          _focus: {
+          }),
+          ...$.of().focus().css({
             color: "red",
-          },
+          }),
           _disabled: {
             containerStyle: "surfaceContainer",
             cursor: "not-allowed",
           },
+          ...$.of()
+            .lastOfType()
+            .childCombinator()
+            .attr("data-placement=end")
+            .css(
+              {
+                background: "blue",
+              },
+              {
+                before: {
+                  content: "'.'",
+                  background: "red",
+                },
+              },
+            ),
         }}
         onClick={others.onClick}
         ref={ref}
