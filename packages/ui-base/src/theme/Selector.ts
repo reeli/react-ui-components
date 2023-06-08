@@ -1,11 +1,11 @@
-import { CSSPropsWithExtensions } from "packages/ui-base/src/theme/type";
+import { CSSPropertyWithExtensions } from "packages/ui-base/src/theme/type";
 
 interface Pseudo {
-  hover: CSSPropsWithExtensions;
-  active: CSSPropsWithExtensions;
-  focus: CSSPropsWithExtensions;
-  before: CSSPropsWithExtensions;
-  after: CSSPropsWithExtensions;
+  hover: CSSPropertyWithExtensions;
+  active: CSSPropertyWithExtensions;
+  focus: CSSPropertyWithExtensions;
+  before: CSSPropertyWithExtensions;
+  after: CSSPropertyWithExtensions;
 }
 
 export class $ {
@@ -72,7 +72,7 @@ export class $ {
     return new $();
   }
 
-  css(css: CSSPropsWithExtensions, pseudo?: Partial<Pseudo>) {
+  css(css: CSSPropertyWithExtensions, pseudo?: Partial<Pseudo>) {
     const finalSelector = this.selectors.reduce((res, item) => {
       return res + item;
     }, "");

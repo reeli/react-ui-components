@@ -1,12 +1,7 @@
-import { forwardRef, Ref, MouseEventHandler, ReactNode } from "react";
-import { Box, $ } from "@ui/base";
+import { forwardRef, Ref, PropsWithChildren } from "react";
+import { Box } from "@ui/base";
 
-interface ButtonProps {
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  children?: ReactNode;
-}
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, PropsWithChildren>(
   ({ children, ...others }, ref: Ref<HTMLButtonElement>) => {
     return (
       <Box
@@ -21,33 +16,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           display: "inline-flex",
           alignItems: "center",
           gap: 4,
-          ...$.of().hover().css({
+          "&:hover": {
             boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3),0px 2px 6px 2px rgba(0, 0, 0, 0.15)",
-          }),
-          ...$.of().focus().css({
+          },
+          "&:focus": {
             color: "red",
-          }),
-          _disabled: {
+          },
+          "&[data-disabled]": {
             containerStyle: "surfaceContainer",
             cursor: "not-allowed",
+            boxShadow: "none",
           },
-          ...$.of()
-            .lastOfType()
-            .childCombinator()
-            .attr("data-placement=end")
-            .css(
-              {
-                background: "blue",
-              },
-              {
-                before: {
-                  content: "'.'",
-                  background: "red",
-                },
-              },
-            ),
         }}
-        onClick={others.onClick}
         ref={ref}
         {...others}
       >
