@@ -4,7 +4,7 @@ import { routesConfig } from "./getRoutesConfig";
 import { getRouterRoutes } from "./getRouterRoutes";
 import { css, Global } from "@emotion/react";
 import { Button } from "@ui/core";
-import { ThemeProvider, defaultTheme, ThemeFactory, extensions } from "@ui/base";
+import { ThemeProvider, defaultTheme, ThemeFactory, extensions, ThemeOptions } from "@ui/base";
 import { createRoot } from "react-dom/client";
 
 const containerStyles = css({
@@ -22,7 +22,10 @@ const mainStyles = css({
   overflow: "scroll",
 });
 
-const themeFactory = ThemeFactory.of(defaultTheme, { createSpacing: (v) => `${v * 0.1}rem`, extensions });
+const themeFactory = ThemeFactory.of(defaultTheme, {
+  createSpacing: (v) => `${v * 0.1}rem`,
+  extensions: extensions as ThemeOptions["extensions"],
+});
 
 const App = () => {
   return (

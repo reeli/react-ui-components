@@ -1,68 +1,113 @@
 import { defaultTheme } from "./defaultTheme";
+import { CSSPropertyGetter, getColorByBackgroundColor } from "./utils";
+import { Properties } from "csstype";
+import { CSSProperties, Theme } from "./type";
 
-interface Mixin {
-  name: string;
-  value: any;
-  type: "mixin";
-}
+type ValueOfStyle = string | number;
+type AliasCallback<T = ValueOfStyle> = (theme: typeof defaultTheme, v: T) => CSSProperties;
 
-type MixinCallback = (theme: typeof defaultTheme, v: any) => any;
+const CSSProperty = CSSPropertyGetter<Properties>();
 
-export class MixinFactory {
-  constructor(private theme: typeof defaultTheme) {}
+export class Extension {
+  constructor() {}
 
-  custom = (name: string, callback: MixinCallback): Mixin => {
-    return {
-      name,
-      value: (value: any) => callback(this.theme, value),
-      type: "mixin",
-    };
+  static mixin = <T>(callback: AliasCallback<T>): AliasCallback<T> => {
+    return (theme: Theme, value: T) => callback(theme, value);
   };
 
-  builtIn() {
-    const alias: Record<string, any[]> = {
-      p: ["paddingLeft", "paddingRight", "paddingTop", "paddingBottom"],
-      px: ["paddingLeft", "paddingRight"],
-      py: ["paddingTop", "paddingBottom"],
-      m: ["marginLeft", "marginRight", "marginBottom", "marginTop"],
-      mx: ["marginLeft", "marginRight"],
-      my: ["marginBottom", "marginTop"],
-      rounded: ["borderRadius"],
+  static builtIn() {
+    const alias = {
+      font: [CSSProperty.fontFamily],
+
+      shadow: [CSSProperty.boxShadow],
+
+      rounded: [CSSProperty.borderRadius],
+      roundedTop: [CSSProperty.borderTopLeftRadius, CSSProperty.borderTopRightRadius],
+      roundedBottom: [CSSProperty.borderBottomLeftRadius, CSSProperty.borderBottomRightRadius],
+      roundedLeft: [CSSProperty.borderTopLeftRadius, CSSProperty.borderBottomLeftRadius],
+      roundedRight: [CSSProperty.borderTopRightRadius, CSSProperty.borderBottomRightRadius],
+
+      bg: [CSSProperty.background],
+      bgImage: [CSSProperty.backgroundImage],
+      bgSize: [CSSProperty.backgroundSize],
+      bgPosition: [CSSProperty.backgroundPosition],
+      bgRepeat: [CSSProperty.backgroundRepeat],
+      bgAttachment: [CSSProperty.backgroundAttachment],
+      bgColor: [CSSProperty.backgroundColor],
+      // bgGradient: [CSSProperty.backgroundGradient],
+      bgClip: [CSSProperty.backgroundClip],
+
+      pos: [CSSProperty.position],
+
+      p: [CSSProperty.padding],
+      pt: [CSSProperty.paddingTop],
+      pr: [CSSProperty.paddingRight],
+      pl: [CSSProperty.paddingLeft],
+      pb: [CSSProperty.paddingBottom],
+      ps: [CSSProperty.paddingInlineStart],
+      pe: [CSSProperty.paddingInlineEnd],
+      px: [CSSProperty.paddingLeft, CSSProperty.paddingRight],
+      py: [CSSProperty.paddingTop, CSSProperty.paddingBottom],
+
+      m: [CSSProperty.margin],
+      mt: [CSSProperty.marginTop],
+      mr: [CSSProperty.marginRight],
+      ml: [CSSProperty.marginLeft],
+      mb: [CSSProperty.marginBottom],
+      ms: [CSSProperty.marginInlineStart],
+      me: [CSSProperty.marginInlineEnd],
+      mx: [CSSProperty.marginLeft, CSSProperty.marginRight],
+      my: [CSSProperty.marginTop, CSSProperty.marginBottom],
+
+      w: [CSSProperty.width],
+      minW: [CSSProperty.minWidth],
+      maxW: [CSSProperty.maxWidth],
+
+      h: [CSSProperty.height],
+      minH: [CSSProperty.minHeight],
+      maxH: [CSSProperty.maxHeight],
     };
 
-    return Object.keys(alias).map((name) => {
+    return Object.keys(alias).reduce((res, name) => {
       return {
-        name: name,
-        value: (_: any, v: string) => {
-          return alias[name].reduce((res, k) => {
-            return {
-              ...res,
-              [k]: v,
-            };
-          });
+        ...res,
+        [name]: (_: Theme, value: string | number) => {
+          return (alias as any)[name].reduce(
+            (styles: { [K: string]: Properties }, prop: string) => ({
+              ...styles,
+              [prop]: value,
+            }),
+            {},
+          );
         },
-        type: "mixin",
       };
-    });
+    }, {}) as unknown as { [K in keyof typeof alias]: AliasCallback };
   }
 }
 
-const mixin = new MixinFactory(defaultTheme);
-
-export const alias = {
-  ...mixin.builtIn(),
-  textStyle: mixin.custom("textStyle", (theme) => {
-    return theme.font;
-  }),
-  containerStyle: mixin.custom("containerStyle", (theme, v) => {
+console.log(Extension.builtIn().px({} as any, 10), "Extension.builtIn()");
+export const extensions = {
+  ...Extension.builtIn(),
+  textStyle: Extension.mixin<keyof Theme["font"]>((theme, value) => {
+    const font = (theme.font as any)[value];
     return {
-      background: (theme.color as any)[v],
-      color: (theme.color as any)[`on${v}`],
+      fontSize: font.fontSize,
+      fontFamily: font.fontFamily,
+      fontWeight: font.fontWeight,
+      lineHeight: font.lineHeight,
+      letterSpacing: font.letterSpacing,
     };
   }),
-  flex: mixin.custom("flex", () => {
+  containerStyle: Extension.mixin<keyof Theme["color"]>((theme, bgColor) => {
     return {
-      display: "flex",
+      backgroundColor: (theme.color as any)[bgColor],
+      color: getColorByBackgroundColor(bgColor, theme.color),
+    };
+  }),
+  color: Extension.mixin<keyof Theme["color"]>((theme: Theme, color) => {
+    return {
+      color: (theme.color as any)[color],
+      fill: (theme.color as any)[color],
     };
   }),
 };

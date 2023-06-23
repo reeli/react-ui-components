@@ -1,12 +1,16 @@
-import { forwardRef, Ref, PropsWithChildren } from "react";
-import { Box } from "@ui/base";
+import { forwardRef, PropsWithChildren, ButtonHTMLAttributes } from "react";
+import { Box, AllCSSProperties } from "@ui/base";
 
-export const Button = forwardRef<HTMLButtonElement, PropsWithChildren>(
-  ({ children, ...others }, ref: Ref<HTMLButtonElement>) => {
-    return (
-      <Box
-        component={"button"}
-        sx={{
+interface ButtonProps extends PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>> {
+  sx?: AllCSSProperties;
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ children, sx = {}, ...others }, ref) => {
+  return (
+    <Box
+      component={"button"}
+      sx={[
+        {
           containerStyle: "primary",
           textStyle: "bodyLarge",
           px: 16,
@@ -20,19 +24,20 @@ export const Button = forwardRef<HTMLButtonElement, PropsWithChildren>(
             boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3),0px 2px 6px 2px rgba(0, 0, 0, 0.15)",
           },
           "&:focus": {
-            color: "red",
+            color: "error",
           },
           "&[data-disabled]": {
             containerStyle: "surfaceContainer",
             cursor: "not-allowed",
             boxShadow: "none",
           },
-        }}
-        ref={ref}
-        {...others}
-      >
-        {children}
-      </Box>
-    );
-  },
-);
+        },
+        sx,
+      ]}
+      ref={ref}
+      {...others}
+    >
+      {children}
+    </Box>
+  );
+});

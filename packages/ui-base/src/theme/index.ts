@@ -4,5 +4,5 @@ export * from "./Box";
 export * from "./defaultTheme";
 export * from "./ThemeContext";
 export * from "./ThemeFactory";
-export * from "./Selector";
 export * from "./utils";
+export * from "./CSSExtension";

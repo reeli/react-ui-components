@@ -6,3 +6,7 @@ export const getColorByBackgroundColor = (bgColor: string, color: Record<string,
   }
   return (color as any)[`on${capitalize(bgColor)}`];
 };
+
+export function isArray<T>(value: any): value is T[] {
+  return Array.isArray(value);
+}

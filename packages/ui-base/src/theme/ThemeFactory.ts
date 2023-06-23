@@ -2,10 +2,10 @@ import { isNumber, isObject } from "lodash";
 import { AllCSSProperties, CSSProperties, Theme } from ".";
 import { Properties } from "csstype";
 
-interface ThemeOptions {
+export interface ThemeOptions {
   createSpacing: (value: number) => string;
   extensions: {
-    [K: string]: (theme: Theme, value: string) => CSSProperties;
+    [K: string]: (theme: Theme, value: string | number) => CSSProperties;
   };
 }
 
