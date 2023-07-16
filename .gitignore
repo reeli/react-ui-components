@@ -15,3 +15,4 @@ dist/**
 .pnpm-debug.log
 .DS_Store
 .iml
+dist/

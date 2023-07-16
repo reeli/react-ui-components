@@ -4,12 +4,12 @@
   "description": "react ui components",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack serve --config=webpack.config.ts",
+    "dev": "vite --config=vite.config.ts --port=9001",
     "test": "jest",
     "tsc": "tsc",
     "types": "tsc --build tsconfig.type.json",
-    "build": "rm -rf public && webpack --config=webpack.config.ts",
-    "build:prod": "rm -rf public && NODE_ENV=production webpack --config=webpack.config.ts",
+    "build": "rm -rf public && vite --config=vite.config.ts",
+    "build:prod": "rm -rf public && NODE_ENV=production vite --config=vite.config.ts",
     "release": "NODE_ENV=production npm run build",
     "watch": "tsc --watch",
     "analyze": "ENABLE_BUNDLE_ANALYZE=true pnpm build:prod"
@@ -50,5 +50,6 @@
     "react-use-measure": "^2.1.1",
     "react": ">=17.0.1",
     "react-dom": ">=17.0.1"
-  }
+  },
+  "type": "module"
 }

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "strict": true,
@@ -20,6 +20,9 @@
     "outDir": ".tmp",
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "ts-node": {
+      "esm": true
+    }
   }
 }

@@ -9,5 +9,6 @@
     "tsc": "tsc",
     "types": "tsc --build tsconfig.type.json",
     "test": "jest"
-  }
+  },
+  "type": "module"
 }
