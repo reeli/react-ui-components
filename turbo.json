@@ -13,6 +13,9 @@
       "outputs": [],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     },
+    "types": {
+      "outputs": []
+    },
     "lint": {
       "outputs": []
     },
